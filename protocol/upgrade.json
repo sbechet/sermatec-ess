@@ -1,7 +1,7 @@
 {
   "upgradeDsp": {
     "5kW": {
-      "checkBinAddrs": ["14004", "14005"],
+      "checkBinAddrs": ["14008", "14009"],
       "checkCrcAddrs": ["14006", "14007"],
       "sendStartAddrs": ["18004", "18005", "14004", "14005"],
       "sendFinishAddrs": ["14000", "14001", "14002", "14003"],
@@ -12,6 +12,9 @@
           "order": 0,
           "versionScope": "V000~V199",
           "checkBinValue": "FF55",
+          "checkBinValue2Equal": "0000",
+          "checkBinAddrs2": ["14004","14005"],
+          "checkBinValue2": "FF55",
           "snArray": [
             3102160006,
             3102160007,
