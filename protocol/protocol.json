@@ -23,6 +23,7 @@
                 "order": 1,
                 "byteLen": 2,
                 "type": "int",
+                "type": "int",
                 "name": "电池厂商号（代码列表）"
               },
               {
@@ -907,7 +908,7 @@
                 "type": "int",
                 "tag": "style",
                 "name": "工作模式",
-                "validate": "enum(0,1,2,3,4,5)"
+                "validate": "enum(0,1,2,3,4,5,6)"
               },
               {
                 "order": 7,
@@ -1715,7 +1716,7 @@
                 "type": "int",
                 "tag": "style",
                 "name": "工作模式",
-                "validate": "enum(0,1,2,3,4,5)"
+                "validate": "enum(0,1,2,3,4,5,6)"
               },
               {
                 "order": 7,
