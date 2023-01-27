@@ -2,2371 +2,3685 @@
   "osim": {
     "id": "osim",
     "name": "光储一体机协议",
-    "commands": [
+    "versions" : [
       {
-        "type": "0A",
-        "comment": "电池信息显示",
-        "op": 1,
-        "fields": [
+        "version": 0,
+        "queryCommands": ["98"],
+        "commands": [
           {
-            "order": 0,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "电池电压",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 1,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池电流",
-            "unitValue": "0.1",
-            "unitType": "A"
-          },
-          {
-            "order": 2,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池温度",
-            "unitValue": "0.1",
-            "unitType": "C"
-          },
-          {
-            "order": 3,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "电池soc"
-          },
-          {
-            "order": 4,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池soh"
-          },
-          {
-            "order": 5,
-            "byteLen": 2,
-            "type": "int",
-            "name": "充放电状态"
-          },
-          {
-            "order": 6,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "最大允许充电电流",
-            "unitValue": "0.1",
-            "unitType": "A"
-          },
-          {
-            "order": 7,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "最大允许放电电流",
-            "unitValue": "0.1",
-            "unitType": "A"
-          },
-          {
-            "order": 8,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "充电截止电压",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 9,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "放电截止电压",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 10,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "充/放电次数"
-          },
-          {
-            "order": 11,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "电池压力"
-          },
-          {
-            "order": 12,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "电池有告警"
-          },
-          {
-            "order": 13,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "电池有错误"
-          },
-          {
-            "order": 14,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "电池通讯连接状态"
+            "type": "98",
+            "comment": "系统信息查询",
+            "op": "1",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "tag": "pcuVersion",
+                "type": "int",
+                "name": "协议版本号"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池厂商号（代码列表）"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "name": "机型代码"
+              },
+              {
+                "order": 3,
+                "byteLen": 26,
+                "tag": "sn",
+                "type": "string",
+                "name": "product_sn"
+              },
+              {
+                "order": 4,
+                "byteLen": 18,
+                "type": "string",
+                "name": "product_sn_ln"
+              }
+            ]
           }
         ]
       },
       {
-        "type": "0B",
-        "comment": "控制柜信息显示",
-        "op": 1,
-        "fields": [
+        "version": 252,
+        "queryCommands": ["95", "0A", "0B", "0C", "1E", "1F", "99"],
+        "commands": [
           {
-            "order": 0,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "PV1 电压",
-            "unitValue": "0.1",
-            "unitType": "V"
+            "type": "0A",
+            "comment": "电池信息显示",
+            "op": 1,
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电池电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池温度",
+                "unitValue": "0.1",
+                "unitType": "C"
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电池soc"
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池soh"
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "int",
+                "name": "充放电状态"
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "最大允许充电电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "最大允许放电电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "充电截止电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 9,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "放电截止电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 10,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "充/放电次数"
+              },
+              {
+                "order": 11,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电池压力"
+              },
+              {
+                "order": 12,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电池有告警"
+              },
+              {
+                "order": 13,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电池有错误"
+              },
+              {
+                "order": 14,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电池通讯连接状态"
+              }
+            ]
           },
           {
-            "order": 1,
-            "byteLen": 2,
-            "type": "int",
-            "name": "PV1 电流",
-            "unitValue": "0.1",
-            "unitType": "A"
+            "type": "0B",
+            "comment": "控制柜信息显示",
+            "op": 1,
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "PV1 电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PV1 电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PVI 功率",
+                "unitValue": "1",
+                "unitType": "W"
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "PV2 电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PV2 电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PV2 功率",
+                "unitValue": "1",
+                "unitType": "W"
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "逆变 A 相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "int",
+                "name": "逆变 A 相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网 A 相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 9,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网 AB 线电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 10,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电网 A 相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 11,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "逆变 B 相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 12,
+                "byteLen": 2,
+                "type": "int",
+                "name": "逆变 B 相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 13,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网 B 相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 14,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网 BC 线电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 15,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电网 B 相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 16,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "逆变 C 相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 17,
+                "byteLen": 2,
+                "type": "int",
+                "name": "逆变 C 相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 18,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网 C 相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 19,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网 CA 线电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 20,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电网 C 相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 21,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网频率",
+                "unitValue": "0.01",
+                "unitType": "HZ"
+              },
+              {
+                "order": 22,
+                "byteLen": 2,
+                "type": "int",
+                "name": "功率因数",
+                "unitValue": "0.001"
+              },
+              {
+                "order": 23,
+                "byteLen": 2,
+                "type": "int",
+                "name": "网侧有功功率",
+                "unitValue": "1",
+                "unitType": "W"
+              },
+              {
+                "order": 24,
+                "byteLen": 2,
+                "type": "int",
+                "name": "网侧无功功率",
+                "unitValue": "1",
+                "unitType": "W"
+              },
+              {
+                "order": 25,
+                "byteLen": 2,
+                "type": "int",
+                "name": "系统视在功率",
+                "unitValue": "1",
+                "unitType": "Var"
+              },
+              {
+                "order": 26,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 27,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 28,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "直流正母线电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 29,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "直流负母线电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 30,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "直流双边母线电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 31,
+                "byteLen": 2,
+                "type": "int",
+                "name": "直流功率",
+                "unitValue": "1",
+                "unitType": "W"
+              },
+              {
+                "order": 32,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "机内温度",
+                "unitValue": "0.1",
+                "unitType": "℃"
+              },
+              {
+                "order": 33,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "10K:直流正母线备份电压5/6K: 二级母线1",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 34,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "10K:直流负母线备份电压5/6K: 二级母线2",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 35,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "设备类型编码"
+              },
+              {
+                "order": 36,
+                "byteLen": 2,
+                "type": "uInt",
+                "tag": "dspHighVersion",
+                "name": "软件版本号高位"
+              },
+              {
+                "order": 37,
+                "byteLen": 2,
+                "type": "uInt",
+                "tag": "dspLowVersion",
+                "name": "软件版本号低位"
+              },
+              {
+                "order": 38,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "并机地址"
+              },
+              {
+                "order": 39,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "工作效率"
+              },
+              {
+                "order": 40,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池电流1",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 41,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池电流2",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 42,
+                "byteLen": 2,
+                "type": "int",
+                "name": "模块 A1 温度",
+                "unitValue": "0.1",
+                "unitType": "℃"
+              },
+              {
+                "order": 43,
+                "byteLen": 2,
+                "type": "int",
+                "name": "模块 B1 温度",
+                "unitValue": "0.1",
+                "unitType": "℃"
+              },
+              {
+                "order": 44,
+                "byteLen": 2,
+                "type": "int",
+                "name": "模块 C1 温度",
+                "unitValue": "0.1",
+                "unitType": "℃"
+              },
+              {
+                "order": 45,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "负载A相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 46,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "负载B相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 47,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "负载C相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 48,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "负载电压频率",
+                "unitValue": "0.01",
+                "unitType": "HZ"
+              },
+              {
+                "order": 49,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载A相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 50,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载B相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 51,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载C相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 52,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载功率因数",
+                "unitValue": "0.001"
+              },
+              {
+                "order": 53,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载有功功率",
+                "unitValue": "1",
+                "unitType": "VA"
+              },
+              {
+                "order": 54,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载无功功率",
+                "unitValue": "1",
+                "unitType": "Var"
+              },
+              {
+                "order": 55,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载视在功率",
+                "unitValue": "1",
+                "unitType": "W"
+              }
+            ]
           },
           {
-            "order": 2,
-            "byteLen": 2,
-            "type": "int",
-            "name": "PVI 功率",
-            "unitValue": "1",
-            "unitType": "W"
+            "type": "0C",
+            "comment": "设备运行状态",
+            "op": 1,
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "电网掉电",
+                "bitPosition": 14
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "功率降额标志",
+                "same": true,
+                "bitPosition": 13
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "单/并机标志",
+                "same": true,
+                "bitPosition": 12
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "主/从机标志",
+                "same": true,
+                "bitPosition": 11
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "主/被动模式",
+                "same": true,
+                "bitPosition": 10
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "电池状态",
+                "same": true,
+                "fromBit": 8,
+                "endBit": 10
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "AC侧运行状态",
+                "same": true,
+                "fromBit": 5,
+                "endBit": 8
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "继电器自检使能",
+                "same": true,
+                "bitPosition": 4
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "AC侧运行模式",
+                "same": true,
+                "fromBit": 1,
+                "endBit": 4
+              },
+              {
+                "order": 9,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "开关机",
+                "tag": "onOff",
+                "same": true,
+                "bitPosition": 0
+              },
+              {
+                "order": 10,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "逆变器状态字",
+                "same": true
+              },
+              {
+                "order": 11,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "PV侧自检步骤",
+                "fromBit": 10,
+                "endBit": 13
+              },
+              {
+                "order": 12,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "DC侧自检步骤",
+                "same": true,
+                "fromBit": 7,
+                "endBit": 10
+              },
+              {
+                "order": 13,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "AC侧自检步骤",
+                "same": true,
+                "fromBit": 4,
+                "endBit": 7
+              },
+              {
+                "order": 14,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "DC侧运行状态",
+                "same": true,
+                "fromBit": 2,
+                "endBit": 4
+              },
+              {
+                "order": 15,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "PV侧运行状态",
+                "same": true,
+                "fromBit": 0,
+                "endBit": 2
+              },
+              {
+                "order": 16,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "PV状态字",
+                "same": true
+              }
+            ]
           },
           {
-            "order": 3,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "PV2 电压",
-            "unitValue": "0.1",
-            "unitType": "V"
+            "type": "1E",
+            "comment": "BMS告警信息显示",
+            "op": 1,
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 12,
+                "type": "onePosition",
+                "tag": "bmsWarn1",
+                "name": "电池告警0",
+                "group": 2
+              }
+            ]
           },
           {
-            "order": 4,
-            "byteLen": 2,
-            "type": "int",
-            "name": "PV2 电流",
-            "unitValue": "0.1",
-            "unitType": "A"
+            "type": "1F",
+            "comment": "系统故障状态显示",
+            "op": 1,
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "onePosition",
+                "tag": "sysFault1",
+                "name": "故障状态字0"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "onePosition",
+                "tag": "sysFault2",
+                "name": "故障状态字1"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "onePosition",
+                "tag": "sysFault3",
+                "name": "故障状态字2"
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "tag": "sysFault4",
+                "type": "onePosition",
+                "name": "故障状态字3"
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "tag": "sysFault5",
+                "type": "onePosition",
+                "name": "故障状态字4"
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "preserve",
+                "name": "预留"
+              }
+            ]
           },
           {
-            "order": 5,
-            "byteLen": 2,
-            "type": "int",
-            "name": "PV2 功率",
-            "unitValue": "1",
-            "unitType": "W"
+            "type": "64",
+            "comment": "控制命令设置",
+            "op": "2",
+            "attach": {"checkCommand": "0C"},
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 1,
+                "type": "hex",
+                "tag": "onOff",
+                "name": "PcuOnOff",
+                "converter": "map(1:55, 0:AA)",
+                "validate": "enumStr(55,aa)"
+              }
+            ]
           },
           {
-            "order": 6,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "逆变 A 相电压",
-            "unitValue": "0.1",
-            "unitType": "V"
+            "type": "66",
+            "comment": "工作模式设置",
+            "op": "2",
+            "attach": {"checkCommand": "95"},
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price1",
+                "name": "单位电价（尖）",
+                "unitType": "元",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price2",
+                "name": "单位电价（峰）",
+                "unitType": "元",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price3",
+                "name": "单位电价（平）",
+                "unitType": "元",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price4",
+                "name": "单位电价（谷）",
+                "unitType": "元",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "con",
+                "name": "并网功率上限"
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "chargePower",
+                "name": "电池充放电功率（指令模式有效）"
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "style",
+                "name": "工作模式",
+                "validate": "enum(0,1,2,3,4,5)"
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "gridSwitch",
+                "name": "PV并离网",
+                "validate": "enum(0,1,2)"
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "adjustMethod",
+                "name": "电网电压跌落调节方式",
+                "validate": "enum(0,1,2,3)"
+              },
+              {
+                "order": 9,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "refluxs",
+                "name": "防逆流功能",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
+              },
+              {
+                "order": 10,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "batteryCharge",
+                "name": "电池充放电（指令模式生效）",
+                "validate": "enum(0,1,2,3,4)"
+              },
+              {
+                "order": 11,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "soc",
+                "name": "并网SOC下限设置"
+              },
+              {
+                "order": 12,
+                "byteLen": 2,
+                "type": "int",
+                "name": "共有多少组数据",
+                "validate": "max(16)"
+              },
+              {
+                "order": 13,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "startTime",
+                "groupTag": "elecPrice",
+                "name": "起始时间",
+                "converter": "timeToMin",
+                "validate": "valRange(0-1440)",
+                "repeatGroup": 0,
+                "repeatRef": 12
+              },
+              {
+                "order": 14,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "endTime",
+                "groupTag": "elecPrice",
+                "converter": "timeToMin",
+                "name": "结束时间",
+                "validate": "valRange(0-1440)",
+                "repeatGroup": 0,
+                "repeatRef": 12
+              },
+              {
+                "order": 15,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "electricityTypeValue",
+                "groupTag": "elecPrice",
+                "name": "尖峰平谷",
+                "validate": "enum(0,1,2,3,4)",
+                "repeatGroup": 0,
+                "repeatRef": 12
+              }
+            ]
           },
           {
-            "order": 7,
-            "byteLen": 2,
-            "type": "int",
-            "name": "逆变 A 相电流",
-            "unitValue": "0.1",
-            "unitType": "A"
+            "type": "67",
+            "comment": "自定义模式设置",
+            "op": "2",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(尖)",
+                "validate": "enum(1,2)"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(尖)",
+                "validate": "enum(1,2)"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(峰)",
+                "validate": "enum(1,2)"
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(峰)",
+                "validate": "enum(1,2)"
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(平)",
+                "validate": "enum(1,2)"
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(平)",
+                "validate": "enum(1,2)"
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(谷)",
+                "validate": "enum(1,2)"
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(谷)",
+                "validate": "enum(1,2)"
+              }
+            ]
           },
           {
-            "order": 8,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "电网 A 相电压",
-            "unitValue": "0.1",
-            "unitType": "V"
+            "type": "68",
+            "comment": "时间校准设置",
+            "op": "2",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "int",
+                "name": "YEAR"
+              },
+              {
+                "order": 1,
+                "byteLen": 1,
+                "type": "int",
+                "name": "MONTH"
+              },
+              {
+                "order": 2,
+                "byteLen": 1,
+                "type": "int",
+                "name": "DAY"
+              },
+              {
+                "order": 3,
+                "byteLen": 1,
+                "type": "int",
+                "name": "HOUR"
+              },
+              {
+                "order": 4,
+                "byteLen": 1,
+                "type": "int",
+                "name": "MINUTE"
+              },
+              {
+                "order": 5,
+                "byteLen": 1,
+                "type": "int",
+                "name": "SECOND"
+              }
+            ]
           },
           {
-            "order": 9,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "电网 AB 线电压",
-            "unitValue": "0.1",
-            "unitType": "V"
+            "type": "69",
+            "comment": "电网电池类型设置",
+            "op": "2",
+            "attach": {"shouldCloseConnection":  true},
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "elecCode",
+                "name": "电网代码"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "dcBatteryType",
+                "name": "DC侧电池类型"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "ah",
+                "name": "铅酸电池AH值"
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "batteryProtocol",
+                "name": "电池通信协议选择"
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "meterProtocol",
+                "name": "电表通讯协议选择"
+              }
+            ]
           },
           {
-            "order": 10,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电网 A 相电流",
-            "unitValue": "0.1",
-            "unitType": "A"
+            "type": "70",
+            "comment": "恢复出厂设置",
+            "op": "2",
+            "attach": {"shouldCloseConnection":  true},
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "Reset",
+                "converter": "const(00FF)",
+                "validate": "enumStr(00FF)"
+              }
+            ]
           },
           {
-            "order": 11,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "逆变 B 相电压",
-            "unitValue": "0.1",
-            "unitType": "V"
+            "type": "94",
+            "comment": "设置WIFI密码",
+            "op": "3",
+            "attach": {"shouldCloseConnection":  true},
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 0,
+                "type": "string",
+                "tag": "passwd",
+                "name": "字符",
+                "converter": "subZero",
+                "validate": "lenRange(8-16)"
+              }
+            ]
           },
           {
-            "order": 12,
-            "byteLen": 2,
-            "type": "int",
-            "name": "逆变 B 相电流",
-            "unitValue": "0.1",
-            "unitType": "A"
+            "type": "99",
+            "comment": "总功率数据",
+            "return": "99,9A,9B,9C",
+            "op": "1",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "int",
+                "name": "光伏日发电量",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 1,
+                "byteLen": 4,
+                "type": "long",
+                "name": "光伏总发电量"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载日用电量",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 3,
+                "byteLen": 4,
+                "type": "long",
+                "name": "负载总用电量"
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "int",
+                "name": "今日节省电费"
+              },
+              {
+                "order": 5,
+                "byteLen": 4,
+                "type": "long",
+                "name": "总节省电费"
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PVPowerDay",
+                "repeat": 48
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PVPowerMonth",
+                "repeat": 31
+              },
+              {
+                "order": 8,
+                "byteLen": 4,
+                "type": "long",
+                "name": "PVPowerYear",
+                "repeat": 12
+              },
+              {
+                "order": 9,
+                "byteLen": 4,
+                "type": "long",
+                "name": "PVPowerHistory",
+                "repeat": 5
+              }
+            ]
           },
           {
-            "order": 13,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "电网 B 相电压",
-            "unitValue": "0.1",
-            "unitType": "V"
+            "type": "9A",
+            "comment": "电网电量数据",
+            "op": "1",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "int",
+                "name": "并网今日用电量",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 1,
+                "byteLen": 4,
+                "type": "long",
+                "name": "并网总用电量"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PowerDay",
+                "repeat": 48
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PowerMonth",
+                "repeat": 31
+              },
+              {
+                "order": 4,
+                "byteLen": 4,
+                "type": "long",
+                "name": "PowerYear",
+                "repeat": 12
+              },
+              {
+                "order": 5,
+                "byteLen": 4,
+                "type": "long",
+                "name": "PowerHistory",
+                "repeat": 5
+              }
+            ]
           },
           {
-            "order": 14,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "电网 BC 线电压",
-            "unitValue": "0.1",
-            "unitType": "V"
+            "type": "9B",
+            "comment": "负载电量数据",
+            "op": "1",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载今日用电量",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 1,
+                "byteLen": 4,
+                "type": "long",
+                "name": "负载总用电量"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PowerDay",
+                "repeat": 48
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PowerMonth",
+                "repeat": 31
+              },
+              {
+                "order": 4,
+                "byteLen": 4,
+                "type": "long",
+                "name": "PowerYear",
+                "repeat": 12
+              },
+              {
+                "order": 5,
+                "byteLen": 4,
+                "type": "long",
+                "name": "PowerHistory",
+                "repeat": 5
+              }
+            ]
           },
           {
-            "order": 15,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电网 B 相电流",
-            "unitValue": "0.1",
-            "unitType": "A"
+            "type": "95",
+            "comment": "设置参数查询",
+            "op": "1",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price1",
+                "name": "单位电价（尖）",
+                "unitType": "角",
+                "unitValue": "0.1",
+                "precision": 1
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price2",
+                "name": "单位电价（峰）",
+                "unitType": "角",
+                "unitValue": "0.1",
+                "precision": 1
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price3",
+                "name": "单位电价（平）",
+                "unitType": "角",
+                "unitValue": "0.1",
+                "precision": 1
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price4",
+                "name": "单位电价（谷）",
+                "unitType": "角",
+                "unitValue": "0.1",
+                "precision": 1
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "con",
+                "name": "并网功率上限",
+                "unitType": "W"
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "chargePower",
+                "name": "电池充放电功率（指令模式有效）"
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "style",
+                "name": "工作模式"
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "gridSwitch",
+                "name": "PV并离网"
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "adjustMethod",
+                "name": "电网电压跌落调节方式"
+              },
+              {
+                "order": 9,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "refluxs",
+                "converter": "map(ee00:1, 00ee:2, default:0)",
+                "name": "防逆流功能"
+              },
+              {
+                "order": 10,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "batteryCharge",
+                "name": "电池充放电（指令模式生效）"
+              },
+              {
+                "order": 11,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "soc",
+                "name": "并网SOC下限设置"
+              },
+              {
+                "order": 12,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "totalPriceNum",
+                "name": "共有多少组数据"
+              },
+              {
+                "order": 13,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "startTime",
+                "groupTag": "elecPrice",
+                "converter": "minToTime",
+                "name": "起始时间",
+                "repeat": 16,
+                "repeatGroup": 0
+              },
+              {
+                "order": 14,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "endTime",
+                "groupTag": "elecPrice",
+                "converter": "minToTime",
+                "name": "结束时间",
+                "repeat": 16,
+                "repeatGroup": 0
+              },
+              {
+                "order": 15,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "electricityTypeValue",
+                "groupTag": "elecPrice",
+                "name": "尖峰平谷",
+                "repeat": 16,
+                "repeatGroup": 0
+              },
+              {
+                "order": 16,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(尖)"
+              },
+              {
+                "order": 17,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(尖)"
+              },
+              {
+                "order": 18,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(峰)"
+              },
+              {
+                "order": 19,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(峰)"
+              },
+              {
+                "order": 20,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(平)"
+              },
+              {
+                "order": 21,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(平)"
+              },
+              {
+                "order": 22,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(谷)"
+              },
+              {
+                "order": 23,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(谷)"
+              },
+              {
+                "order": 24,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "elecCode",
+                "name": "电网代码"
+              },
+              {
+                "order": 25,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "dcBatteryType",
+                "name": "DC侧电池类型"
+              },
+              {
+                "order": 26,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "ah",
+                "name": "铅酸电池AH值"
+              },
+              {
+                "order": 27,
+                "byteLen": 2,
+                "tag": "batteryProtocol",
+                "type": "int",
+                "name": "电池通信协议选择"
+              },
+              {
+                "order": 28,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "meterProtocol",
+                "name": "电表通讯协议选择"
+              }
+            ]
           },
           {
-            "order": 16,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "逆变 C 相电压",
-            "unitValue": "0.1",
-            "unitType": "V"
+            "type": "9E",
+            "comment": "设置路由器信息",
+            "op": "3",
+            "attach": {"shouldCloseConnection":  true},
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 1,
+                "type": "int",
+                "tag": "style",
+                "name": "Wifi工作模式",
+                "validate": "enum(0,1)"
+              },
+              {
+                "order": 1,
+                "byteLen": 30,
+                "type": "string",
+                "tag": "ssid",
+                "name": "路由器SSID",
+                "converter": "subZero",
+                "validate": "lenRange(1, 31)"
+              },
+              {
+                "order": 2,
+                "byteLen": 30,
+                "type": "string",
+                "tag": "password",
+                "name": "路由器PASSWORD",
+                "converter": "subZero",
+                "validate": "lenRange(1, 31)"
+              }
+            ]
           },
           {
-            "order": 17,
-            "byteLen": 2,
-            "type": "int",
-            "name": "逆变 C 相电流",
-            "unitValue": "0.1",
-            "unitType": "A"
-          },
-          {
-            "order": 18,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "电网 C 相电压",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 19,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "电网 CA 线电压",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 20,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电网 C 相电流",
-            "unitValue": "0.1",
-            "unitType": "A"
-          },
-          {
-            "order": 21,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "电网频率",
-            "unitValue": "0.01",
-            "unitType": "HZ"
-          },
-          {
-            "order": 22,
-            "byteLen": 2,
-            "type": "int",
-            "name": "功率因数",
-            "unitValue": "0.001"
-          },
-          {
-            "order": 23,
-            "byteLen": 2,
-            "type": "int",
-            "name": "网侧有功功率",
-            "unitValue": "1",
-            "unitType": "W"
-          },
-          {
-            "order": 24,
-            "byteLen": 2,
-            "type": "int",
-            "name": "网侧无功功率",
-            "unitValue": "1",
-            "unitType": "W"
-          },
-          {
-            "order": 25,
-            "byteLen": 2,
-            "type": "int",
-            "name": "系统视在功率",
-            "unitValue": "1",
-            "unitType": "Var"
-          },
-          {
-            "order": 26,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池电流",
-            "unitValue": "0.1",
-            "unitType": "A"
-          },
-          {
-            "order": 27,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池电压",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 28,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "直流正母线电压",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 29,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "直流负母线电压",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 30,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "直流双边母线电压",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 31,
-            "byteLen": 2,
-            "type": "int",
-            "name": "直流功率",
-            "unitValue": "1",
-            "unitType": "W"
-          },
-          {
-            "order": 32,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "机内温度",
-            "unitValue": "0.1",
-            "unitType": "℃"
-          },
-          {
-            "order": 33,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "10K:直流正母线备份电压5/6K: 二级母线1",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 34,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "10K:直流负母线备份电压5/6K: 二级母线2",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 35,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "设备类型编码"
-          },
-          {
-            "order": 36,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "软件版本号高位"
-          },
-          {
-            "order": 37,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "软件版本号低位"
-          },
-          {
-            "order": 38,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "并机地址"
-          },
-          {
-            "order": 39,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "工作效率"
-          },
-          {
-            "order": 40,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池电流1",
-            "unitValue": "0.1",
-            "unitType": "A"
-          },
-          {
-            "order": 41,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池电流2",
-            "unitValue": "0.1",
-            "unitType": "A"
-          },
-          {
-            "order": 42,
-            "byteLen": 2,
-            "type": "int",
-            "name": "模块 A1 温度",
-            "unitValue": "0.1",
-            "unitType": "℃"
-          },
-          {
-            "order": 43,
-            "byteLen": 2,
-            "type": "int",
-            "name": "模块 B1 温度",
-            "unitValue": "0.1",
-            "unitType": "℃"
-          },
-          {
-            "order": 44,
-            "byteLen": 2,
-            "type": "int",
-            "name": "模块 C1 温度",
-            "unitValue": "0.1",
-            "unitType": "℃"
-          },
-          {
-            "order": 45,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "负载A相电压",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 46,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "负载B相电压",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 47,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "负载C相电压",
-            "unitValue": "0.1",
-            "unitType": "V"
-          },
-          {
-            "order": 48,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "负载电压频率",
-            "unitValue": "0.01",
-            "unitType": "HZ"
-          },
-          {
-            "order": 49,
-            "byteLen": 2,
-            "type": "int",
-            "name": "负载A相电流",
-            "unitValue": "0.1",
-            "unitType": "A"
-          },
-          {
-            "order": 50,
-            "byteLen": 2,
-            "type": "int",
-            "name": "负载B相电流",
-            "unitValue": "0.1",
-            "unitType": "A"
-          },
-          {
-            "order": 51,
-            "byteLen": 2,
-            "type": "int",
-            "name": "负载C相电流",
-            "unitValue": "0.1",
-            "unitType": "A"
-          },
-          {
-            "order": 52,
-            "byteLen": 2,
-            "type": "int",
-            "name": "负载功率因数",
-            "unitValue": "0.001"
-          },
-          {
-            "order": 53,
-            "byteLen": 2,
-            "type": "int",
-            "name": "负载有功功率",
-            "unitValue": "1",
-            "unitType": "VA"
-          },
-          {
-            "order": 54,
-            "byteLen": 2,
-            "type": "int",
-            "name": "负载无功功率",
-            "unitValue": "1",
-            "unitType": "Var"
-          },
-          {
-            "order": 55,
-            "byteLen": 2,
-            "type": "int",
-            "name": "负载视在功率",
-            "unitValue": "1",
-            "unitType": "W"
+            "type": "9F",
+            "comment": "设置云端服务器信息",
+            "op": "3",
+            "attach": {"shouldCloseConnection":  true},
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 20,
+                "type": "string",
+                "tag": "ip",
+                "name": "服务器IP",
+                "converter": "subZero",
+                "validate": "ip"
+              },
+              {
+                "order": 1,
+                "byteLen": 10,
+                "type": "string",
+                "tag": "port",
+                "converter": "subZero",
+                "name": "服务器端口号"
+              }
+            ]
           }
         ]
       },
       {
-        "type": "0C",
-        "comment": "设备运行状态",
-        "op": 1,
-        "fields": [
+        "version": 258,
+        "queryCommands": ["95", "0A", "0B", "0C", "0D", "1E", "1F", "99"],
+        "commands": [
           {
-            "order": 0,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网掉电",
-            "bitPosition": 14
+            "type": "66",
+            "comment": "工作模式设置",
+            "op": "2",
+            "attach": {"checkCommand": "95", "subCommandType": "6A"},
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price1",
+                "name": "单位电价（尖）",
+                "unitType": "元",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price2",
+                "name": "单位电价（峰）",
+                "unitType": "元",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price3",
+                "name": "单位电价（平）",
+                "unitType": "元",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price4",
+                "name": "单位电价（谷）",
+                "unitType": "元",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "con",
+                "name": "并网功率上限"
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "chargePower",
+                "name": "电池充放电功率（指令模式有效）"
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "style",
+                "name": "工作模式",
+                "validate": "enum(0,1,2,3,4,5)"
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "gridSwitch",
+                "name": "PV并离网",
+                "validate": "enum(0,1,2)"
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "adjustMethod",
+                "name": "电网电压跌落调节方式",
+                "validate": "enum(0,1,2,3)"
+              },
+              {
+                "order": 9,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "refluxs",
+                "name": "防逆流功能",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
+              },
+              {
+                "order": 10,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "batteryCharge",
+                "name": "电池充放电（指令模式生效）",
+                "validate": "enum(0,1,2,3,4)"
+              },
+              {
+                "order": 11,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "soc",
+                "name": "并网SOC下限设置"
+              },
+              {
+                "order": 12,
+                "byteLen": 2,
+                "type": "int",
+                "name": "共有多少组数据",
+                "validate": "max(16)"
+              },
+              {
+                "order": 13,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "startTime",
+                "groupTag": "elecPrice",
+                "name": "起始时间",
+                "converter": "timeToMin",
+                "validate": "valRange(0-1440)",
+                "repeatGroup": 0,
+                "repeatRef": 12
+              },
+              {
+                "order": 14,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "endTime",
+                "groupTag": "elecPrice",
+                "converter": "timeToMin",
+                "name": "结束时间",
+                "validate": "valRange(0-1440)",
+                "repeatGroup": 0,
+                "repeatRef": 12
+              },
+              {
+                "order": 15,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "electricityTypeValue",
+                "groupTag": "elecPrice",
+                "name": "尖峰平谷",
+                "validate": "enum(0,1,2,3,4)",
+                "repeatGroup": 0,
+                "repeatRef": 12
+              }
+            ]
           },
           {
-            "order": 1,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "功率降额标志",
-            "same": true,
-            "bitPosition": 13
+            "type": "0D",
+            "comment": "bms电表连接状态",
+            "op": 1,
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "int",
+                "name": "bms连接状态"
+              },{
+                "order": 1,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电表连接状态"
+              },{
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "name": "远端负载功率"
+              }
+            ]
           },
           {
-            "order": 2,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "单/并机标志",
-            "same": true,
-            "bitPosition": 12
+            "type": "1E",
+            "comment": "BMS告警信息显示",
+            "op": 1,
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 12,
+                "type": "onePosition",
+                "tag": "bmsWarn1",
+                "name": "电池告警0",
+                "group": 2
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "tag": "bmsWarn",
+                "type": "onePosition",
+                "name": "综合电池告警1"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "preserve",
+                "name": "预留"
+              }
+            ]
           },
           {
-            "order": 3,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "主/从机标志",
-            "same": true,
-            "bitPosition": 11
+            "type": "6A",
+            "comment": "工作模式设置2",
+            "op": "2",
+            "attach": {"checkCommand":  "95"},
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "电表检测功能",
+                "tag": "meterMonitor",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "三相不平衡输出",
+                "tag": "threePhase",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "offGridSoc",
+                "name": "离网SOC下限设置"
+              },
+              {
+                "order": 3,
+                "byteLen": 40,
+                "type": "preserve",
+                "name": "预留20个控制命令"
+              }
+            ]
           },
           {
-            "order": 4,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "主/被动模式",
-            "same": true,
-            "bitPosition": 10
+            "type": "9C",
+            "comment": "电网电池电量数据",
+            "op": "1",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "int",
+                "name": "当日电网买电",
+                "unitValue": "0.1"
+              },{
+                "order": 1,
+                "byteLen": 2,
+                "type": "int",
+                "name": "当日电池充电",
+                "unitValue": "0.1"
+              },{
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "name": "当日电池放电",
+                "unitValue": "0.1"
+              },{
+                "order": 3,
+                "byteLen": 4,
+                "type": "long",
+                "name": "总电网买电"
+              },{
+                "order": 4,
+                "byteLen": 4,
+                "type": "long",
+                "name": "总日电池充电"
+              },{
+                "order": 5,
+                "byteLen": 4,
+                "type": "long",
+                "name": "总日电池放电"
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "int",
+                "name": "远端负载"
+              }
+            ]
           },
           {
-            "order": 5,
-            "byteLen": 2,
-            "type": "bitRange",
-            "name": "电池状态",
-            "same": true,
-            "fromBit": 8,
-            "endBit": 10
+            "type": "A1",
+            "comment": "查询DRM状态",
+            "op": "1",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "DRM8",
+                "bitPosition": "8"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "DRM7",
+                "bitPosition": "7",
+                "same": true
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "DRM6",
+                "bitPosition": "6",
+                "same": true
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "DRM5",
+                "bitPosition": "5",
+                "same": true
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "DRM4",
+                "bitPosition": "4",
+                "same": true
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "DRM3",
+                "bitPosition": "3",
+                "same": true
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "DRM2",
+                "bitPosition": "2",
+                "same": true
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "DRM1",
+                "bitPosition": "1",
+                "same": true
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "bit",
+                "name": "DRM0",
+                "bitPosition": "0",
+                "same": true
+              }
+            ]
           },
           {
-            "order": 6,
-            "byteLen": 2,
-            "type": "bitRange",
-            "name": "AC侧运行状态",
-            "same": true,
-            "fromBit": 5,
-            "endBit": 8
-          },
-          {
-            "order": 7,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "继电器自检使能",
-            "same": true,
-            "bitPosition": 4
-          },
-          {
-            "order": 8,
-            "byteLen": 2,
-            "type": "bitRange",
-            "name": "AC侧运行模式",
-            "same": true,
-            "fromBit": 1,
-            "endBit": 4
-          },
-          {
-            "order": 9,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "开关机",
-            "same": true,
-            "bitPosition": 0
-          },
-          {
-            "order": 10,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "逆变器状态字",
-            "same": true
-          },
-          {
-            "order": 11,
-            "byteLen": 2,
-            "type": "bitRange",
-            "name": "PV侧自检步骤",
-            "fromBit": 10,
-            "endBit": 13
-          },
-          {
-            "order": 12,
-            "byteLen": 2,
-            "type": "bitRange",
-            "name": "DC侧自检步骤",
-            "same": true,
-            "fromBit": 7,
-            "endBit": 10
-          },
-          {
-            "order": 13,
-            "byteLen": 2,
-            "type": "bitRange",
-            "name": "AC侧自检步骤",
-            "same": true,
-            "fromBit": 4,
-            "endBit": 7
-          },
-          {
-            "order": 14,
-            "byteLen": 2,
-            "type": "bitRange",
-            "name": "DC侧运行状态",
-            "same": true,
-            "fromBit": 2,
-            "endBit": 4
-          },
-          {
-            "order": 15,
-            "byteLen": 2,
-            "type": "bitRange",
-            "name": "PV侧运行状态",
-            "same": true,
-            "fromBit": 0,
-            "endBit": 2
-          },
-          {
-            "order": 16,
-            "byteLen": 2,
-            "type": "uInt",
-            "name": "PV状态字",
-            "same": true
+            "type": "95",
+            "comment": "设置参数查询",
+            "op": "1",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price1",
+                "name": "单位电价（尖）",
+                "unitType": "角",
+                "unitValue": "0.1",
+                "precision": 1
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price2",
+                "name": "单位电价（峰）",
+                "unitType": "角",
+                "unitValue": "0.1",
+                "precision": 1
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price3",
+                "name": "单位电价（平）",
+                "unitType": "角",
+                "unitValue": "0.1",
+                "precision": 1
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price4",
+                "name": "单位电价（谷）",
+                "unitType": "角",
+                "unitValue": "0.1",
+                "precision": 1
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "con",
+                "name": "并网功率上限",
+                "unitType": "W"
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "chargePower",
+                "name": "电池充放电功率（指令模式有效）"
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "style",
+                "name": "工作模式"
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "gridSwitch",
+                "name": "PV并离网"
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "adjustMethod",
+                "name": "电网电压跌落调节方式"
+              },
+              {
+                "order": 9,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "refluxs",
+                "converter": "map(ee00:1, 00ee:2, default:0)",
+                "name": "防逆流功能"
+              },
+              {
+                "order": 10,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "batteryCharge",
+                "name": "电池充放电（指令模式生效）"
+              },
+              {
+                "order": 11,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "soc",
+                "name": "并网SOC下限设置"
+              },
+              {
+                "order": 12,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "totalPriceNum",
+                "name": "共有多少组数据"
+              },
+              {
+                "order": 13,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "startTime",
+                "groupTag": "elecPrice",
+                "converter": "minToTime",
+                "name": "起始时间",
+                "repeat": 16,
+                "repeatGroup": 0
+              },
+              {
+                "order": 14,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "endTime",
+                "groupTag": "elecPrice",
+                "converter": "minToTime",
+                "name": "结束时间",
+                "repeat": 16,
+                "repeatGroup": 0
+              },
+              {
+                "order": 15,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "electricityTypeValue",
+                "groupTag": "elecPrice",
+                "name": "尖峰平谷",
+                "repeat": 16,
+                "repeatGroup": 0
+              },
+              {
+                "order": 16,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "meterMonitor",
+                "converter": "map(ee00:1, 00ee:2, default:0)",
+                "name": "电表检测功能"
+              },
+              {
+                "order": 17,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "threePhase",
+                "converter": "map(ee00:1, 00ee:2, default:0)",
+                "name": "三相不平衡输出"
+              },
+              {
+                "order": 18,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "offGridSoc",
+                "name": "离网SOC下限设置"
+              },
+              {
+                "order": 19,
+                "byteLen": 40,
+                "type": "preserve",
+                "name": "预留十个控制命令"
+              },
+              {
+                "order": 20,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "elecCode",
+                "name": "电网代码"
+              },
+              {
+                "order": 21,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "dcBatteryType",
+                "name": "DC侧电池类型"
+              },
+              {
+                "order": 22,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "ah",
+                "name": "铅酸电池AH值"
+              },
+              {
+                "order": 23,
+                "byteLen": 2,
+                "tag": "batteryProtocol",
+                "type": "int",
+                "name": "电池通信协议选择"
+              },
+              {
+                "order": 24,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "meterProtocol",
+                "name": "电表通讯协议选择"
+              },
+              {
+                "order": 25,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(尖)"
+              },
+              {
+                "order": 26,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(尖)"
+              },
+              {
+                "order": 27,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(峰)"
+              },
+              {
+                "order": 28,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(峰)"
+              },
+              {
+                "order": 29,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(平)"
+              },
+              {
+                "order": 30,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(平)"
+              },
+              {
+                "order": 31,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(谷)"
+              },
+              {
+                "order": 32,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(谷)"
+              }
+            ]
           }
         ]
       },
       {
-        "type": "0D",
-        "comment": "bms电表连接状态",
-        "op": 1,
-        "fields": [
+        "version": 259,
+        "queryCommands": ["95", "0A", "0B", "0C", "0D", "1E", "1F", "99"],
+        "commands": [
           {
-            "order": 0,
-            "byteLen": 2,
-            "type": "int",
-            "name": "bms连接状态"
+            "type": "6A",
+            "comment": "工作模式设置2",
+            "op": "2",
+            "attach": {"checkCommand":  "9D"},
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "电表检测功能",
+                "tag": "meterMonitor",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "三相不平衡输出",
+                "tag": "threePhase",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "offGridSoc",
+                "name": "离网SOC下限设置"
+              },
+              {
+                "order": 3,
+                "byteLen": 40,
+                "type": "preserve",
+                "name": "预留20个控制命令"
+              }
+            ]
           },
           {
-            "order": 1,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电表连接状态"
+            "type": "95",
+            "comment": "设置参数查询",
+            "return": "95,9D",
+            "op": "1",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price1",
+                "name": "单位电价（尖）",
+                "unitType": "角",
+                "unitValue": "0.1",
+                "precision": 1
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price2",
+                "name": "单位电价（峰）",
+                "unitType": "角",
+                "unitValue": "0.1",
+                "precision": 1
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price3",
+                "name": "单位电价（平）",
+                "unitType": "角",
+                "unitValue": "0.1",
+                "precision": 1
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "price4",
+                "name": "单位电价（谷）",
+                "unitType": "角",
+                "unitValue": "0.1",
+                "precision": 1
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "con",
+                "name": "并网功率上限",
+                "unitType": "W"
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "chargePower",
+                "name": "电池充放电功率（指令模式有效）"
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "style",
+                "name": "工作模式"
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "gridSwitch",
+                "name": "PV并离网"
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "adjustMethod",
+                "name": "电网电压跌落调节方式"
+              },
+              {
+                "order": 9,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "refluxs",
+                "converter": "map(ee00:1, 00ee:2, default:0)",
+                "name": "防逆流功能"
+              },
+              {
+                "order": 10,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "batteryCharge",
+                "name": "电池充放电（指令模式生效）"
+              },
+              {
+                "order": 11,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "soc",
+                "name": "并网SOC下限设置"
+              },
+              {
+                "order": 12,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "totalPriceNum",
+                "name": "共有多少组数据"
+              },
+              {
+                "order": 13,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "startTime",
+                "groupTag": "elecPrice",
+                "converter": "minToTime",
+                "name": "起始时间",
+                "repeat": 16,
+                "repeatGroup": 0
+              },
+              {
+                "order": 14,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "endTime",
+                "groupTag": "elecPrice",
+                "converter": "minToTime",
+                "name": "结束时间",
+                "repeat": 16,
+                "repeatGroup": 0
+              },
+              {
+                "order": 15,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "electricityTypeValue",
+                "groupTag": "elecPrice",
+                "name": "尖峰平谷",
+                "repeat": 16,
+                "repeatGroup": 0
+              },
+              {
+                "order": 16,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(尖)"
+              },
+              {
+                "order": 17,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(尖)"
+              },
+              {
+                "order": 18,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(峰)"
+              },
+              {
+                "order": 19,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(峰)"
+              },
+              {
+                "order": 20,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(平)"
+              },
+              {
+                "order": 21,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(平)"
+              },
+              {
+                "order": 22,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC<10时是否充电(谷)"
+              },
+              {
+                "order": 23,
+                "byteLen": 2,
+                "type": "int",
+                "name": "SOC>20时是否放电(谷)"
+              },
+              {
+                "order": 24,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "elecCode",
+                "name": "电网代码"
+              },
+              {
+                "order": 25,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "dcBatteryType",
+                "name": "DC侧电池类型"
+              },
+              {
+                "order": 26,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "ah",
+                "name": "铅酸电池AH值"
+              },
+              {
+                "order": 27,
+                "byteLen": 2,
+                "tag": "batteryProtocol",
+                "type": "int",
+                "name": "电池通信协议选择"
+              },
+              {
+                "order": 28,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "meterProtocol",
+                "name": "电表通讯协议选择"
+              }
+            ]
           },
           {
-            "order": 2,
-            "byteLen": 2,
-            "type": "int",
-            "name": "远端负载功率"
+            "type": "9D",
+            "comment": "设置参数信息2",
+            "op": "1",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "meterMonitor",
+                "converter": "map(ee00:1, 00ee:2, default:0)",
+                "name": "电表检测功能"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "threePhase",
+                "converter": "map(ee00:1, 00ee:2, default:0)",
+                "name": "三相不平衡输出"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "offGridSoc",
+                "name": "离网SOC下限设置"
+              },
+              {
+                "order": 3,
+                "byteLen": 40,
+                "type": "preserve",
+                "name": "预留二十个控制命令"
+              }
+            ]
           }
         ]
       },
-      {
-        "type": "1E",
-        "comment": "BMS告警信息显示",
-        "op": 1,
-        "fields": [
+      {"version": 991,
+        "queryCommands": ["95", "0A", "0B", "0C", "0D", "1E", "1F", "99"],
+        "commands": [
           {
-            "order": 0,
-            "byteLen": 12,
-            "type": "onePosition",
-            "name": "BMS告警信息显示",
-            "group": 2
+            "type": "6A",
+            "comment": "工作模式设置2",
+            "op": "2",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "电表检测功能",
+                "tag": "meterMonitor",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "三相不平衡输出",
+                "tag": "threePhase",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "offGridSoc",
+                "name": "离网SOC下限设置"
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "int",
+                "name": "微网模式下电池SOC回差",
+                "tag": "socDiff"
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "int",
+                "name": "AC耦合PV源选择",
+                "tag": "pvSourceChoice",
+                "validate": "enum(0,1,2,3)"
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "backUpOrder",
+                "name": "后备负载供电顺序",
+                "validate": "enum(0,1)"
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "旁路模式是否使能",
+                "tag": "sideWayEnable",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "后备输出功能",
+                "tag": "backUpOutEnable",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "cPowerLimit",
+                "name": "充电功率上限"
+              },
+              {
+                "order": 9,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "dPowerLimit",
+                "name": "放电功率下限"
+              },
+              {
+                "order": 10,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "batVolSettable",
+                "name": "电池电压是否可设",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
+              },
+              {
+                "order": 11,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "batVolUpLimit",
+                "name": "电池电压上限",
+                "unitType": "V",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 12,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "batVolDownLimit",
+                "name": "电池电压下限",
+                "unitType": "V",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 13,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "shadowScan",
+                "name": "阴影扫描",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
+              },
+              {
+                "order": 14,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "batActive",
+                "name": "电池激活",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
+              },
+              {
+                "order": 15,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "acidBatEqVol",
+                "name": "铅酸电池均充电压",
+                "unitType": "V",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 16,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "acidBatFloatVol",
+                "name": "铅酸电池浮充电压",
+                "unitType": "V",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 17,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "acidBatEOD",
+                "name": "铅酸电池EOD",
+                "unitType": "V",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 18,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "eSCCurUpLimit",
+                "name": "市电充电电流上限",
+                "unitType": "A",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 19,
+                "byteLen": 8,
+                "type": "preserve",
+                "name": "预留4个控制命令"
+              }
+            ]
+          },
+          {
+            "type": "71",
+            "comment": "设置强制充放电信息",
+            "op": "2",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "是否开启强制充电",
+                "tag": "fcOpen",
+                "fromBit": 0,
+                "endBit": 2
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周日是否使能",
+                "tag": "fcSunEnable",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "same": true,
+                "fromBit": 2,
+                "endBit": 4
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周一是否使能",
+                "tag": "fcMonEnable",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "same": true,
+                "fromBit": 4,
+                "endBit": 6
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周二是否使能",
+                "tag": "fcTusEnable",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "same": true,
+                "fromBit": 6,
+                "endBit": 8
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周三是否使能",
+                "tag": "fcWenEnable",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "same": true,
+                "fromBit": 8,
+                "endBit": 10
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周四是否使能",
+                "tag": "fcThuEnable",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "same": true,
+                "fromBit": 10,
+                "endBit": 12
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周五是否使能",
+                "tag": "fcFriEnable",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "same": true,
+                "fromBit": 12,
+                "endBit": 14
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周六是否使能",
+                "tag": "fcSatEnable",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "same": true,
+                "fromBit": 14,
+                "endBit": 16
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "int",
+                "name": "强制充电soc上限",
+                "tag": "fcSocLimit"
+              },
+              {
+                "order": 9,
+                "byteLen": 2,
+                "type": "int",
+                "name": "强冲一天时间段数",
+                "tag": "fcTimeRangeLen"
+              },
+              {
+                "order": 10,
+                "byteLen": 2,
+                "type": "int",
+                "name": "起始时间",
+                "tag": "startTime",
+                "groupTag": "fcTimeGap",
+                "converter": "timeToMin",
+                "repeat": 4,
+                "repeatGroup": 0,
+                "defaultValue": "00:00"
+              },
+              {
+                "order": 11,
+                "byteLen": 2,
+                "type": "int",
+                "name": "结束时间",
+                "tag": "endTime",
+                "groupTag": "fcTimeGap",
+                "converter": "timeToMin",
+                "repeat": 4,
+                "repeatGroup": 0,
+                "defaultValue": "00:00"
+              },
+              {
+                "order": 12,
+                "byteLen": 2,
+                "type": "preserve",
+                "name": "预留字段",
+                "repeat": 4,
+                "repeatGroup": 0
+              },
+              {
+                "order": 13,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "是否开启强制放电",
+                "tag": "fdOpen",
+                "fromBit": 0,
+                "endBit": 2
+              },
+              {
+                "order": 14,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周日是否使能",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "tag": "fdSunEnable",
+                "same": true,
+                "fromBit": 2,
+                "endBit": 4
+              },
+              {
+                "order": 15,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周一是否使能",
+                "tag": "fdMonEnable",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "same": true,
+                "fromBit": 4,
+                "endBit": 6
+              },
+              {
+                "order": 16,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周二是否使能",
+                "tag": "fdTusEnable",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "same": true,
+                "fromBit": 6,
+                "endBit": 8
+              },
+              {
+                "order": 17,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周三是否使能",
+                "tag": "fdWenEnable",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "same": true,
+                "fromBit": 8,
+                "endBit": 10
+              },
+              {
+                "order": 18,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周四是否使能",
+                "tag": "fdThuEnable",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "same": true,
+                "fromBit": 10,
+                "endBit": 12
+              },
+              {
+                "order": 19,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周五是否使能",
+                "tag": "fdFriEnable",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "same": true,
+                "fromBit": 12,
+                "endBit": 14
+              },
+              {
+                "order": 20,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周六是否使能",
+                "tag": "fdSatEnable",
+                "converter": "map(0:0, 1:1, 2:3, default:0)",
+                "same": true,
+                "fromBit": 14,
+                "endBit": 16
+              },
+              {
+                "order": 21,
+                "byteLen": 2,
+                "type": "int",
+                "name": "强制充电soc上限",
+                "tag": "fdSocLimit"
+              },
+              {
+                "order": 22,
+                "byteLen": 2,
+                "type": "int",
+                "name": "强冲一天时间段数",
+                "tag": "fdTimeRangeLen"
+              },
+              {
+                "order": 23,
+                "byteLen": 2,
+                "type": "int",
+                "name": "起始时间",
+                "tag": "startTime",
+                "groupTag": "fdTimeGap",
+                "converter": "timeToMin",
+                "repeat": 4,
+                "defaultValue": "00:00",
+                "repeatGroup": 1
+              },
+              {
+                "order": 24,
+                "byteLen": 2,
+                "type": "int",
+                "name": "结束时间",
+                "tag": "endTime",
+                "groupTag": "fdTimeGap",
+                "converter": "timeToMin",
+                "repeat": 4,
+                "repeatGroup": 1,
+                "defaultValue": "00:00"
+              },
+              {
+                "order": 25,
+                "byteLen": 2,
+                "type": "preserve",
+                "name": "预留字段",
+                "repeat": 4,
+                "repeatGroup": 1
+              }
+            ]
+          },
+          {
+            "type": "A2",
+            "comment": "强制充放电信息",
+            "op": "1",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "是否开启强制充电",
+                "tag": "fcOpen",
+                "fromBit": 0,
+                "endBit": 2
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周日是否使能",
+                "tag": "fcSunEnable",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "same": true,
+                "fromBit": 2,
+                "endBit": 4
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周一是否使能",
+                "tag": "fcMonEnable",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "same": true,
+                "fromBit": 4,
+                "endBit": 6
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周二是否使能",
+                "tag": "fcTusEnable",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "same": true,
+                "fromBit": 6,
+                "endBit": 8
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周三是否使能",
+                "tag": "fcWenEnable",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "same": true,
+                "fromBit": 8,
+                "endBit": 10
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周四是否使能",
+                "tag": "fcThuEnable",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "same": true,
+                "fromBit": 10,
+                "endBit": 12
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周五是否使能",
+                "tag": "fcFriEnable",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "same": true,
+                "fromBit": 12,
+                "endBit": 14
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周六是否使能",
+                "tag": "fcSatEnable",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "same": true,
+                "fromBit": 14,
+                "endBit": 16
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "int",
+                "name": "强制充电soc上限",
+                "tag": "fcSocLimit"
+              },
+              {
+                "order": 9,
+                "byteLen": 2,
+                "type": "int",
+                "name": "强冲一天时间段数",
+                "tag": "fcTimeRangeLen"
+              },
+              {
+                "order": 10,
+                "byteLen": 2,
+                "type": "int",
+                "name": "起始时间",
+                "tag": "startTime",
+                "groupTag": "fcTimeGap",
+                "converter": "minToTime",
+                "repeat": 4,
+                "repeatGroup": 0,
+                "defaultValue": "00:00"
+              },
+              {
+                "order": 11,
+                "byteLen": 2,
+                "type": "int",
+                "name": "结束时间",
+                "tag": "endTime",
+                "groupTag": "fcTimeGap",
+                "converter": "minToTime",
+                "repeat": 4,
+                "repeatGroup": 0,
+                "defaultValue": "00:00"
+              },
+              {
+                "order": 12,
+                "byteLen": 2,
+                "type": "preserve",
+                "name": "预留字段",
+                "repeat": 4,
+                "repeatGroup": 0
+              },
+              {
+                "order": 13,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "是否开启强制放电",
+                "tag": "fdOpen",
+                "fromBit": 0,
+                "endBit": 2
+              },
+              {
+                "order": 14,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周日是否使能",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "tag": "fdSunEnable",
+                "same": true,
+                "fromBit": 2,
+                "endBit": 4
+              },
+              {
+                "order": 15,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周一是否使能",
+                "tag": "fdMonEnable",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "same": true,
+                "fromBit": 4,
+                "endBit": 6
+              },
+              {
+                "order": 16,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周二是否使能",
+                "tag": "fdTusEnable",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "same": true,
+                "fromBit": 6,
+                "endBit": 8
+              },
+              {
+                "order": 17,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周三是否使能",
+                "tag": "fdWenEnable",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "same": true,
+                "fromBit": 8,
+                "endBit": 10
+              },
+              {
+                "order": 18,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周四是否使能",
+                "tag": "fdThuEnable",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "same": true,
+                "fromBit": 10,
+                "endBit": 12
+              },
+              {
+                "order": 19,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周五是否使能",
+                "tag": "fdFriEnable",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "same": true,
+                "fromBit": 12,
+                "endBit": 14
+              },
+              {
+                "order": 20,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "周六是否使能",
+                "tag": "fdSatEnable",
+                "converter": "map(0:0, 1:1, 3:2, default:0)",
+                "same": true,
+                "fromBit": 14,
+                "endBit": 16
+              },
+              {
+                "order": 21,
+                "byteLen": 2,
+                "type": "int",
+                "name": "强制充电soc上限",
+                "tag": "fdSocLimit"
+              },
+              {
+                "order": 22,
+                "byteLen": 2,
+                "type": "int",
+                "name": "强冲一天时间段数",
+                "tag": "fdTimeRangeLen"
+              },
+              {
+                "order": 23,
+                "byteLen": 2,
+                "type": "int",
+                "name": "起始时间",
+                "tag": "startTime",
+                "groupTag": "fdTimeGap",
+                "converter": "minToTime",
+                "repeat": 4,
+                "defaultValue": "00:00",
+                "repeatGroup": 1
+              },
+              {
+                "order": 24,
+                "byteLen": 2,
+                "type": "int",
+                "name": "结束时间",
+                "tag": "endTime",
+                "groupTag": "fdTimeGap",
+                "converter": "minToTime",
+                "repeat": 4,
+                "repeatGroup": 1,
+                "defaultValue": "00:00"
+              },
+              {
+                "order": 25,
+                "byteLen": 2,
+                "type": "preserve",
+                "name": "预留字段",
+                "repeat": 4,
+                "repeatGroup": 1
+              }
+            ]
+          },
+          {
+            "type": "A3",
+            "comment": "本地WIFI模块网络配置",
+            "op": "3",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 1,
+                "type": "int",
+                "name": "IP获取类型",
+                "tag": "getIpType",
+                "validate": "enum(1,2,0)"
+              },
+              {
+                "order": 1,
+                "byteLen": 20,
+                "type": "string",
+                "name": "ip",
+                "tag": "ip"
+              },
+              {
+                "order": 2,
+                "byteLen": 20,
+                "type": "string",
+                "name": "ipMask",
+                "tag": "ipMask"
+              },
+              {
+                "order": 3,
+                "byteLen": 20,
+                "type": "string",
+                "name": "ipGateway",
+                "tag": "ipGateway"
+              },
+              {
+                "order": 4,
+                "byteLen": 20,
+                "type": "preserve",
+                "name": "预留"
+              }
+            ]
+          },
+          {
+            "type": "9D",
+            "comment": "设置参数信息2",
+            "op": "1",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "电表检测功能",
+                "tag": "meterMonitor",
+                "converter": "map(ee00:1, 00ee:2, default:0)"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "三相不平衡输出",
+                "tag": "threePhase",
+                "converter": "map(ee00:1, 00ee:2, default:0)"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "offGridSoc",
+                "name": "离网SOC下限设置"
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "int",
+                "name": "微网模式下电池SOC回差",
+                "tag": "socDiff"
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "int",
+                "name": "AC耦合PV源选择",
+                "tag": "pvSourceChoice"
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "backUpOrder",
+                "name": "后备负载供电顺序"
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "旁路模式是否使能",
+                "tag": "sideWayEnable",
+                "converter": "map(ee00:1, 00ee:2, default:0)"
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "后备输出功能",
+                "tag": "backUpOutEnable",
+                "converter": "map(ee00:1, 00ee:2, default:0)"
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "cPowerLimit",
+                "name": "充电功率上限"
+              },
+              {
+                "order": 9,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "dPowerLimit",
+                "name": "放电功率下限"
+              },
+              {
+                "order": 10,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "batVolSettable",
+                "name": "电池电压是否可设",
+                "converter": "map(ee00:1, 00ee:2, default:0)"
+              },
+              {
+                "order": 11,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "batVolUpLimit",
+                "name": "电池电压上限",
+                "unitType": "V",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 12,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "batVolDownLimit",
+                "name": "电池电压下限",
+                "unitType": "V",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 13,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "shadowScan",
+                "name": "阴影扫描",
+                "converter": "map(ee00:1, 00ee:2, default:0)"
+              },
+              {
+                "order": 14,
+                "byteLen": 2,
+                "type": "hex",
+                "tag": "batActive",
+                "name": "电池激活",
+                "converter": "map(ee00:1, 00ee:2, default:0)"
+              },
+              {
+                "order": 15,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "acidBatEqVol",
+                "name": "铅酸电池均充电压",
+                "unitType": "V",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 16,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "acidBatFloatVol",
+                "name": "铅酸电池浮充电压",
+                "unitType": "V",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 17,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "acidBatEOD",
+                "name": "铅酸电池EOD",
+                "unitType": "V",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 18,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "eSCCurUpLimit",
+                "name": "市电充电电流上限",
+                "unitType": "A",
+                "unitValue": "0.1"
+              },
+              {
+                "order": 19,
+                "byteLen": 8,
+                "type": "preserve",
+                "name": "预留4个控制命令"
+              }
+            ]
           }
         ]
       },
-      {
-        "type": "1F",
-        "comment": "系统故障状态显示",
-        "op": 1,
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "逆变器故障",
-            "bitPosition": 15
-          },
-          {
-            "order": 1,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "逆变软启故障",
-            "same": true,
-            "bitPosition": 14
-          },
-          {
-            "order": 2,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "逆变欠压",
-            "same": true,
-            "bitPosition": 13
-          },
-          {
-            "order": 3,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "逆变过压",
-            "same": true,
-            "bitPosition": 12
-          },
-          {
-            "order": 4,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网谐振关机",
-            "same": true,
-            "bitPosition": 11
-          },
-          {
-            "order": 5,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网直流分量高",
-            "same": true,
-            "bitPosition": 10
-          },
-          {
-            "order": 6,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网频率低",
-            "same": true,
-            "bitPosition": 9
-          },
-          {
-            "order": 7,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网频率高",
-            "same": true,
-            "bitPosition": 8
-          },
-          {
-            "order": 8,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网电压低",
-            "same": true,
-            "bitPosition": 7
-          },
-          {
-            "order": 9,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网电压高",
-            "same": true,
-            "bitPosition": 6
-          },
-          {
-            "order": 10,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网相序异常",
-            "same": true,
-            "bitPosition": 5
-          },
-          {
-            "order": 11,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网锁相失败",
-            "same": true,
-            "bitPosition": 4
-          },
-          {
-            "order": 12,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "三相电流不平衡",
-            "same": true,
-            "bitPosition": 3
-          },
-          {
-            "order": 13,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "交流输出短路",
-            "same": true,
-            "bitPosition": 2
-          },
-          {
-            "order": 14,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "输出漏电流故障",
-            "same": true,
-            "bitPosition": 1
-          },
-          {
-            "order": 15,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "输出过载告警",
-            "same": true,
-            "bitPosition": 0
-          },
-          {
-            "order": 16,
-            "byteLen": 2,
-            "type": "onePosition",
-            "name": "故障字1",
-            "same": true
-          },
-          {
-            "order": 17,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "负母线绝缘阻抗告警",
-            "bitPosition": 15
-          },
-          {
-            "order": 18,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "正母线绝缘阻抗告警",
-            "same": true,
-            "bitPosition": 14
-          },
-          {
-            "order": 19,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "PV2欠压",
-            "same": true,
-            "bitPosition": 13
-          },
-          {
-            "order": 20,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "PV2过压",
-            "same": true,
-            "bitPosition": 12
-          },
-          {
-            "order": 21,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "PV1欠压",
-            "same": true,
-            "bitPosition": 11
-          },
-          {
-            "order": 22,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "PV1过压",
-            "same": true,
-            "bitPosition": 10
-          },
-          {
-            "order": 23,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "PV2反接",
-            "same": true,
-            "fromBit": 9,
-            "bitPosition": 9
-          },
-          {
-            "order": 24,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "PV1反接",
-            "same": true,
-            "bitPosition": 8
-          },
-          {
-            "order": 25,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "二级母线过高",
-            "same": true,
-            "bitPosition": 7
-          },
-          {
-            "order": 26,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "二级母线过低",
-            "same": true,
-            "bitPosition": 6
-          },
-          {
-            "order": 27,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "母线软件软起故障",
-            "same": true,
-            "bitPosition": 5
-          },
-          {
-            "order": 28,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "母线硬件软起故障",
-            "same": true,
-            "bitPosition": 4
-          },
-          {
-            "order": 29,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "直流母线电容上电压过压",
-            "same": true,
-            "bitPosition": 3
-          },
-          {
-            "order": 30,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "直流母线电容下电压过压",
-            "same": true,
-            "bitPosition": 2
-          },
-          {
-            "order": 31,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "直流母线电压不均衡",
-            "same": true,
-            "bitPosition": 1
-          },
-          {
-            "order": 32,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "直流母线电压异常",
-            "same": true,
-            "bitPosition": 0
-          },
-          {
-            "order": 33,
-            "byteLen": 2,
-            "type": "onePosition",
-            "name": "故障字2",
-            "same": true
-          },
-          {
-            "order": 34,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网等级设置错误",
-            "bitPosition": 15
-          },
-          {
-            "order": 35,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "产品未被授权",
-            "same": true,
-            "fromBit": 14,
-            "bitPosition": 14
-          },
-          {
-            "order": 36,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电池SOC低于下限停止放电告警",
-            "same": true,
-            "bitPosition": 13
-          },
-          {
-            "order": 37,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "辅助电源故障",
-            "same": true,
-            "fromBit": 12,
-            "bitPosition": 12
-          },
-          {
-            "order": 38,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "并网过流（单相）",
-            "same": true,
-            "bitPosition": 11
-          },
-          {
-            "order": 39,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "并机主机冲突",
-            "same": true,
-            "bitPosition": 10
-          },
-          {
-            "order": 40,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "并机地址超限",
-            "same": true,
-            "bitPosition": 9
-          },
-          {
-            "order": 41,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "并机线故障",
-            "same": true,
-            "bitPosition": 8
-          },
-          {
-            "order": 42,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网C相电流过流",
-            "same": true,
-            "bitPosition": 7
-          },
-          {
-            "order": 43,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网B相电流过流",
-            "same": true,
-            "bitPosition": 6
-          },
-          {
-            "order": 44,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网A相电流过流",
-            "same": true,
-            "bitPosition": 5
-          },
-          {
-            "order": 45,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电池充放电电流超限告警",
-            "same": true,
-            "bitPosition": 4
-          },
-          {
-            "order": 46,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网和负载端子反接(单机)故障",
-            "same": true,
-            "bitPosition": 3
-          },
-          {
-            "order": 47,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电池反接",
-            "same": true,
-            "bitPosition": 2
-          },
-          {
-            "order": 48,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电池过压",
-            "same": true,
-            "bitPosition": 1
-          },
-          {
-            "order": 49,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电池欠压(EOD)",
-            "same": true,
-            "bitPosition": 0
-          },
-          {
-            "order": 50,
-            "byteLen": 2,
-            "type": "onePosition",
-            "name": "故障字3",
-            "same": true
-          },
-          {
-            "order": 51,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "负母线绝缘阻抗故障",
-            "bitPosition": 15
-          },
-          {
-            "order": 52,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "正母线绝缘阻抗故障",
-            "same": true,
-            "fromBit": 14,
-            "bitPosition": 14
-          },
-          {
-            "order": 53,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "电网无连接",
-            "same": true,
-            "bitPosition": 13
-          },
-          {
-            "order": 54,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "三相电压不平衡",
-            "same": true,
-            "fromBit": 12,
-            "bitPosition": 12
-          },
-          {
-            "order": 55,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "BUCKBOOST2电流过流",
-            "same": true,
-            "bitPosition": 11
-          },
-          {
-            "order": 56,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "BUCKBOOST1电流过流",
-            "same": true,
-            "bitPosition": 10
-          },
-          {
-            "order": 57,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "DCDCCT2电流过流",
-            "same": true,
-            "bitPosition": 9
-          },
-          {
-            "order": 58,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "DCDCCT1电流过流",
-            "same": true,
-            "bitPosition": 8
-          },
-          {
-            "order": 59,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "PV2过流",
-            "same": true,
-            "bitPosition": 7
-          },
-          {
-            "order": 60,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "PV1过流",
-            "same": true,
-            "bitPosition": 6
-          },
-          {
-            "order": 61,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "二级母线软件软起故障",
-            "same": true,
-            "bitPosition": 5
-          },
-          {
-            "order": 62,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "二级母线硬件软起故障",
-            "same": true,
-            "bitPosition": 4
-          },
-          {
-            "order": 63,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "PV侧母线软件软起告警",
-            "same": true,
-            "bitPosition": 3
-          },
-          {
-            "order": 64,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "PV2侧母线硬件软起故障",
-            "same": true,
-            "bitPosition": 2
-          },
-          {
-            "order": 65,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "PV侧母线硬件软起故障",
-            "same": true,
-            "bitPosition": 1
-          },
-          {
-            "order": 66,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "继电器自检故障",
-            "same": true,
-            "bitPosition": 0
-          },
-          {
-            "order": 67,
-            "byteLen": 2,
-            "type": "onePosition",
-            "name": "故障字4",
-            "same": true
-          },
-          {
-            "order": 68,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "风扇告警",
-            "bitPosition": 9
-          },
-          {
-            "order": 69,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "IGBT温度不平衡",
-            "same": true,
-            "bitPosition": 8
-          },
-          {
-            "order": 70,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "IGBTC温度传感器故障",
-            "same": true,
-            "bitPosition": 7
-          },
-          {
-            "order": 71,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "IGBTB温度传感器故障",
-            "same": true,
-            "bitPosition": 6
-          },
-          {
-            "order": 72,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "IGBTA温度传感器故障",
-            "same": true,
-            "bitPosition": 5
-          },
-          {
-            "order": 73,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "IGBTC温度过高",
-            "same": true,
-            "bitPosition": 4
-          },
-          {
-            "order": 74,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "IGBTB温度过高",
-            "same": true,
-            "bitPosition": 3
-          },
-          {
-            "order": 75,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "IGBTA温度过高",
-            "same": true,
-            "bitPosition": 2
-          },
-          {
-            "order": 76,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "环境温度过低",
-            "same": true,
-            "bitPosition": 1
-          },
-          {
-            "order": 77,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "环境温度过高",
-            "same": true,
-            "bitPosition": 0
-          },
-          {
-            "order": 78,
-            "byteLen": 2,
-            "type": "onePosition",
-            "name": "故障字5",
-            "same": true
-          },
-          {
-            "order": 79,
-            "byteLen": 2,
-            "type": "preserve",
-            "name": "保留"
-          }
-        ]
-      },
-      {
-        "type": "64",
-        "comment": "控制命令设置",
-        "op": "2",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 1,
-            "type": "hex",
-            "name": "PcuOnOff",
-            "validate": "enum(55,aa)"
-          }
-        ]
-      },
-      {
-        "type": "66",
-        "comment": "工作模式设置",
-        "op": "2",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "int",
-            "name": "单位电价（尖）",
-            "unitType": "元",
-            "unitValue": "0.1"
-          },
-          {
-            "order": 1,
-            "byteLen": 2,
-            "type": "int",
-            "name": "单位电价（峰）",
-            "unitType": "元",
-            "unitValue": "0.1"
-          },
-          {
-            "order": 2,
-            "byteLen": 2,
-            "type": "int",
-            "name": "单位电价（平）",
-            "unitType": "元",
-            "unitValue": "0.1"
-          },
-          {
-            "order": 3,
-            "byteLen": 2,
-            "type": "int",
-            "name": "单位电价（谷）",
-            "unitType": "元",
-            "unitValue": "0.1"
-          },
-          {
-            "order": 4,
-            "byteLen": 2,
-            "type": "int",
-            "name": "并网功率上限"
-          },
-          {
-            "order": 5,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池充放电功率（指令模式有效）"
-          },
-          {
-            "order": 6,
-            "byteLen": 2,
-            "type": "int",
-            "name": "工作模式",
-            "validate": "enum(1,2,3,4,5)"
-          },
-          {
-            "order": 7,
-            "byteLen": 2,
-            "type": "int",
-            "name": "PV并离网",
-            "validate": "enum(1,2)"
-          },
-          {
-            "order": 8,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电网电压跌落调节方式",
-            "validate": "enum(0,1,2,3)"
-          },
-          {
-            "order": 9,
-            "byteLen": 2,
-            "type": "hex",
-            "name": "三相不平衡输出",
-            "validate": "enum(ee00,00ee)"
-          },
-          {
-            "order": 10,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池充放电（指令模式生效）",
-            "validate": "enum(0,1,2,3,4)"
-          },
-          {
-            "order": 11,
-            "byteLen": 2,
-            "type": "int",
-            "name": "并网SOC下限设置"
-          },
-          {
-            "order": 12,
-            "byteLen": 2,
-            "type": "int",
-            "name": "离网SOC下限设置"
-          },
-          {
-            "order": 13,
-            "byteLen": 2,
-            "type": "hex",
-            "name": "电表检测功能",
-            "validate": "enum(ee00,00ee)"
-          },
-          {
-            "order": 14,
-            "byteLen": 20,
-            "type": "preserve",
-            "name": "预留十个控制命令"
-          },
-          {
-            "order": 15,
-            "byteLen": 2,
-            "type": "int",
-            "name": "共有多少组数据",
-            "validate": "max(16)"
-          },
-          {
-            "order": 16,
-            "byteLen": 2,
-            "type": "int",
-            "name": "起始时间",
-            "validate": "valRange(0-1440)",
-            "repeatGroup": 0,
-            "repeatRef": 15
-          },
-          {
-            "order": 17,
-            "byteLen": 2,
-            "type": "int",
-            "name": "结束时间",
-            "validate": "valRange(0-1440)",
-            "repeatGroup": 0,
-            "repeatRef": 15
-          },
-          {
-            "order": 18,
-            "byteLen": 2,
-            "type": "int",
-            "name": "尖峰平谷",
-            "validate": "enum(1,2,3,4)",
-            "repeatGroup": 0,
-            "repeatRef": 15
-          }
-        ]
-      },
-      {
-        "type": "67",
-        "comment": "自定义模式设置",
-        "op": "2",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC<10时是否充电(尖)",
-            "validate": "enum(1,2)"
-          },
-          {
-            "order": 1,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC>20时是否放电(尖)",
-            "validate": "enum(1,2)"
-          },
-          {
-            "order": 2,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC<10时是否充电(峰)",
-            "validate": "enum(1,2)"
-          },
-          {
-            "order": 3,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC>20时是否放电(峰)",
-            "validate": "enum(1,2)"
-          },
-          {
-            "order": 4,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC<10时是否充电(平)",
-            "validate": "enum(1,2)"
-          },
-          {
-            "order": 5,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC>20时是否放电(平)",
-            "validate": "enum(1,2)"
-          },
-          {
-            "order": 6,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC<10时是否充电(谷)",
-            "validate": "enum(1,2)"
-          },
-          {
-            "order": 7,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC>20时是否放电(谷)",
-            "validate": "enum(1,2)"
-          }
-        ]
-      },
-      {
-        "type": "68",
-        "comment": "时间校准设置",
-        "op": "2",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "int",
-            "name": "YEAR"
-          },
-          {
-            "order": 1,
-            "byteLen": 1,
-            "type": "int",
-            "name": "MONTH"
-          },
-          {
-            "order": 2,
-            "byteLen": 1,
-            "type": "int",
-            "name": "DAY"
-          },
-          {
-            "order": 3,
-            "byteLen": 1,
-            "type": "int",
-            "name": "HOUR"
-          },
-          {
-            "order": 4,
-            "byteLen": 1,
-            "type": "int",
-            "name": "MINUTE"
-          },
-          {
-            "order": 5,
-            "byteLen": 1,
-            "type": "int",
-            "name": "SECOND"
-          }
-        ]
-      },
-      {
-        "type": "69",
-        "comment": "电网电池类型设置",
-        "op": "2",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电网代码"
-          },
-          {
-            "order": 1,
-            "byteLen": 2,
-            "type": "int",
-            "name": "DC侧电池类型"
-          },
-          {
-            "order": 2,
-            "byteLen": 2,
-            "type": "int",
-            "name": "铅酸电池AH值"
-          },
-          {
-            "order": 3,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池通信协议选择"
-          },
-          {
-            "order": 4,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电表通讯协议选择"
-          }
-        ]
-      },
-      {
-        "type": "70",
-        "comment": "恢复出厂设置",
-        "op": "2",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "hex",
-            "name": "Reset",
-            "validate": "enum(00FF)"
-          }
-        ]
-      },
-      {
-        "type": "94",
-        "comment": "设置WIFI密码",
-        "op": "3",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 0,
-            "type": "string",
-            "name": "字符",
-            "validate": "lenRange(8-16)"
-          }
-        ]
-      },
-      {
-        "type": "98",
-        "comment": "系统信息查询",
-        "op": "1",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "int",
-            "name": "协议版本号"
-          },
-          {
-            "order": 1,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池厂商号（代码列表）"
-          },
-          {
-            "order": 2,
-            "byteLen": 2,
-            "type": "int",
-            "name": "机型代码"
-          },
-          {
-            "order": 3,
-            "byteLen": 26,
-            "type": "string",
-            "name": "product_sn"
-          },
-          {
-            "order": 4,
-            "byteLen": 18,
-            "type": "string",
-            "name": "product_sn_ln"
-          }
-        ]
-      },
-      {
-        "type": "99",
-        "comment": "总功率数据",
-        "return": "99,9A,9B",
-        "op": "1",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "int",
-            "name": "光伏日发电量",
-            "unitValue": "0.1"
-          },
-          {
-            "order": 1,
-            "byteLen": 4,
-            "type": "long",
-            "name": "光伏总发电量"
-          },
-          {
-            "order": 2,
-            "byteLen": 2,
-            "type": "int",
-            "name": "负载日用电量",
-            "unitValue": "0.1"
-          },
-          {
-            "order": 3,
-            "byteLen": 4,
-            "type": "long",
-            "name": "负载总用电量"
-          },
-          {
-            "order": 4,
-            "byteLen": 2,
-            "type": "int",
-            "name": "今日节省电费"
-          },
-          {
-            "order": 5,
-            "byteLen": 4,
-            "type": "long",
-            "name": "总节省电费"
-          },
-          {
-            "order": 6,
-            "byteLen": 2,
-            "type": "int",
-            "name": "PVPowerDay",
-            "repeat": 48
-          },
-          {
-            "order": 7,
-            "byteLen": 2,
-            "type": "int",
-            "name": "PVPowerMonth",
-            "repeat": 31
-          },
-          {
-            "order": 8,
-            "byteLen": 4,
-            "type": "long",
-            "name": "PVPowerYear",
-            "repeat": 12
-          },
-          {
-            "order": 9,
-            "byteLen": 4,
-            "type": "long",
-            "name": "PVPowerHistory",
-            "repeat": 5
-          }
-        ]
-      },
-      {
-        "type": "9A",
-        "comment": "电网电量数据",
-        "op": "1",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "int",
-            "name": "并网今日用电量",
-            "unitValue": "0.1"
-          },
-          {
-            "order": 1,
-            "byteLen": 4,
-            "type": "long",
-            "name": "并网总用电量"
-          },
-          {
-            "order": 2,
-            "byteLen": 2,
-            "type": "int",
-            "name": "PowerDay",
-            "repeat": 48
-          },
-          {
-            "order": 3,
-            "byteLen": 2,
-            "type": "int",
-            "name": "PowerMonth",
-            "repeat": 31
-          },
-          {
-            "order": 4,
-            "byteLen": 4,
-            "type": "long",
-            "name": "PowerYear",
-            "repeat": 12
-          },
-          {
-            "order": 5,
-            "byteLen": 4,
-            "type": "long",
-            "name": "PowerHistory",
-            "repeat": 5
-          }
-        ]
-      },
-      {
-        "type": "9B",
-        "comment": "负载电量数据",
-        "op": "1",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "int",
-            "name": "负载今日用电量",
-            "unitValue": "0.1"
-          },
-          {
-            "order": 1,
-            "byteLen": 4,
-            "type": "long",
-            "name": "负载总用电量"
-          },
-          {
-            "order": 2,
-            "byteLen": 2,
-            "type": "int",
-            "name": "PowerDay",
-            "repeat": 48
-          },
-          {
-            "order": 3,
-            "byteLen": 2,
-            "type": "int",
-            "name": "PowerMonth",
-            "repeat": 31
-          },
-          {
-            "order": 4,
-            "byteLen": 4,
-            "type": "long",
-            "name": "PowerYear",
-            "repeat": 12
-          },
-          {
-            "order": 5,
-            "byteLen": 4,
-            "type": "long",
-            "name": "PowerHistory",
-            "repeat": 5
-          }
-        ]
-      },
-      {
-        "type": "95",
-        "comment": "设置参数查询",
-        "op": "1",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "int",
-            "name": "单位电价（尖）",
-            "unitType": "角"
-          },
-          {
-            "order": 1,
-            "byteLen": 2,
-            "type": "int",
-            "name": "单位电价（峰）",
-            "unitType": "角"
-          },
-          {
-            "order": 2,
-            "byteLen": 2,
-            "type": "int",
-            "name": "单位电价（平）",
-            "unitType": "角"
-          },
-          {
-            "order": 3,
-            "byteLen": 2,
-            "type": "int",
-            "name": "单位电价（谷）",
-            "unitType": "角"
-          },
-          {
-            "order": 4,
-            "byteLen": 2,
-            "type": "int",
-            "name": "并网功率上限",
-            "unitValue": "1",
-            "unitType": "W"
-          },
-          {
-            "order": 5,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池充放电功率（指令模式有效）"
-          },
-          {
-            "order": 6,
-            "byteLen": 2,
-            "type": "int",
-            "name": "工作模式"
-          },
-          {
-            "order": 7,
-            "byteLen": 2,
-            "type": "int",
-            "name": "PV并离网"
-          },
-          {
-            "order": 8,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电网电压跌落调节方式"
-          },
-          {
-            "order": 9,
-            "byteLen": 2,
-            "type": "hex",
-            "name": "三相不平衡输出"
-          },
-          {
-            "order": 10,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池充放电（指令模式生效）"
-          },
-          {
-            "order": 11,
-            "byteLen": 2,
-            "type": "int",
-            "name": "并网SOC下限设置"
-          },
-          {
-            "order": 12,
-            "byteLen": 2,
-            "type": "int",
-            "name": "离网SOC下限设置"
-          },
-          {
-            "order": 13,
-            "byteLen": 2,
-            "type": "hex",
-            "name": "电表检测功能"
-          },
-          {
-            "order": 14,
-            "byteLen": 20,
-            "type": "preserve",
-            "name": "预留十个控制命令"
-          },
-          {
-            "order": 15,
-            "byteLen": 2,
-            "type": "int",
-            "name": "共有多少组数据"
-          },
-          {
-            "order": 16,
-            "byteLen": 2,
-            "type": "int",
-            "name": "起始时间",
-            "repeat": 16,
-            "repeatGroup": 0
-          },
-          {
-            "order": 17,
-            "byteLen": 2,
-            "type": "int",
-            "name": "结束时间",
-            "repeat": 16,
-            "repeatGroup": 0
-          },
-          {
-            "order": 18,
-            "byteLen": 2,
-            "type": "int",
-            "name": "尖峰平谷",
-            "repeat": 16,
-            "repeatGroup": 0
-          },
-          {
-            "order": 19,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC<10时是否充电(尖)"
-          },
-          {
-            "order": 20,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC>20时是否放电(尖)"
-          },
-          {
-            "order": 21,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC<10时是否充电(峰)"
-          },
-          {
-            "order": 22,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC>20时是否放电(峰)"
-          },
-          {
-            "order": 23,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC<10时是否充电(平)"
-          },
-          {
-            "order": 24,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC>20时是否放电(平)"
-          },
-          {
-            "order": 25,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC<10时是否充电(谷)"
-          },
-          {
-            "order": 26,
-            "byteLen": 2,
-            "type": "int",
-            "name": "SOC>20时是否放电(谷)"
-          },
-          {
-            "order": 27,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电网代码"
-          },
-          {
-            "order": 28,
-            "byteLen": 2,
-            "type": "int",
-            "name": "DC侧电池类型"
-          },
-          {
-            "order": 29,
-            "byteLen": 2,
-            "type": "int",
-            "name": "铅酸电池AH值"
-          },
-          {
-            "order": 30,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电池通信协议选择"
-          },
-          {
-            "order": 31,
-            "byteLen": 2,
-            "type": "int",
-            "name": "电表通讯协议选择"
-          }
-        ]
-      },
-      {
-        "type": "9E",
-        "comment": "设置路由器信息",
-        "op": "3",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 1,
-            "type": "int",
-            "name": "Wifi工作模式",
-            "validate": "enum(0,1)"
-          },
-          {
-            "order": 1,
-            "byteLen": 30,
-            "type": "string",
-            "name": "路由器SSID",
-            "validate": "lenRange(1, 31)"
-          },
-          {
-            "order": 2,
-            "byteLen": 30,
-            "type": "string",
-            "name": "路由器PASSWORD",
-            "validate": "lenRange(1, 31)"
-          }
-        ]
-      },
-      {
-        "type": "9F",
-        "comment": "设置云端服务器信息",
-        "op": "3",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 20,
-            "type": "string",
-            "name": "服务器IP",
-            "validate": "ip"
-          },
-          {
-            "order": 1,
-            "byteLen": 10,
-            "type": "string",
-            "name": "服务器端口号",
-            "validate": "valRange(0-65535)"
-          }
-        ]
-      },
-      {
-        "type": "A1",
-        "comment": "查询DRM状态",
-        "op": "1",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "DRM8",
-            "bitPosition": "8"
-          },
-          {
-            "order": 1,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "DRM7",
-            "bitPosition": "7",
-            "same": true
-          },
-          {
-            "order": 2,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "DRM6",
-            "bitPosition": "6",
-            "same": true
-          },
-          {
-            "order": 3,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "DRM5",
-            "bitPosition": "5",
-            "same": true
-          },
-          {
-            "order": 4,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "DRM4",
-            "bitPosition": "4",
-            "same": true
-          },
-          {
-            "order": 5,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "DRM3",
-            "bitPosition": "3",
-            "same": true
-          },
-          {
-            "order": 6,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "DRM2",
-            "bitPosition": "2",
-            "same": true
-          },
-          {
-            "order": 7,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "DRM1",
-            "bitPosition": "1",
-            "same": true
-          },
-          {
-            "order": 8,
-            "byteLen": 2,
-            "type": "bit",
-            "name": "DRM0",
-            "bitPosition": "0",
-            "same": true
+      {"version": 998,
+        "queryCommands": ["95", "0A", "0B", "0C", "0D", "1E", "1F", "99"],
+        "commands": [
+          {
+            "type": "B0",
+            "comment": "路由器与服务器配置",
+            "op": "3",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 1,
+                "type": "int",
+                "tag": "style",
+                "name": "Wifi工作模式",
+                "validate": "enum(0,1)"
+              },
+              {
+                "order": 1,
+                "byteLen": 30,
+                "type": "string",
+                "tag": "ssid",
+                "name": "路由器SSID",
+                "converter": "subZero",
+                "validate": "lenRange(1, 31)"
+              },
+              {
+                "order": 2,
+                "byteLen": 30,
+                "type": "string",
+                "tag": "password",
+                "name": "路由器PASSWORD",
+                "converter": "subZero",
+                "validate": "lenRange(1, 31)"
+              },
+              {
+                "order": 3,
+                "byteLen": 20,
+                "type": "string",
+                "tag": "ip",
+                "name": "服务器IP",
+                "converter": "subZero",
+                "validate": "ip"
+              },
+              {
+                "order": 4,
+                "byteLen": 10,
+                "type": "string",
+                "tag": "port",
+                "converter": "subZero",
+                "name": "服务器端口号"
+              }
+            ]
           }
         ]
       }
     ]
   },
   "osim-upgrade": {
-    "id": "pcu",
-    "name": "光储一体机协议pcu升级协议",
-    "commands": [
+      "id": "pcu",
+      "name": "光储一体机协议pcu升级协议",
+      "versions" : [
       {
-        "type": "0000",
-        "comment": "升级结果",
-        "op": "1",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "hex",
-            "byteOrder": 1,
-            "name": "升级结果"
-          }
-        ]
+        "version": 0,
+        "commands": [
+        {
+          "type": "0000",
+          "comment": "升级结果",
+          "op": "1",
+          "fields": [
+            {
+              "order": 0,
+              "byteLen": 2,
+              "type": "hex",
+              "byteOrder": 1,
+              "name": "升级结果"
+            }
+          ]
+        },
+        {
+          "type": "1000",
+          "comment": "升级DSP程序",
+          "op": "2",
+          "fields": [
+            {
+              "order": 0,
+              "byteLen": 4,
+              "type": "bytes",
+              "byteOrder": 1,
+              "name": "bin中固定内容"
+            }
+          ]
+        },
+        {
+          "type": "E000",
+          "comment": "运行DSP程序",
+          "op": "2",
+          "fields": [
+            {
+              "order": 0,
+              "byteLen": 4,
+              "type": "bytes",
+              "byteOrder": 1,
+              "name": "主函数地址"
+            },
+            {
+              "order": 1,
+              "byteLen": 4,
+              "type": "int",
+              "byteOrder": 1,
+              "name": "升级的应用程序长度"
+            },
+            {
+              "order": 2,
+              "byteLen": 2,
+              "type": "int",
+              "name": "升级的应用程序CRC"
+            }
+          ]
+        },
+        {
+          "type": "2000",
+          "comment": "升级PCU程序",
+          "op": "2",
+          "fields": [
+            {
+              "order": 0,
+              "byteLen": 2,
+              "type": "hex",
+              "byteOrder": 1,
+              "name": "固定内容0000"
+            }
+          ]
+        },
+        {
+          "type": "F000",
+          "comment": "运行PCU程序",
+          "op": "2",
+          "fields": [
+            {
+              "order": 0,
+              "byteLen": 2,
+              "type": "int",
+              "byteOrder": 1,
+              "name": "升级的应用程序长度"
+            },
+            {
+              "order": 1,
+              "byteLen": 2,
+              "type": "int",
+              "byteOrder": 1,
+              "name": "升级的应用程序CRC"
+            }
+          ]
+        },
+        {
+          "type": "0001",
+          "comment": "升级数据",
+          "op": "2",
+          "fields": [
+            {
+              "order": 0,
+              "byteLen": 0,
+              "type": "bytes",
+              "name": "部分数据"
+            }
+          ]
+        }
+      ]
       },
       {
-        "type": "1000",
-        "comment": "升级DSP程序",
-        "op": "2",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 4,
-            "type": "bytes",
-            "byteOrder": 1,
-            "name": "bin中固定内容"
-          }
-        ]
-      },
-      {
-        "type": "E000",
-        "comment": "运行DSP程序",
-        "op": "2",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 4,
-            "type": "bytes",
-            "byteOrder": 1,
-            "name": "主函数地址"
-          },
-          {
-            "order": 1,
-            "byteLen": 4,
-            "type": "int",
-            "byteOrder": 1,
-            "name": "升级的应用程序长度"
-          },
-          {
-            "order": 2,
-            "byteLen": 2,
-            "type": "int",
-            "name": "升级的应用程序CRC"
-          }
-        ]
-      },
-      {
-        "type": "2000",
-        "comment": "升级PCU程序",
-        "op": "2",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "hex",
-            "byteOrder": 1,
-            "name": "固定内容0000"
-          }
-        ]
-      },
-      {
-        "type": "F000",
-        "comment": "运行PCU程序",
-        "op": "2",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 2,
-            "type": "int",
-            "byteOrder": 1,
-            "name": "升级的应用程序长度"
-          },
-          {
-            "order": 1,
-            "byteLen": 2,
-            "type": "int",
-            "byteOrder": 1,
-            "name": "升级的应用程序CRC"
-          }
-        ]
-      },
-      {
-        "type": "0001",
-        "comment": "升级数据",
-        "op": "2",
-        "fields": [
-          {
-            "order": 0,
-            "byteLen": 0,
-            "type": "bytes",
-            "name": "部分数据"
-          }
-        ]
-      }
+      "version": 400,
+      "commands": [
+        {
+          "type": "F000",
+          "comment": "运行PCU程序",
+          "op": "2",
+          "fields": [
+            {
+              "order": 0,
+              "byteLen": 4,
+              "type": "long",
+              "byteOrder": 2,
+              "name": "升级的应用程序长度"
+            },
+            {
+              "order": 1,
+              "byteLen": 2,
+              "type": "int",
+              "byteOrder": 1,
+              "name": "升级的应用程序CRC"
+            }
+          ]
+        }
+      ]
+    }
     ]
   }
 }
