@@ -1,0 +1,153 @@
+{
+  "upgradeDsp": {
+    "5kW": {
+      "checkBinAddrs": ["14004", "14005"],
+      "checkCrcAddrs": ["14006", "14007"],
+      "sendStartAddrs": ["18004", "18005", "14004", "14005"],
+      "sendFinishAddrs": ["14000", "14001", "14002", "14003"],
+      "crcComputeAddr": "16000",
+      "dataStartAddr": "16000",
+      "dspVersions": [
+        {
+          "order": 0,
+          "versionScope": "V000~V199",
+          "checkBinValue": "FF55",
+          "snArray": [
+            3102160006,
+            3102160007,
+            6602610001,
+            6602610002,
+            6602160004,
+            3102160007,
+            6602610006,
+            6602610007,
+            6602160010,
+            6602160009
+          ]
+        },
+        {
+          "order": 1,
+          "versionScope": "V200~V299",
+          "checkBinValue": "FF22",
+          "snArray": [
+            6602610015,
+            6602610017,
+            6602610020,
+            6602610039
+          ]
+        },
+        {
+          "order": 2,
+          "versionScope": "V300~V399",
+          "checkBinValue": "FF23",
+          "snArray": [
+            6602610010,
+            6602610009,
+            6602610037
+          ]
+        },
+        {
+          "order": 3,
+          "versionScope": "V400~V499",
+          "checkBinValue": "FF24",
+          "snArray": [
+            6602610022,
+            6602610024,
+            6602610035,
+            6602610041
+          ]
+        },
+        {
+          "order": 4,
+          "versionScope": "V500~V599",
+          "checkBinValue": "FF25",
+          "snArray": [
+            6602610043
+          ]
+        }
+      ]
+    },
+    "10kW": {
+      "checkBinAddrs": [
+        "18004",
+        "18005"
+      ],
+      "checkCrcAddrs": [
+        "18006",
+        "18007"
+      ],
+      "sendStartAddrs": [
+        "18004",
+        "18005",
+        "14004",
+        "14005"
+      ],
+      "sendFinishAddrs": [
+        "18000",
+        "18001",
+        "18002",
+        "18003"
+      ],
+      "crcComputeAddr": "1C000",
+      "dataStartAddr": "1C000",
+      "dspVersions": [
+        {
+          "order": 0,
+          "versionScope": "V000~V199",
+          "checkBinValue": "FF55",
+          "snArray": [
+            3102160005,
+            3102160008,
+            6601110038,
+            6602610004,
+            6602160006,
+            6602610003,
+            6602160003,
+            6602610011,
+            6602610012
+          ]
+        },
+        {
+          "order": 1,
+          "versionScope": "V200~V299",
+          "checkBinValue": "FF62",
+          "snArray": [
+            6602610013,
+            6602610014,
+            6602610026,
+            6602610027,
+            6602610029,
+            6602610050
+          ]
+        },
+        {
+          "order": 2,
+          "versionScope": "V300~V399",
+          "checkBinValue": "FF63",
+          "snArray": [
+            6602610032,
+            6602610034,
+            6602610045,
+            6602610048,
+            6602610053
+          ]
+        },
+        {
+          "order": 3,
+          "versionScope": "V400~V499",
+          "checkBinValue": "FF64",
+          "snArray": [
+            6602610054
+          ]
+        },
+        {
+          "order": 4,
+          "versionScope": "",
+          "checkBinValue": "FF55",
+          "snArray": [
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -23,7 +23,6 @@
                 "order": 1,
                 "byteLen": 2,
                 "type": "int",
-                "type": "int",
                 "name": "电池厂商号（代码列表）"
               },
               {
