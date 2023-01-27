@@ -50,7 +50,7 @@
       },
       {
         "version": 252,
-        "queryCommands": ["95", "0A", "0B", "0C", "1E", "1F", "99"],
+        "queryCommands": ["0C", "0A", "0B", "1E", "1F", "99", "95"],
         "commands": [
           {
             "type": "0A",
@@ -648,7 +648,7 @@
                 "order": 4,
                 "byteLen": 2,
                 "type": "bit",
-                "name": "主/被动模式",
+                "name": "并机电池接线类型",
                 "same": true,
                 "bitPosition": 10
               },
@@ -753,6 +753,15 @@
                 "type": "uInt",
                 "name": "PV状态字",
                 "same": true
+              },
+              {
+                "order": 17,
+                "byteLen": 2,
+                "type": "bitRange",
+                "name": "并机运行台数",
+                "same": true,
+                "fromBit": 13,
+                "endBit": 16
               }
             ]
           },
@@ -1056,36 +1065,42 @@
                 "order": 0,
                 "byteLen": 2,
                 "type": "int",
+                "tag": "year",
                 "name": "YEAR"
               },
               {
                 "order": 1,
                 "byteLen": 1,
                 "type": "int",
+                "tag": "month",
                 "name": "MONTH"
               },
               {
                 "order": 2,
                 "byteLen": 1,
                 "type": "int",
+                "tag": "day",
                 "name": "DAY"
               },
               {
                 "order": 3,
                 "byteLen": 1,
                 "type": "int",
+                "tag": "hour",
                 "name": "HOUR"
               },
               {
                 "order": 4,
                 "byteLen": 1,
                 "type": "int",
+                "tag": "minute",
                 "name": "MINUTE"
               },
               {
                 "order": 5,
                 "byteLen": 1,
                 "type": "int",
+                "tag": "second",
                 "name": "SECOND"
               }
             ]
@@ -1636,7 +1651,7 @@
       },
       {
         "version": 258,
-        "queryCommands": ["95", "0A", "0B", "0C", "0D", "1E", "1F", "99"],
+        "queryCommands": ["0C", "0A", "0B", "0D", "1E", "1F", "99", "95"],
         "commands": [
           {
             "type": "66",
@@ -2265,7 +2280,7 @@
       },
       {
         "version": 259,
-        "queryCommands": ["95", "0A", "0B", "0C", "0D", "1E", "1F", "99"],
+        "queryCommands": ["0C", "0A", "0B", "0D", "1E", "1F", "99", "95"],
         "commands": [
           {
             "type": "6A",
@@ -2572,8 +2587,8 @@
           }
         ]
       },
-      {"version": 991,
-        "queryCommands": ["95", "0A", "0B", "0C", "0D", "1E", "1F", "99"],
+      {"version": 500,
+        "queryCommands": ["0C", "0A", "0B", "0D", "1E", "1F", "99", "95"],
         "commands": [
           {
             "type": "6A",
@@ -2743,9 +2758,33 @@
               },
               {
                 "order": 19,
-                "byteLen": 8,
-                "type": "preserve",
-                "name": "预留4个控制命令"
+                "byteLen": 2,
+                "type": "int",
+                "tag": "parallelType",
+                "name": "并机电池接线类型"
+              },
+              {
+                "order": 20,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "parallelFlag",
+                "name": "单并机标志"
+              },
+              {
+                "order": 21,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "parallelAddr",
+                "name": "并机地址"
+              },
+              {
+                "order": 22,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "电池功率手动限幅",
+                "tag": "batPowerAdjustable",
+                "converter": "map(1:ee00, 2:00ee, default:0000)",
+                "validate": "enumStr(ee00,00ee,0000)"
               }
             ]
           },
@@ -3492,9 +3531,685 @@
               },
               {
                 "order": 19,
-                "byteLen": 8,
-                "type": "preserve",
-                "name": "预留4个控制命令"
+                "byteLen": 2,
+                "type": "int",
+                "tag": "parallelType",
+                "name": "并机电池接线类型"
+              },
+              {
+                "order": 20,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "parallelFlag",
+                "name": "单并机标志"
+              },
+              {
+                "order": 21,
+                "byteLen": 2,
+                "type": "int",
+                "tag": "parallelAddr",
+                "name": "并机地址"
+              },
+              {
+                "order": 22,
+                "byteLen": 2,
+                "type": "hex",
+                "name": "电池功率手动限幅",
+                "tag": "batPowerAdjustable",
+                "converter": "map(ee00:1, 00ee:2, default:0)"
+              }
+            ]
+          },
+          {
+            "type": "0B",
+            "comment": "控制柜信息显示",
+            "op": 1,
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "PV1 电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 1,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PV1 电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 2,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PVI 功率",
+                "unitValue": "1",
+                "unitType": "W"
+              },
+              {
+                "order": 3,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "PV2 电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 4,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PV2 电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 5,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PV2 功率",
+                "unitValue": "1",
+                "unitType": "W"
+              },
+              {
+                "order": 6,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "逆变 A 相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 7,
+                "byteLen": 2,
+                "type": "int",
+                "name": "逆变 A 相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 8,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网 A 相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 9,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网 AB 线电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 10,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电网 A 相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 11,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "逆变 B 相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 12,
+                "byteLen": 2,
+                "type": "int",
+                "name": "逆变 B 相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 13,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网 B 相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 14,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网 BC 线电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 15,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电网 B 相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 16,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "逆变 C 相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 17,
+                "byteLen": 2,
+                "type": "int",
+                "name": "逆变 C 相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 18,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网 C 相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 19,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网 CA 线电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 20,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电网 C 相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 21,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "电网频率",
+                "unitValue": "0.01",
+                "unitType": "HZ"
+              },
+              {
+                "order": 22,
+                "byteLen": 2,
+                "type": "int",
+                "name": "功率因数",
+                "unitValue": "0.001"
+              },
+              {
+                "order": 23,
+                "byteLen": 2,
+                "type": "int",
+                "name": "网侧有功功率",
+                "unitValue": "1",
+                "unitType": "W"
+              },
+              {
+                "order": 24,
+                "byteLen": 2,
+                "type": "int",
+                "name": "网侧无功功率",
+                "unitValue": "1",
+                "unitType": "W"
+              },
+              {
+                "order": 25,
+                "byteLen": 2,
+                "type": "int",
+                "name": "系统视在功率",
+                "unitValue": "1",
+                "unitType": "Var"
+              },
+              {
+                "order": 26,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 27,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 28,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "直流正母线电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 29,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "直流负母线电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 30,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "直流双边母线电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 31,
+                "byteLen": 2,
+                "type": "int",
+                "name": "直流功率",
+                "unitValue": "1",
+                "unitType": "W"
+              },
+              {
+                "order": 32,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "机内温度",
+                "unitValue": "0.1",
+                "unitType": "℃"
+              },
+              {
+                "order": 33,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "10K:直流正母线备份电压5/6K: 二级母线1",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 34,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "10K:直流负母线备份电压5/6K: 二级母线2",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 35,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "设备类型编码"
+              },
+              {
+                "order": 36,
+                "byteLen": 2,
+                "type": "uInt",
+                "tag": "dspHighVersion",
+                "name": "软件版本号高位"
+              },
+              {
+                "order": 37,
+                "byteLen": 2,
+                "type": "uInt",
+                "tag": "dspLowVersion",
+                "name": "软件版本号低位"
+              },
+              {
+                "order": 38,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "并机地址"
+              },
+              {
+                "order": 39,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "工作效率"
+              },
+              {
+                "order": 40,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池电流1",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 41,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池电流2",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 42,
+                "byteLen": 2,
+                "type": "int",
+                "name": "模块 A1 温度",
+                "unitValue": "0.1",
+                "unitType": "℃"
+              },
+              {
+                "order": 43,
+                "byteLen": 2,
+                "type": "int",
+                "name": "模块 B1 温度",
+                "unitValue": "0.1",
+                "unitType": "℃"
+              },
+              {
+                "order": 44,
+                "byteLen": 2,
+                "type": "int",
+                "name": "模块 C1 温度",
+                "unitValue": "0.1",
+                "unitType": "℃"
+              },
+              {
+                "order": 45,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "负载A相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 46,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "负载B相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 47,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "负载C相电压",
+                "unitValue": "0.1",
+                "unitType": "V"
+              },
+              {
+                "order": 48,
+                "byteLen": 2,
+                "type": "uInt",
+                "name": "负载电压频率",
+                "unitValue": "0.01",
+                "unitType": "HZ"
+              },
+              {
+                "order": 49,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载A相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 50,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载B相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 51,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载C相电流",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 52,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载功率因数",
+                "unitValue": "0.001"
+              },
+              {
+                "order": 53,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载有功功率",
+                "unitValue": "1",
+                "unitType": "VA"
+              },
+              {
+                "order": 54,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载无功功率",
+                "unitValue": "1",
+                "unitType": "Var"
+              },
+              {
+                "order": 55,
+                "byteLen": 2,
+                "type": "int",
+                "name": "负载视在功率",
+                "unitValue": "1",
+                "unitType": "W"
+              },
+              {
+                "order": 56,
+                "byteLen": 2,
+                "type": "int",
+                "name": "逆变有功功率(并机数据)",
+                "unitValue": "0.01",
+                "unitType": "KW"
+              },
+              {
+                "order": 57,
+                "byteLen": 2,
+                "type": "int",
+                "name": "逆变无功功率(并机数据)",
+                "unitValue": "0.01",
+                "unitType": "KVar"
+              },
+              {
+                "order": 58,
+                "byteLen": 2,
+                "type": "int",
+                "name": "逆变视在功率(并机数据)",
+                "unitValue": "0.01",
+                "unitType": "KW"
+              },
+              {
+                "order": 59,
+                "byteLen": 2,
+                "type": "int",
+                "name": "本地负载有功功率(并机数据)",
+                "unitValue": "0.01",
+                "unitType": "KW"
+              },
+              {
+                "order": 60,
+                "byteLen": 2,
+                "type": "int",
+                "name": "本地负载无功功率(并机数据)",
+                "unitValue": "0.01",
+                "unitType": "KVar"
+              },
+              {
+                "order": 61,
+                "byteLen": 2,
+                "type": "int",
+                "name": "本地负载视在功率(并机数据)",
+                "unitValue": "0.01",
+                "unitType": "KW"
+              },
+              {
+                "order": 62,
+                "byteLen": 2,
+                "type": "int",
+                "name": "本地负载A相有功功率(并机数据)",
+                "unitValue": "0.01",
+                "unitType": "KW"
+              },
+              {
+                "order": 63,
+                "byteLen": 2,
+                "type": "int",
+                "name": "本地负载B相有功功率(并机数据)",
+                "unitValue": "0.01",
+                "unitType": "KW"
+              },
+              {
+                "order": 64,
+                "byteLen": 2,
+                "type": "int",
+                "name": "本地负载C相有功功率(并机数据)",
+                "unitValue": "0.01",
+                "unitType": "KW"
+              },
+              {
+                "order": 65,
+                "byteLen": 2,
+                "type": "int",
+                "name": "PV总功率(并机数据)",
+                "unitValue": "0.01",
+                "unitType": "KW"
+              },
+              {
+                "order": 66,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池总功率(并机数据)",
+                "unitValue": "0.01",
+                "unitType": "KW"
+              },
+              {
+                "order": 67,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池总电流(并机数据)",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 68,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池总充电电流(并机数据)",
+                "unitValue": "0.1",
+                "unitType": "A"
+              },
+              {
+                "order": 69,
+                "byteLen": 2,
+                "type": "int",
+                "name": "电池总放电电流(并机数据)",
+                "unitValue": "0.1",
+                "unitType": "A"
+              }
+            ]
+          },
+          {
+            "type": "B0",
+            "comment": "设置路由器和服务器",
+            "op": "3",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 1,
+                "type": "int",
+                "tag": "style",
+                "name": "Wifi工作模式",
+                "validate": "enum(0,1)"
+              },
+              {
+                "order": 1,
+                "byteLen": 30,
+                "type": "string",
+                "tag": "ssid",
+                "name": "路由器SSID",
+                "converter": "subZero",
+                "validate": "lenRange(1, 31)"
+              },
+              {
+                "order": 2,
+                "byteLen": 30,
+                "type": "string",
+                "tag": "password",
+                "name": "路由器PASSWORD",
+                "converter": "subZero",
+                "validate": "lenRange(1, 31)"
+              },
+              {
+                "order": 3,
+                "byteLen": 20,
+                "type": "string",
+                "tag": "ip",
+                "name": "服务器IP",
+                "converter": "subZero",
+                "validate": "ip"
+              },
+              {
+                "order": 4,
+                "byteLen": 10,
+                "type": "string",
+                "tag": "port",
+                "converter": "subZero",
+                "name": "服务器端口号"
+              }
+            ]
+          },
+          {
+            "type": "B1",
+            "comment": "查询路由器和服务器",
+            "op": "1",
+            "fields": [
+              {
+                "order": 0,
+                "byteLen": 1,
+                "type": "int",
+                "tag": "style",
+                "name": "Wifi工作模式"
+              },
+              {
+                "order": 1,
+                "byteLen": 30,
+                "type": "string",
+                "tag": "ssid",
+                "name": "路由器SSID",
+                "converter": "subZero"
+              },
+              {
+                "order": 2,
+                "byteLen": 30,
+                "type": "string",
+                "tag": "password",
+                "name": "路由器PASSWORD",
+                "converter": "subZero"
+              },
+              {
+                "order": 3,
+                "byteLen": 20,
+                "type": "string",
+                "tag": "ip",
+                "name": "服务器IP",
+                "converter": "subZero"
+              },
+              {
+                "order": 4,
+                "byteLen": 10,
+                "type": "string",
+                "tag": "port",
+                "converter": "subZero",
+                "name": "服务器端口号"
               }
             ]
           }
