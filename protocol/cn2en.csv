@@ -1,0 +1,265 @@
+设置强制充放电信息;Set mandatory charging and discharging information
+10K:直流正母线备份电压5/6K: 二级母线1;10K: DC positive bus backup voltage 5/6K: Secondary bus 1
+10K:直流负母线备份电压5/6K: 二级母线2;10K: DC negative bus backup voltage 5/6K: Secondary bus 2
+AC侧自检步骤;AC side self-test steps
+AC侧运行模式;AC side operation mode
+AC侧运行状态;AC side running status
+AC耦合PV源选择;AC coupled PV source selection
+bin中固定内容;Fixed content in bin
+BMS告警信息显示;BMS alarm information display
+bms连接状态;bms connection status
+DC侧电池类型;DC side battery type
+DC侧自检步骤;DC side self-test steps
+DC侧运行状态;DC side running status
+IP获取类型;IP acquisition type
+工作模式;Operating mode
+Operating mode设置2;Operating mode setting 2
+Operating mode设置;Operating mode setting
+PV1 电压;PV1 voltage
+PV1 电流;PV1 current
+PV2 功率;PV2 power
+PV2 电压;PV2 voltage
+PV2 电流;PV2 current
+PVI 功率;PVI power
+PV侧自检步骤;PV side self-test steps
+PV侧运行状态;PV side running status
+PV并离网;PV and off-grid
+PV总功率(并机数据);PV total power (parallel data)
+PV状态字;PV status word
+SOC<10时是否充电(尖);Whether to charge (tip) when SOC<10
+SOC<10时是否充电(尖);Whether to charge when SOC<10 (tip)
+SOC<10时是否充电(峰);Whether to charge (peak) when SOC<10
+SOC<10时是否充电(峰);Whether to charge when SOC<10 (peak)
+SOC<10时是否充电(平);Whether to charge (flat) when SOC<10
+SOC<10时是否充电(平);Whether to charge when SOC<10 (flat)
+SOC<10时是否充电(谷);Whether to charge (valley) when SOC<10
+SOC<10时是否充电(谷);Whether to charge when SOC<10 (valley)
+SOC>20时是否放电(尖);Whether to discharge (tip) when SOC>20
+SOC>20时是否放电(尖);Whether to discharge when SOC>20 (tip)
+SOC>20时是否放电(峰);Whether to discharge (peak) when SOC>20
+SOC>20时是否放电(峰);Whether to discharge when SOC>20 (peak)
+SOC>20时是否放电(平);Whether to discharge when SOC>20 (flat)
+SOC>20时是否放电(谷);Whether to discharge (valley) when SOC>20
+SOC>20时是否放电(谷);Whether to discharge when SOC>20 (valley)
+Wifi工作模式;Wifi working mode
+三相不平衡输出;Three-phase unbalanced output
+主/从机标志;master/slave flag
+主函数地址;main function address
+今日节省电费;Save money on electricity today
+充/放电次数;Charge/discharge times
+充放电状态;Charge and discharge status
+充电功率上限;Charging power limit
+充电截止电压;charge cut-off voltage
+光伏总发电量;Total photovoltaic power generation
+光伏日发电量;PV daily power generation
+光储一体机协议pcu升级协议;Optical storage all-in-one machine protocol pcu upgrade protocol
+光储一体机协议;optical storage all-in-one machine protocol
+共有多少组数据;How many sets of data are there
+共有多少组数据;How many sets of data are there in total
+功率因数设置;power factor setting
+功率降额标志;power derating flag
+升级DSP程序;Upgrade DSP program
+升级PCU程序;Upgrade PCU program
+升级数据;upgrade data
+升级的应用程序CRC;Upgraded application CRC
+升级的应用程序长度;Upgraded Application Length
+升级结果;upgrade result
+协议版本号;protocol version number
+单位电价（尖）;unit electricity price (tip)
+单位电价（峰）;unit electricity price (peak)
+单位电价（平）;unit electricity price (flat)
+单位电价（谷）;unit electricity price (valley)
+单/并机标志;Single/Parallel logo
+单并机标志;Single parallel machine sign
+后备负载供电顺序;Backup load power supply sequence
+后备输出功能;backup output function
+后续设置寄存器个数（最大10个）;Subsequent setting of the number of registers (maximum 10)
+周一是否使能;Whether to enable Monday
+周三是否使能;Whether to enable Wednesday
+周二是否使能;Whether to enable Tuesday
+周五是否使能;Whether to enable Friday
+周六是否使能;Whether to enable Saturday
+周四是否使能;Whether to enable Thursday
+周日是否使能;Whether to enable Sunday
+固定内容0000;Fixed content 0000
+字符;character
+寄存器地址;register address
+寄存器查询;Register query
+寄存器的值;register value
+寄存器设置;Register settings
+尖峰平谷;peaks and valleys
+工作参数设置2;Working parameter setting 2
+工作效率;work efficiency
+市电充电电流上限;Mains charging current upper limit
+并机地址;Parallel address
+并机电池接线类型;Parallel battery connection type
+并机运行台数;The number of units running in parallel
+并网SOC下限设置;Grid-connected SOC lower limit setting
+并网今日用电量;Grid-connected electricity consumption today
+并网功率上限;Grid-connected power upper limit
+并网总用电量;Grid-connected total power consumption
+开关机;switch machine
+强冲一天时间段数;Forcibly rush the number of time periods in a day
+强制充放电信息;Forced charge and discharge information
+强制充电soc上限;Force charging soc upper limit
+当日电池充电;Battery charging on the day
+当日电池放电;battery discharge on the day
+当日电网买电;The grid buys electricity on the same day
+微网模式下电池SOC回差;In the micro grid mode the battery SOC hysteresis
+总功率数据;total power data
+总日电池充电;total daily battery charge
+总日电池放电;total daily battery discharge
+总电网买电;total grid electricity purchase
+总节省电费;total savings on electricity bills
+恢复出厂设置;reset
+控制命令设置;Control command settings
+控制柜信息显示;Control cabinet information display
+放电功率下限;Lower limit of discharge power
+放电截止电压;discharge cut-off voltage
+故障状态字0;Fault status word 0
+故障状态字1;Fault status word 1
+故障状态字2;Fault status word 2
+故障状态字3;Fault status word 3
+故障状态字4;Fault status word 4
+旁路模式是否使能;Whether bypass mode is enabled
+时间校准设置;Time Calibration Settings
+是否开启强制充电;Whether to enable forced charging
+是否开启强制放电;Whether to enable forced discharge
+最大允许充电电流;maximum allowable charging current
+最大允许放电电流;Maximum allowable discharge current
+服务器IP;server IP
+服务器端口号;server port number
+本地WIFI模块网络配置;Local WIFI module network configuration
+本地负载A相有功功率(并机数据);Local load phase A active power (parallel data)
+本地负载B相有功功率(并机数据);Local load B-phase active power (parallel data)
+本地负载C相有功功率(并机数据);Local load phase C active power (parallel data)
+本地负载无功功率(并机数据);Local load reactive power (parallel data)
+本地负载有功功率(并机数据);Local load active power (parallel data)
+本地负载视在功率(并机数据);Local load apparent power (parallel data)
+机内温度;internal temperature
+机型代码;model code
+查询DRM状态;Query DRM status
+查询路由器和服务器;Query routers and servers
+模块 A1 温度;Module A1 temperature
+模块 B1 温度;Module B1 temperature
+模块 C1 温度;Module C1 temperature
+油机额定功率;engine rated power
+电池soc;battery soc
+电池soh;battery soh
+电池信息显示;Battery information display
+电池充放电功率（指令模式有效）;Battery charging and discharging power (command mode is valid)
+电池充放电（指令模式生效）;Battery charging and discharging (command mode takes effect)
+电池功率手动限幅;Battery power manual limiter
+电池厂商号（代码列表）;Battery manufacturer number (code list)
+电池压力;battery pressure
+电池告警0;battery warning 0
+电池总充电电流(并机数据);Total battery charging current (parallel data)
+电池总功率(并机数据);Total battery power (parallel data)
+电池总放电电流(并机数据);Total battery discharge current (parallel data)
+电池总电流(并机数据);Total battery current (parallel data)
+电池有告警;battery warning
+电池有错误;battery error
+电池温度;battery temperature
+电池激活;battery activated
+电池状态;battery status
+电池电压上限;battery voltage upper limit
+电池电压下限;battery voltage lower limit
+电池电压是否可设;Whether the battery voltage can be set
+电池电压;battery voltage
+电池电流1;battery current 1
+电池电流2;battery current 2
+电池电流;battery current
+电池通信协议选择;Battery communication protocol selection
+电池通讯连接状态;Battery communication connection status
+电网 AB 线电压;Grid AB line voltage
+电网 A 相电压;Grid A phase voltage
+电网 A 相电流;Grid A phase current
+电网 BC 线电压;Grid BC line voltage
+电网 B 相电压;Grid B phase voltage
+电网 B 相电流;Grid B-phase current
+电网 CA 线电压;Grid CA line voltage
+电网 C 相电压;grid phase C voltage
+电网 C 相电流;grid phase C current
+电网代码;grid code
+电网掉电;grid power down
+电网电压跌落调节方式;Grid voltage drop adjustment method
+电网电池电量数据;Grid battery power data
+电网电池类型设置;Grid battery type setting
+电网电量数据;Grid power data
+电网频率;grid frequency
+电表检测功能;Meter detection function
+电表连接状态;Meter connection status
+电表通讯协议选择;Meter communication protocol selection
+直流功率;DC power
+直流双边母线电压;DC bilateral bus voltage
+直流正母线电压;DC positive bus voltage
+直流负母线电压;DC negative bus voltage
+离网SOC下限设置;Off-grid SOC lower limit setting
+系统信息查询;System Information Query
+系统故障状态显示;System fault status display
+系统视在功率;system apparent power
+结束时间;End Time
+继电器自检使能;Relay self-test enable
+综合电池告警1;Comprehensive battery warning 1
+网侧无功功率;grid-side reactive power
+网侧有功功率;Grid-side active power
+自定义模式设置;Custom Mode Settings
+要查询的寄存器个数（最大10个）;The number of registers to be queried (up to 10)
+设备类型编码;device type code
+设备运行状态;Equipment running status
+设置WIFI密码;Set WIFI password
+设置云端服务器信息;Set cloud server information
+设置参数信息2;Set parameter information 2
+设置参数查询;Set parameter query
+设置路由器信息;Set router information
+设置路由器和服务器;Set up routers and servers
+负载A相电压;Load phase A voltage
+负载A相电流;load phase A current
+负载B相电压;Load phase B voltage
+负载B相电流;load phase B current
+负载C相电压;Load phase C voltage
+负载C相电流;load phase C current
+负载今日用电量;load today's power consumption
+负载功率因数;load power factor
+负载总用电量;Total load power consumption
+负载无功功率;load reactive power
+负载日用电量;load daily power consumption
+负载有功功率;load active power
+负载电压频率;load voltage frequency
+负载电量数据;Load power data
+负载视在功率;load apparent power
+起始时间;start time
+路由器PASSWORD;Router PASSWORD
+路由器SSID;router SSID
+软件版本号低位;The lower digit of the software version number
+软件版本号高位;The high digit of the software version number
+运行DSP程序;run DSP program
+运行PCU程序;Run the PCU program
+远端负载;remote load
+远端负载功率;remote load power
+逆变 A 相电压;Invert A-phase voltage
+逆变 A 相电流;Invert phase A current
+逆变 B 相电压;Invert B-phase voltage
+逆变 B 相电流;Invert B-phase current
+逆变 C 相电压;Invert C-phase voltage
+逆变 C 相电流;Invert C-phase current
+逆变器状态字;inverter status word
+逆变无功功率(并机数据);Inverter reactive power (parallel data)
+逆变有功功率(并机数据);Inverter active power (parallel data)
+逆变视在功率(并机数据);Invert apparent power (parallel data)
+部分数据;part of data
+铅酸电池AH值;AH value of lead-acid battery
+铅酸电池EOD;Lead-acid battery EOD
+铅酸电池均充电压;lead-acid battery charging voltage
+铅酸电池浮充电压;Lead-acid battery float charge voltage
+防逆流功能;anti-backflow function
+防逆流功能;Anti-reflux function
+阴影扫描;shadow scan
+预留20个控制命令;Reserve 20 control commands
+预留二十个控制命令;Twenty control commands are reserved
+预留十个控制命令;Reserve ten control commands
+预留字段;reserved fields
+预留;reserve
+角;currency
+元;currency
+功率因数;power factor
