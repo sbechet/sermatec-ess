@@ -200,3 +200,23 @@ If you send only first message, you block state-macine forever and must reboot.
 - 80/tcp   open  http
 - 8000/tcp open  http-alt
 - 8899/tcp open  ospf-lite
+
+# Sermatec TCP Port connecting
+
+## Cloud server send...
+
+`8.209.71.159` is Sermatec European Cloud server: you can try.
+
+```
+$ netcat -o 19042.txt 8.209.71.159 19042
+...
+cat 19042_2.bin 
+< 00000000 fe 55 64 14 98 00 00 4c ae                      # .Ud....L.
+< 00000009 fe 55 64 14 98 00 00 4c ae                      # .Ud....L.
+< 00000012 75 9a b0 f9 8a 06 68 85 fc                      # u.....h..
+< 0000001b 75 9a b0 f9 8a 06 68 85 fc                      # u.....h..
+```
+
+# Sermatec Inverter in AP mode
+
+Try to connect on TCO/18899 client.
