@@ -1,45 +1,169 @@
 My small contribution to reverse Sermatec-Ess 光储一体机协议
 
-# Proxmox 6.4 Wifi Network configuration
-
-## IWD Configuration
+# CLI Example
 
 ```
-systemctl --now disable wpa_supplicant
-killall wpa_supplicant
-apt remove wpasupplicant
-apt install iwd
-systemctl --now enable iwd
-iwctl
-[iwd]# device list
-[iwd]# device wlp1s0 Powered on
-[iwd]# station list
-[iwd]# station wlp1s0 get-networks
-[iwd]# station wlp1s0 connect $MYNETWORK $MYPASSWORD
-[iwd]# exit
+$ ./sermatec-ess list
+--===~ Sermatec ESS CLI ~===--
+Asking to 10.10.100.254:8899
+
+protocol version number (pcuVersion): 609
+Battery manufacturer number (code list): 30
+model code: 2
+product_sn (sn): STXXXXXXXXXXXXXXXXXXX
+product_sn_ln: 
+
+listing commands:
+
+XXX TESTED AND WORKING FOR ME: 98 0A 0B 0D 99
+sermatec-ess get --el 0a : Battery information display
+sermatec-ess get --el 0b : Control cabinet information display
+sermatec-ess get --el 0c : Equipment running status
+sermatec-ess get --el 0d : bmsMeter connection status
+sermatec-ess get --el 1e : BMS alarm information display
+sermatec-ess get --el 1f : System fault status display
+sermatec-ess get --el 95 : Set parameter query
+sermatec-ess get --el 98 : System Information Query
+sermatec-ess get --el 99 : total power data
+sermatec-ess get --el 9a : Grid power data
+sermatec-ess get --el 9b : Load power data
+sermatec-ess get --el 9c : Grid battery power data
+sermatec-ess get --el 9d : Set parameter information 2
+sermatec-ess get --el a1 : Query DRM status
+sermatec-ess get --el a2 : Forced charge and discharge information
+sermatec-ess get --el b1 : Query routers and servers
+sermatec-ess get --el bb : Register query
 ```
 
-## dhcp client configuration
+```
+./sermatec-ess get --el 0a
+--===~ Sermatec ESS CLI ~===--
+Asking to 10.10.100.254:8899
 
-Only for iwd < 0.19, we must use dhcpcd:
+protocol version number (pcuVersion): 609
+Battery manufacturer number (code list): 30
+model code: 2
+product_sn (sn): STXXXXXXXXXXXXXXXXXXX
+product_sn_ln: 
+
+Getting 0a (Battery information display)...
+battery voltage: 499
+battery current: 0
+battery temperature: 112
+battery soc: 100
+battery soh: 100
+Charge and discharge status: 51
+maximum allowable charging current: 0
+Maximum allowable discharge current: 740
+charge cut-off voltage: 532
+discharge cut-off voltage: 450
+Charge/discharge times: 0
+battery pressure: 0
+battery warning: 0
+battery error: 0
+Battery communication connection status: 0
+```
 
 ```
-apt install dhcpcd5
-echo allowinterfaces wlp1s0 >> /etc/dhcpcd.conf
-systemctl restart dhcpcd
+./sermatec-ess get --el 0b
+--===~ Sermatec ESS CLI ~===--
+Asking to 10.10.100.254:8899
+
+protocol version number (pcuVersion): 609
+Battery manufacturer number (code list): 30
+model code: 2
+product_sn (sn): STXXXXXXXXXXXXXXXXXXX
+product_sn_ln: 
+
+Getting 0b (Control cabinet information display)...
+PV1 voltage: 2875
+PV1 current: 0
+PVI power: 1
+PV2 voltage: 2888
+PV2 current: 0
+PV2 power: 0
+Invert A-phase voltage: 2424
+Invert phase A current: 4
+Grid A phase voltage: 2428
+Grid AB line voltage: 0
+Grid A phase current: 8
+Invert B-phase voltage: 0
+Invert B-phase current: 0
+Grid B phase voltage: 0
+Grid BC line voltage: 0
+Grid B-phase current: 0
+Invert C-phase voltage: 0
+Invert C-phase current: 0
+grid phase C voltage: 0
+Grid CA line voltage: 0
+grid phase C current: 0
+grid frequency: 5000
+power factor: 40
+Grid-side active power: 7
+grid-side reactive power: 151
+system apparent power: 151
+battery current: -4
+battery voltage: 508
+DC positive bus voltage: 0
+DC negative bus voltage: 0
+DC bilateral bus voltage: 3799
+DC power: -17
+internal temperature: 286
+10K: DC positive bus backup voltage 5/6K: Secondary bus 1: 2919
+10K: DC negative bus backup voltage 5/6K: Secondary bus 2: 2919
+device type code: 0
+The high digit of the software version number (dspHighVersion): 128
+The lower digit of the software version number (dspLowVersion): 0
+Parallel address: 0
+work efficiency: 0
+battery current 1: -4
+battery current 2: 0
+Module A1 temperature: 173
+Module B1 temperature: 181
+Module C1 temperature: 0
+Load phase A voltage: 2426
+Load phase B voltage: 0
+Load phase C voltage: 0
+load voltage frequency: 5001
+load phase A current: 1
+load phase B current: 0
+load phase C current: 0
+load power factor: -576
+load active power: 0
+load reactive power: -32
+load apparent power: 39
+Inverter active power (parallel data): 0
+Inverter reactive power (parallel data): 0
+Invert apparent power (parallel data): 0
+Local load active power (parallel data): 0
+Local load reactive power (parallel data): 0
+Local load apparent power (parallel data): 0
+Local load phase A active power (parallel data): 0
+Local load B-phase active power (parallel data): 0
+Local load phase C active power (parallel data): 0
+PV total power (parallel data): 0
+Total battery power (parallel data): 0
+Total battery current (parallel data): 0
+Total battery charging current (parallel data): 0
+Total battery discharge current (parallel data): 0
 ```
 
-## /etc/network/interfaces
+# Help WANTED
 
-add to interfaces configuration:
+I'm looking for 5K PCU firmware, specificly for `PCU5KSL_609.bin` please help :)
 
-```
-auto wlp1s0
-iface wlp1s0 inet dhcp
-        post-up   iptables -t nat -A POSTROUTING -s '192.168.0.0/24' -o wlp1s0 -j MASQUERADE
-        post-down iptables -t nat -D POSTROUTING -s '192.168.0.0/24' -o wlp1s0 -j MASQUERADE
-```
+# TODO
 
+- 0C: bit, bitRange
+- 1E: onePosition, preserve
+- 1F: onePosition, preserve
+- 95: hex
+- 9B: use repeat field
+- 9C: error in JSON? (answer example: fe, 55, 14, 64, 9c, 0, 14, 0, 1, 0, a, 0, 1, 0, 0, 0, 6, 0, 0, 0, ff, 0, 0, 0, 7e, 0, 0, d1, ae)
+- 9D: hex, preserve
+- A1: bit
+- A2: bitRange, preserve
+- BB: do not use or reboot! (two parts message)
 
 # Note
 
@@ -60,250 +184,19 @@ Sermatec Interter try to connect to IP cloud server on default port 19042 every 
 
 ** THIS IS A SECURITY ISSUE **
 
-Cloud server can send commands to Sermatec Inverter and reconfigure (or destroy) all directly.
+- Cloud server can send commands to Sermatec Inverter and reconfigure (or destroy) all directly.
+- Cloud server can ask Query routers and servers (B1) to get SSID and PASSWORD AP!
 
+# DENIAL App Access
 
-# Nmap
+** THIS IS A SECURITY ISSUE **
 
-```
-nmap 10.10.100.254
-Starting Nmap 7.70 ( https://nmap.org ) at 2023-01-28 18:19 CET
-Nmap scan report for 10.10.100.254
-Host is up (0.021s latency).
-Not shown: 996 closed ports
-PORT     STATE SERVICE
-23/tcp   open  telnet
-80/tcp   open  http
-8000/tcp open  http-alt
-8899/tcp open  ospf-lite
-MAC Address: 9C:A5:25:D5:2E:96 (Shandong USR IOT Technology Limited)
+Register query (BB) is a two messages parts!
+If you send only first message, you block state-macine forever and must reboot.
 
-Nmap done: 1 IP address (1 host up) scanned in 17.16 seconds
-```
+# Open TCP Ports
 
-# Example
-
-`$ ./sermatec-ess list`
-
-```
-# Inverter
-
-10.10.100.254:8899
-
-# JSON Command
-
-Command {
-    cmd: "98",
-    comment: "System Information Query",
-    op: 1,
-    fields: [
-        Field {
-            order: 0,
-            byte_len: 2,
-            byte_order: 0,
-            tag: "pcuVersion",
-            type_type: "int",
-            name: "protocol version number",
-            converter: "",
-            validate: "",
-            unit_type: "",
-            unit_value: "",
-            precision: 0,
-            group: 0,
-            group_tag: "",
-            repeat: 0,
-            repeat_ref: 0,
-            repeat_group: 0,
-            from_bit: 0,
-            end_bit: 0,
-            bit_position: 0,
-            same: false,
-            default_value: "",
-            return_value: "",
-        },
-        Field {
-            order: 1,
-            byte_len: 2,
-            byte_order: 0,
-            tag: "",
-            type_type: "int",
-            name: "Battery manufacturer number (code list)",
-            converter: "",
-            validate: "",
-            unit_type: "",
-            unit_value: "",
-            precision: 0,
-            group: 0,
-            group_tag: "",
-            repeat: 0,
-            repeat_ref: 0,
-            repeat_group: 0,
-            from_bit: 0,
-            end_bit: 0,
-            bit_position: 0,
-            same: false,
-            default_value: "",
-            return_value: "",
-        },
-        Field {
-            order: 2,
-            byte_len: 2,
-            byte_order: 0,
-            tag: "",
-            type_type: "int",
-            name: "model code",
-            converter: "",
-            validate: "",
-            unit_type: "",
-            unit_value: "",
-            precision: 0,
-            group: 0,
-            group_tag: "",
-            repeat: 0,
-            repeat_ref: 0,
-            repeat_group: 0,
-            from_bit: 0,
-            end_bit: 0,
-            bit_position: 0,
-            same: false,
-            default_value: "",
-            return_value: "",
-        },
-        Field {
-            order: 3,
-            byte_len: 26,
-            byte_order: 0,
-            tag: "sn",
-            type_type: "string",
-            name: "product_sn",
-            converter: "",
-            validate: "",
-            unit_type: "",
-            unit_value: "",
-            precision: 0,
-            group: 0,
-            group_tag: "",
-            repeat: 0,
-            repeat_ref: 0,
-            repeat_group: 0,
-            from_bit: 0,
-            end_bit: 0,
-            bit_position: 0,
-            same: false,
-            default_value: "",
-            return_value: "",
-        },
-        Field {
-            order: 4,
-            byte_len: 18,
-            byte_order: 0,
-            tag: "",
-            type_type: "string",
-            name: "product_sn_ln",
-            converter: "",
-            validate: "",
-            unit_type: "",
-            unit_value: "",
-            precision: 0,
-            group: 0,
-            group_tag: "",
-            repeat: 0,
-            repeat_ref: 0,
-            repeat_group: 0,
-            from_bit: 0,
-            end_bit: 0,
-            bit_position: 0,
-            same: false,
-            default_value: "",
-            return_value: "",
-        },
-    ],
-}
-
-# Question
-
-[fe, 55, 64, 14, 98, 0, 0, 4c, ae]
-
-# Answer:
-
-[fe, 55, 14, 64, 98, 0, 32, 2, 61, 0, 1e, 0, 2, 53, 54, 33, 31, ... , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 79, ae]
-
-# System Information Query
-
-Ok(
-    [
-        (
-            "pcuVersion",
-            "protocol version number",
-            Int(
-                609,
-            ),
-        ),
-        (
-            "",
-            "Battery manufacturer number (code list)",
-            Int(
-                30,
-            ),
-        ),
-        (
-            "",
-            "model code",
-            Int(
-                2,
-            ),
-        ),
-        (
-            "sn",
-            "product_sn",
-            String(
-                "ST31XXXXXXXXX",
-            ),
-        ),
-        (
-            "",
-            "product_sn_ln",
-            String(
-                "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-            ),
-        ),
-    ],
-)
-
-listing all...
-TODO, check with current_version
-# Version 0
-## Command 98() System Information Query
-TODO, check with current_version
-# Version 252
-## Command 0A() Battery information display
-## Command 0B() Control cabinet information display
-## Command 0C() Equipment running status
-## Command 1E() BMS alarm information display
-## Command 1F() System fault status display
-## Command 99() total power data
-## Command 9A() Grid power data
-## Command 9B() Load power data
-## Command 95() Set parameter query
-TODO, check with current_version
-# Version 258
-## Command 0D() bmsMeter connection status
-## Command 1E() BMS alarm information display
-## Command 9C() Grid battery power data
-## Command A1() Query DRM status
-## Command 95() Set parameter query
-TODO, check with current_version
-# Version 259
-## Command 95() Set parameter query
-## Command 9D() Set parameter information 2
-TODO, check with current_version
-# Version 500
-## Command A2() Forced charge and discharge information
-## Command 9D() Set parameter information 2
-## Command 0B() Control cabinet information display
-## Command B1() Query routers and servers
-TODO, check with current_version
-# Version 603
-## Command 9D() Set parameter information 2
-## Command BB() Register query
-```
+- 23/tcp   open  telnet
+- 80/tcp   open  http
+- 8000/tcp open  http-alt
+- 8899/tcp open  ospf-lite

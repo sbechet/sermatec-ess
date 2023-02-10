@@ -3,8 +3,7 @@ use std::net::{ Ipv4Addr, SocketAddr, TcpStream };
 use clap::{Parser, Subcommand};
 
 mod protocol;
-use protocol::{ Protocol, FieldType };
-
+use protocol::{ Protocol, FieldType, nom_helper::hexadecimal_u16_value };
 
 #[derive(Parser)]
 struct Cli {
@@ -51,27 +50,24 @@ fn main() -> std::io::Result<()> {
     } else {
         8899
     };
-    println!("# Inverter\n\n{:?}:{}\n", sermatec_ip, sermatec_port);
+    println!("--===~ Sermatec ESS CLI ~===--");
+    println!("Asking to {:?}:{}\n", sermatec_ip, sermatec_port);
     let sermatec_socket: SocketAddr = SocketAddr::from((sermatec_ip, sermatec_port));
     let mut stream = TcpStream::connect(sermatec_socket)?;
 
-    // First step: Query 98@version0 to know real version
     let command = p["osim"].get_command(0, "98").unwrap();
-    println!("# JSON Command\n\n{:#?}\n", command);
     let packet = command.build_packet().unwrap();
-    println!("# Question\n\n{:x?}\n", packet);
     stream.write(&packet)?;
 
-    let elements = command.parse_answer(98,&mut stream);
-    // Print results for debug purpose
-    println!("# {}\n\n{:#?}\n", command.comment, elements);
-    let mut pcu_version = 9999;
+    let elements = command.parse_answer(&mut stream);
+    command.print_nice_answer(&elements);
+    let mut pcu_version: i16 = 0;
     match elements {
         Ok(elts) => {
             for e in &elts {
                 if e.0 == "pcuVersion" {
                     if let FieldType::Int(v) = e.2 {
-                        pcu_version = v;
+                        pcu_version = v as i16;
                         break;
                     }
                 }
@@ -85,17 +81,23 @@ fn main() -> std::io::Result<()> {
     // Next step ask a real question...
     match &cli.command {
         Some(Commands::Get { el }) => {
-            if *el != "98" {
-                println!("Getting {}...TODO", el);
-                // TODO: howto check good commands compatible versions
+            if *el == "BB" {
+                println!("SECURITY ISSUE: Denial App Access. See README.md");
+            }
+            else if *el != "98" {
+                let (_input, c) = hexadecimal_u16_value(&el).unwrap();
+                let cmds = p["osim"].get_commands(pcu_version);
+                let cmd = cmds[&c];
+                println!("Getting {} ({})...", el, cmd.comment);
+                let packet = cmd.build_packet().unwrap();
+                stream.write(&packet)?;
+                let elements = cmd.parse_answer(&mut stream);
+                cmd.print_nice_answer(&elements);
             }
         },
         Some(Commands::List {}) => {
-            println!("listing all...");
-            // TODO: add minimal API version
-            // TODO: for now implement op 1
-            // TODO: one day later add op 2 and op 3 API
-            p["osim"].listing(pcu_version, 1);
+            println!("listing commands:\n");
+            p["osim"].listing(pcu_version);
         },
         None => {}
     }

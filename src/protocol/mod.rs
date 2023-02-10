@@ -1,7 +1,5 @@
-// use core::slice::SlicePattern;
-use std::{collections::HashMap, io::Read};
+use std::{collections::{BTreeMap, HashMap}, io::Read};
 use std::net::TcpStream;
-// use std::result::Result::{ Err, Ok };
 use std::vec;
 use nom::IResult;
 use nom::bytes::complete::*;
@@ -9,8 +7,10 @@ use nom::number::complete::*;
 use nom::{Err, error::ErrorKind, error::ParseError};
 use serde::{Deserialize, Serialize};
 use serde_with::{serde_as, DisplayFromStr, PickFirst};
-// use serde_json::Result;
 use hex;
+
+pub mod nom_helper;
+use nom_helper::hexadecimal_u16_value;
 
 static PROTOCOL: &[u8] = include_bytes!("../../protocol/protocol-en.json");
 
@@ -23,7 +23,7 @@ pub struct Protocol {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Version {
-    pub version: u16,
+    pub version: i16,
     #[serde(rename="queryCommands")]
     #[serde(default)]
     pub query_commands: Vec<String>,
@@ -107,18 +107,29 @@ pub struct Field {
     return_value: String,
 }
 
-#[derive(Debug)]
 pub enum FieldType {
     // Bit(bool),
-    Int(i16),
+    Int(i64),
     // BitRange(Vec<bool>),
     // Bytes(Vec<u8>),
     // Hex(i16),
-    // Long(i64),
+    Long(i64),
     // OnePosiiton(String),
     // Preserve(Vec<u8>),
     String(String),
-    // UInt(u32),
+    UInt(u16),
+}
+
+impl std::fmt::Debug for FieldType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let t = match &self {
+            FieldType::Int(i) => format!("{}", i),
+            FieldType::Long(i) => format!("{}", i),
+            FieldType::String(s) => format!("{}", s),
+            FieldType::UInt(u) => format!("{}", u),
+        };
+        write!(f, "{}", t)
+    }
 }
 
 impl Protocol {
@@ -128,22 +139,20 @@ impl Protocol {
         protocol.unwrap()
     }
 
-    pub fn listing(&self, current_version: i16, ct: u8) {
-        for e in &self.versions {
-            println!("TODO, check with current_version");
-            println!("# Version {}", e.version);
-            for cmd in &e.commands {
-                if cmd.op == ct {
-                    print!("## Command {}", cmd.cmd);
-                    print!("(");
-                    print!(")");
-                    println!(" {}", cmd.comment);
-                }
+    pub fn listing(&self, current_version: i16) {
+        let cmds = self.get_commands(current_version);
+
+
+        println!("XXX TESTED AND WORKING FOR ME: 98 0A 0B 0D 99 9A");
+        for c in cmds {
+            // TODO: To avoid risky commands, remove documentation for op2 and op3
+            if c.1.op == 1 {
+                println!("sermatec-ess get --el {:02x} : {}", c.0, c.1.comment);
             }
-        }    
+        }
     }
 
-    pub fn get_command(&self, version: u16, command: &str) -> Option<&Command> {
+    pub fn get_command(&self, version: i16, command: &str) -> Option<&Command> {
         for e in &self.versions {
             if e.version == version {
                 for cmd in &e.commands {
@@ -156,6 +165,21 @@ impl Protocol {
         return None;
     }
     
+    pub fn get_commands(&self, pcu_version: i16) -> BTreeMap<u16, &Command> {
+        let mut commands: BTreeMap<u16, &Command> = BTreeMap::new();
+        
+
+        for e in &self.versions {
+            // we overwrite old cmd versions
+            if e.version <= pcu_version {
+                for cmd in &e.commands {
+                    let (_input, c) = hexadecimal_u16_value(&cmd.cmd).unwrap();
+                    commands.insert(c, cmd);
+                }
+            }
+        }
+        return commands;
+    }
 
 }
 
@@ -200,13 +224,24 @@ impl Command {
         return Some(packet);
     }
 
-    fn get_answer_size(&self) -> usize {
-        let mut payload_size: usize = 0;
-        for field in self.fields.iter() {
-            payload_size += field.byte_len as usize;
+
+    pub fn print_nice_answer(&self, answer: &Result<Vec<(String, String, FieldType)>, String>) {
+        match answer {
+            Ok(a) => {
+                for e in a {
+                    if e.0.len() != 0 {
+                        println!("{} ({}): {:?}", e.1, e.0, e.2);
+                    } else {
+                        println!("{}: {:?}", e.1, e.2);
+                    }
+                    
+                }
+                println!();
+            },
+            Err(e) => {
+                println!("Error: {:?}", e);
+            }
         }
-        // header=2 + src=1 + dst=1 + cmd=2 + sizeof_payload=1 + sizeof(payload) + checksum=1 + footer=1
-        return 2+1+1+2+1+payload_size+1+1;
     }
 
     fn parse_sermatec_packet<'a>(&'a self, wanted_cmd: u16, stream: &'a [u8]) -> IResult<&[u8],&[u8]> {
@@ -229,16 +264,13 @@ impl Command {
         }
     }
 
-    pub fn parse_answer(&self, wanted_cmd: u16, stream: &mut TcpStream) -> Result<Vec<(String, String, FieldType)>, String> {
+    pub fn parse_answer(&self, stream: &mut TcpStream) -> Result<Vec<(String, String, FieldType)>, String> {
         let mut buf: [u8; 1024] = [0; 1024];
-        let packet_size = self.get_answer_size();
+        let wanted_cmd = hexadecimal_u16_value(&self.cmd).unwrap().1;
         let mut vec_res: Vec<(String, String, FieldType)> = vec![];
         match stream.read(&mut buf) {
-            Ok(buf_read) => {
-                if buf_read != packet_size {
-                    return Err(format!("Bad packet size, got {}, wanted {}", buf_read, packet_size));
-                }
-                println!("# Answer:\n\n{:x?}\n", &buf[0..packet_size]);
+            Ok(_buf_read) => {
+                // println!("# Answer:\n\n{:x?}\n", &buf[0.._buf_read]);
                 let r = self.parse_sermatec_packet(wanted_cmd, &buf);
                 match r {
                     Ok( (input, _) ) => {
@@ -249,12 +281,12 @@ impl Command {
                                 return Err(format!("JSON Error! fields not sorted for {} command", wanted_cmd));
                             }
                             order = field.order;
-                            let (input2, (tag, name, unit, value) ) = match field.parse(input) {
+                            let (input2, (tag, name, _unit, value) ) = match field.parse(input) {
                                 Ok(v) => v,
-                                Err(_e) => return Err(format!("Command {}, Field {}, Parsing error", wanted_cmd, order)),
+                                Err(_e) => return Err(format!("Command {:x}, Field {}, Parsing error", wanted_cmd, order)),
                             };
                             // Debug:
-                            // println!("tag:{}, name:{}, unit:{}, value:{:?}", tag, name, unit, value);
+                            // println!("tag:{}, name:{}, unit:{}, value:{:?}", tag, name, _unit, value);
                             vec_res.push( (tag.to_string(), name.to_string(), value) );
                             input = input2;
                         }
@@ -280,7 +312,22 @@ impl Field {
         let (input, value) = match self.type_type.as_str() {
             // "bit" => FieldType::Bit(bytes[0] == 1),
             "int" => {
-                let (input, value) = be_i16(input)?;
+                let (input, value) = match self.byte_len {
+                    1 => {
+                        let (input, value) = be_i8(input)?;
+                        (input, value as i64)
+                    },
+                    2 => {
+                        let (input, value) = be_i16(input)?;
+                        (input, value as i64)
+                    },
+                    4 => {
+                        let (input, value) = be_i64(input)?;
+                        (input, value)
+                    },
+                    _ => (input, 0),
+                };
+                // let (input, value) = be_i16(input)?;
                 (input, Some(FieldType::Int(value)))
             },
             // "bitRange" => {
@@ -289,7 +336,10 @@ impl Field {
             // },
             // "bytes" => Bytes(Vec<u8>),
             // "hex" => Hex(i16),
-            // "long" => Long(i64),
+            "long" => {
+                let (input, value) = be_i64(input)?;
+                (input, Some(FieldType::Long(value)))
+            },
             // "onePosition" => OnePosiiton(String),
             // "preserve" => Preserve(Vec<u8>),
             "string" => {
@@ -297,7 +347,10 @@ impl Field {
                 let s = String::from_utf8(v.to_vec()).unwrap();
                 (input, Some(FieldType::String(s)))
             },
-            // "uInt" => UInt(u32),
+            "uInt" => {
+                let (input, value) = be_u16(input)?;
+                (input, Some(FieldType::UInt(value)))
+            },
             _ => (input, None),
         };
         return match value {
