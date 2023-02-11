@@ -46,16 +46,16 @@ product_sn (sn): STXXXXXXXXXXXXXXXXXXX
 product_sn_ln: 
 
 Getting 0a (Battery information display)...
-battery voltage: 499
-battery current: 0
-battery temperature: 112
-battery soc: 100
+battery voltage: 49.6 V
+battery current: 2.6 A
+battery temperature: 10.4 C
+battery soc: 90
 battery soh: 100
-Charge and discharge status: 51
-maximum allowable charging current: 0
-Maximum allowable discharge current: 740
-charge cut-off voltage: 532
-discharge cut-off voltage: 450
+Charge and discharge status: 34
+maximum allowable charging current: 51.800000000000004 A
+Maximum allowable discharge current: 74 A
+charge cut-off voltage: 53.2 V
+discharge cut-off voltage: 45 V
 Charge/discharge times: 0
 battery pressure: 0
 battery warning: 0
@@ -75,76 +75,76 @@ product_sn (sn): STXXXXXXXXXXXXXXXXXXX
 product_sn_ln: 
 
 Getting 0b (Control cabinet information display)...
-PV1 voltage: 2875
-PV1 current: 0
-PVI power: 1
-PV2 voltage: 2888
-PV2 current: 0
-PV2 power: 0
-Invert A-phase voltage: 2424
-Invert phase A current: 4
-Grid A phase voltage: 2428
-Grid AB line voltage: 0
-Grid A phase current: 8
-Invert B-phase voltage: 0
-Invert B-phase current: 0
-Grid B phase voltage: 0
-Grid BC line voltage: 0
-Grid B-phase current: 0
-Invert C-phase voltage: 0
-Invert C-phase current: 0
-grid phase C voltage: 0
-Grid CA line voltage: 0
-grid phase C current: 0
-grid frequency: 5000
-power factor: 40
-Grid-side active power: 7
-grid-side reactive power: 151
-system apparent power: 151
-battery current: -4
-battery voltage: 508
-DC positive bus voltage: 0
-DC negative bus voltage: 0
-DC bilateral bus voltage: 3799
-DC power: -17
-internal temperature: 286
-10K: DC positive bus backup voltage 5/6K: Secondary bus 1: 2919
-10K: DC negative bus backup voltage 5/6K: Secondary bus 2: 2919
+PV1 voltage: 9.3 V
+PV1 current: 0 A
+PVI power: 0 W
+PV2 voltage: 9.3 V
+PV2 current: 0 A
+PV2 power: 0 W
+Invert A-phase voltage: 240.60000000000002 V
+Invert phase A current: 0.5 A
+Grid A phase voltage: 241.20000000000002 V
+Grid AB line voltage: 0 V
+Grid A phase current: 0.8 A
+Invert B-phase voltage: 0 V
+Invert B-phase current: 0 A
+Grid B phase voltage: 0 V
+Grid BC line voltage: 0 V
+Grid B-phase current: 0 A
+Invert C-phase voltage: 0 V
+Invert C-phase current: 0 A
+grid phase C voltage: 0 V
+Grid CA line voltage: 0 V
+grid phase C current: 0 A
+grid frequency: 50.03 HZ
+power factor: -0.03
+Grid-side active power: -6 W
+grid-side reactive power: 175 W
+system apparent power: 175 Var
+battery current: 2.2 A
+battery voltage: 50.400000000000006 V
+DC positive bus voltage: 0 V
+DC negative bus voltage: 0 V
+DC bilateral bus voltage: 379.90000000000003 V
+DC power: 101 W
+internal temperature: 27.900000000000002 ℃
+10K: DC positive bus backup voltage 5/6K: Secondary bus 1: 294.1 V
+10K: DC negative bus backup voltage 5/6K: Secondary bus 2: 295 V
 device type code: 0
 The high digit of the software version number (dspHighVersion): 128
 The lower digit of the software version number (dspLowVersion): 0
 Parallel address: 0
 work efficiency: 0
-battery current 1: -4
-battery current 2: 0
-Module A1 temperature: 173
-Module B1 temperature: 181
-Module C1 temperature: 0
-Load phase A voltage: 2426
-Load phase B voltage: 0
-Load phase C voltage: 0
-load voltage frequency: 5001
-load phase A current: 1
-load phase B current: 0
-load phase C current: 0
-load power factor: -576
-load active power: 0
-load reactive power: -32
-load apparent power: 39
-Inverter active power (parallel data): 0
-Inverter reactive power (parallel data): 0
-Invert apparent power (parallel data): 0
-Local load active power (parallel data): 0
-Local load reactive power (parallel data): 0
-Local load apparent power (parallel data): 0
-Local load phase A active power (parallel data): 0
-Local load B-phase active power (parallel data): 0
-Local load phase C active power (parallel data): 0
-PV total power (parallel data): 0
-Total battery power (parallel data): 0
-Total battery current (parallel data): 0
-Total battery charging current (parallel data): 0
-Total battery discharge current (parallel data): 0
+battery current 1: 1 A
+battery current 2: 1.1 A
+Module A1 temperature: 16.1 ℃
+Module B1 temperature: 15.8 ℃
+Module C1 temperature: 0 ℃
+Load phase A voltage: 240.8 V
+Load phase B voltage: 0 V
+Load phase C voltage: 0 V
+load voltage frequency: 50.03 HZ
+load phase A current: 0.1 A
+load phase B current: 0 A
+load phase C current: 0 A
+load power factor: -0.6990000000000001
+load active power: 0 VA
+load reactive power: -22 Var
+load apparent power: 32 W
+Inverter active power (parallel data): 0 KW
+Inverter reactive power (parallel data): 0 KVar
+Invert apparent power (parallel data): 0 KW
+Local load active power (parallel data): 0 KW
+Local load reactive power (parallel data): 0 KVar
+Local load apparent power (parallel data): 0 KW
+Local load phase A active power (parallel data): 0 KW
+Local load B-phase active power (parallel data): 0 KW
+Local load phase C active power (parallel data): 0 KW
+PV total power (parallel data): 0 KW
+Total battery power (parallel data): 0 KW
+Total battery current (parallel data): 0 A
+Total battery charging current (parallel data): 0 A
+Total battery discharge current (parallel data): 0 A
 ```
 
 # Help WANTED
