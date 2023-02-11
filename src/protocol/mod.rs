@@ -9,6 +9,12 @@ use serde::{Deserialize, Serialize};
 use serde_with::{serde_as, DisplayFromStr, PickFirst};
 use hex;
 
+pub mod fieldtype;
+use fieldtype::FieldType;
+
+pub mod fieldapp;
+use fieldapp::FieldApp;
+
 pub mod nom_helper;
 use nom_helper::hexadecimal_u16_value;
 
@@ -107,32 +113,6 @@ pub struct Field {
     return_value: String,
 }
 
-pub enum FieldType {
-    // Bit(bool),
-    Int(i64),
-    // BitRange(Vec<bool>),
-    // Bytes(Vec<u8>),
-    Hex(u16),
-    Long(i32),
-    // OnePosiiton(String),
-    // Preserve(Vec<u8>),
-    String(String),
-    UInt(u16),
-}
-
-impl std::fmt::Debug for FieldType {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let t = match &self {
-            FieldType::Int(i) => format!("{}", i),
-            FieldType::Hex(u) => format!("{}", u),
-            FieldType::Long(i) => format!("{}", i),
-            FieldType::String(s) => format!("{}", s),
-            FieldType::UInt(u) => format!("{}", u),
-        };
-        write!(f, "{}", t)
-    }
-}
-
 impl Protocol {
     pub fn new() -> HashMap<String, Protocol> {
         let protocol_str = String::from_utf8_lossy(PROTOCOL);
@@ -226,18 +206,12 @@ impl Command {
     }
 
 
-    pub fn print_nice_answer(&self, answer: &Result<Vec<(String, String, FieldType)>, String>) {
+    pub fn print_nice_answer(&self, answer: &Result<Vec<FieldApp>, String>) {
         match answer {
-            Ok(a) => {
-                for e in a {
-                    if e.0.len() != 0 {
-                        println!("{} ({}): {:?}", e.1, e.0, e.2);
-                    } else {
-                        println!("{}: {:?}", e.1, e.2);
-                    }
-                    
+            Ok(fas) => {
+                for fa in fas {
+                    println!("{:?}", fa);
                 }
-                println!();
             },
             Err(e) => {
                 println!("Error: {:?}", e);
@@ -245,7 +219,7 @@ impl Command {
         }
     }
 
-    fn parse_sermatec_packet<'a>(&'a self, wanted_cmd: u16, stream: &'a [u8]) -> IResult<&[u8],&[u8]> {
+    fn parse_sermatec_packet<'a>(&self, wanted_cmd: u16, stream: &'a [u8]) -> IResult<&'a [u8],&[u8]> {
         let (input, magic) = be_u16(stream)?;
         let (input, src) = be_u8(input)?;
         let (input, dst) = be_u8(input)?;
@@ -265,10 +239,10 @@ impl Command {
         }
     }
 
-    pub fn parse_answer(&self, stream: &mut TcpStream) -> Result<Vec<(String, String, FieldType)>, String> {
+    pub fn parse_answer(&self, stream: &mut TcpStream) -> Result<Vec<FieldApp>, String> {
         let mut buf: [u8; 1024] = [0; 1024];
         let wanted_cmd = hexadecimal_u16_value(&self.cmd).unwrap().1;
-        let mut vec_res: Vec<(String, String, FieldType)> = vec![];
+        let mut vec_res: Vec<FieldApp> = vec![];
         match stream.read(&mut buf) {
             Ok(_buf_read) => {
                 // println!("# Answer:\n\n{:x?}\n", &buf[0.._buf_read]);
@@ -282,13 +256,14 @@ impl Command {
                                 return Err(format!("JSON Error! fields not sorted for {} command", wanted_cmd));
                             }
                             order = field.order;
-                            let (input2, (tag, name, _unit, value) ) = match field.parse(input) {
+                            let (input2, fieldtype ) = match field.parse(input) {
                                 Ok(v) => v,
                                 Err(_e) => return Err(format!("Command {:x}, Field {}, Parsing error", wanted_cmd, order)),
                             };
                             // Debug:
                             // println!("tag:{}, name:{}, unit:{}, value:{:?}", tag, name, _unit, value);
-                            vec_res.push( (tag.to_string(), name.to_string(), value) );
+                            let fieldapp = FieldApp::new(field, fieldtype);
+                            vec_res.push( fieldapp );
                             input = input2;
                         }
                     },
@@ -308,23 +283,23 @@ impl Command {
 
 
 impl Field {
-    // (tag, name, unit, value)
-    pub fn parse<'a>(&'a self, input: &'a [u8]) -> IResult<&'a [u8], (&'a str, &'a str, &'a str, FieldType)> {
+
+    pub fn parse<'a>(&'a self, input: &'a [u8]) -> IResult<&'a [u8], FieldType> {
         let (input, value) = match self.type_type.as_str() {
             // "bit" => FieldType::Bit(bytes[0] == 1),
             "int" => {
                 let (input, value) = match self.byte_len {
                     1 => {
                         let (input, value) = be_i8(input)?;
-                        (input, value as i64)
+                        (input, value as i32)
                     },
                     2 => {
                         let (input, value) = be_i16(input)?;
-                        (input, value as i64)
+                        (input, value as i32)
                     },
                     4 => {
-                        let (input, value) = be_i64(input)?;
-                        (input, value)
+                        let (input, value) = be_i32(input)?;
+                        (input, value as i32)
                     },
                     _ => (input, 0),
                 };
@@ -365,7 +340,7 @@ impl Field {
             _ => (input, None),
         };
         return match value {
-            Some(v) => Ok( (input, (self.tag.as_str(), self.name.as_str(), self.unit_type.as_str(), v)) ),
+            Some(v) => Ok( (input, v) ),
             None => IResult::Err(Err::Error(ParseError::from_error_kind(input, ErrorKind::Verify)))
         };
     }

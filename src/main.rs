@@ -3,7 +3,8 @@ use std::net::{ Ipv4Addr, SocketAddr, TcpStream };
 use clap::{Parser, Subcommand};
 
 mod protocol;
-use protocol::{ Protocol, FieldType, nom_helper::hexadecimal_u16_value };
+use protocol::{ Protocol, nom_helper::hexadecimal_u16_value };
+use protocol::fieldtype::FieldType;
 
 #[derive(Parser)]
 struct Cli {
@@ -61,12 +62,13 @@ fn main() -> std::io::Result<()> {
 
     let elements = command.parse_answer(&mut stream);
     command.print_nice_answer(&elements);
+    println!();
     let mut pcu_version: i16 = 0;
     match elements {
         Ok(elts) => {
-            for e in &elts {
-                if e.0 == "pcuVersion" {
-                    if let FieldType::Int(v) = e.2 {
+            for fa in &elts {
+                if fa.f.tag == "pcuVersion" {
+                    if let FieldType::Int(v) = fa.v {
                         pcu_version = v as i16;
                         break;
                     }

@@ -183,7 +183,7 @@ Sermatec Interter try to connect to IP cloud server on default port 19042 every 
 - Cloud server can send commands to Sermatec Inverter and reconfigure (or destroy) all directly.
 - Cloud server can ask Query routers and servers (B1) to get SSID and PASSWORD AP!
 
-# DENIAL App Access
+# Denial of Service (DoS) App Access
 
 ** THIS IS A SECURITY ISSUE **
 
@@ -213,4 +213,4 @@ cat 19042_2.bin
 < 0000001b 75 9a b0 f9 8a 06 68 85 fc                      # u.....h..
 ```
 
-Interesting, because I don't know "75 9a". Maybe another hardware?
+Interesting, because I do not know "75 9a". Maybe for another hardware?
