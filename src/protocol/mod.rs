@@ -112,8 +112,8 @@ pub enum FieldType {
     Int(i64),
     // BitRange(Vec<bool>),
     // Bytes(Vec<u8>),
-    // Hex(i16),
-    Long(i64),
+    Hex(u16),
+    Long(i32),
     // OnePosiiton(String),
     // Preserve(Vec<u8>),
     String(String),
@@ -124,6 +124,7 @@ impl std::fmt::Debug for FieldType {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let t = match &self {
             FieldType::Int(i) => format!("{}", i),
+            FieldType::Hex(u) => format!("{}", u),
             FieldType::Long(i) => format!("{}", i),
             FieldType::String(s) => format!("{}", s),
             FieldType::UInt(u) => format!("{}", u),
@@ -143,7 +144,7 @@ impl Protocol {
         let cmds = self.get_commands(current_version);
 
 
-        println!("XXX TESTED AND WORKING FOR ME: 98 0A 0B 0D 99 9A");
+        println!("> TESTED AND WORKING FOR ME: 0A 0B 0D 95 98 99 9A 9C 9D B1 <");
         for c in cmds {
             // TODO: To avoid risky commands, remove documentation for op2 and op3
             if c.1.op == 1 {
@@ -335,9 +336,19 @@ impl Field {
             //     FieldType::BitRange(Vec<bool>);
             // },
             // "bytes" => Bytes(Vec<u8>),
-            // "hex" => Hex(i16),
+            "hex" => {
+                let (input, value) = be_u16(input)?;
+                // TODO: One day use converter field
+                // let converter = self.converter;
+                let value = match value {
+                    0xee00 => 1,
+                    0x00ee => 2,
+                    _ => 0,
+                };
+                (input, Some(FieldType::Hex(value)))
+            },
             "long" => {
-                let (input, value) = be_i64(input)?;
+                let (input, value) = be_i32(input)?;
                 (input, Some(FieldType::Long(value)))
             },
             // "onePosition" => OnePosiiton(String),
