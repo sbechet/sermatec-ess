@@ -1,15 +1,15 @@
 
 pub enum FieldType {
     // Bit(bool),
-    Int(i32),
+    Int(f64),
     // BitRange(Vec<bool>),
     // Bytes(Vec<u8>),
     Hex(u16),
-    Long(i32),
+    Long(f64),
     // OnePosiiton(String),
     // Preserve(Vec<u8>),
     String(String),
-    UInt(u16),
+    UInt(f64),
 }
 
 impl std::fmt::Debug for FieldType {

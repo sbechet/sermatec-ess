@@ -89,7 +89,7 @@ fn main() -> std::io::Result<()> {
             else if *el != "98" {
                 let (_input, c) = hexadecimal_u16_value(&el).unwrap();
                 let cmds = p["osim"].get_commands(pcu_version);
-                let cmd = cmds[&c];
+                let cmd = cmds[&c]; // TODO: check if c exist
                 println!("Getting {} ({})...", el, cmd.comment);
                 let packet = cmd.build_packet().unwrap();
                 stream.write(&packet)?;
