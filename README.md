@@ -25,7 +25,7 @@ listing commands:
 - [x] sermatec-ess get --el 98 : System Information Query
 - [x] sermatec-ess get --el 99 : total power data
 - [x] sermatec-ess get --el 9a : Grid power data
-- [ ] sermatec-ess get --el 9b : Load power data
+- [x] sermatec-ess get --el 9b : Load power data
 - [x] sermatec-ess get --el 9c : Grid battery power data
 - [x] sermatec-ess get --el 9d : Set parameter information 2
 - [ ] sermatec-ess get --el a1 : Query DRM status
@@ -154,9 +154,8 @@ I'm looking for 5K PCU firmware, specificly for `PCU5KSL_609.bin` please help :)
 # TODO
 
 - 0C: bit, bitRange
-- 9B: use repeat field
 - A1: bit
-- A2: bitRange, preserve
+- A2: bitRange
 - BB: do not use or reboot! (two parts message)
 
 # Note

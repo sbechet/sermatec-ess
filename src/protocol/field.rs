@@ -85,7 +85,7 @@ impl Field {
         }
     }
 
-    pub fn parse<'a>(&'a self, input: &'a [u8]) -> IResult<&'a [u8], FieldType> {
+    pub fn parse_one<'a>(&'a self, input: &'a [u8]) -> IResult<&'a [u8], FieldType> {
         let (input, value) = match self.type_type.as_str() {
             // "bit" => FieldType::Bit(bytes[0] == 1),
             "int" => {
@@ -152,5 +152,23 @@ impl Field {
             Some(v) => Ok( (input, v) ),
             None => IResult::Err(Err::Error(ParseError::from_error_kind(input, ErrorKind::Verify)))
         };
+    }
+
+    pub fn parse<'a>(&'a self, input: &'a [u8]) -> IResult<&'a [u8], FieldType> {
+        if self.repeat != 0 {
+            let mut v: Vec<FieldType> = vec![];
+            let mut input = input;
+            for _ in 0..self.repeat {
+                let (input2, ft) = match self.parse_one(input) {
+                    Ok( r) => r,
+                    Err(e) => return Err(e),
+                };
+                v.push(ft);
+                input = input2;
+            }
+            Ok( (input, FieldType::Repeat(v)) )
+        } else {
+            self.parse_one(input)
+        }
     }
 }   

@@ -9,6 +9,7 @@ pub enum FieldType {
     Preserve(Vec<u8>),
     String(String),
     UInt(f64),
+    Repeat(Vec<FieldType>)  // Special type for repeat field
 }
 
 impl std::fmt::Debug for FieldType {
@@ -21,6 +22,7 @@ impl std::fmt::Debug for FieldType {
             FieldType::Long(i) => format!("{}", i),
             FieldType::String(s) => format!("{}", s),
             FieldType::UInt(u) => format!("{}", u),
+            FieldType::Repeat(v) => format!("{:x?}", v),
         };
         write!(f, "{}", t)
     }
