@@ -1,7 +1,7 @@
 pub enum FieldType {
-    // Bit(bool),
+    Bit(bool),
     Int(f64),
-    // BitRange(Vec<bool>),
+    BitRange(u16),
     // Bytes(Vec<u8>),
     Hex(u16),
     Long(f64),
@@ -15,7 +15,9 @@ pub enum FieldType {
 impl std::fmt::Debug for FieldType {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let t = match &self {
+            FieldType::Bit(b) => format!("{}", b),
             FieldType::Int(i) => format!("{}", i),
+            FieldType::BitRange(b) => format!("{}", b),
             FieldType::Hex(u) => format!("{}", u),
             FieldType::OnePosition(i) => format!("{:x?}", i),
             FieldType::Preserve(i) => format!("{:x?}", i),

@@ -1,5 +1,7 @@
 My small contribution to reverse Sermatec-Ess 光储一体机协议
 
+** ALL "STANDARD" QUERY WORKS **
+
 # CLI Example
 
 ```
@@ -15,23 +17,23 @@ product_sn_ln:
 
 listing commands:
 
-- [x] sermatec-ess get --el 0a : Battery information display
-- [x] sermatec-ess get --el 0b : Control cabinet information display
-- [ ] sermatec-ess get --el 0c : Equipment running status
-- [x] sermatec-ess get --el 0d : bmsMeter connection status
-- [x] sermatec-ess get --el 1e : BMS alarm information display
-- [x] sermatec-ess get --el 1f : System fault status display
-- [x] sermatec-ess get --el 95 : Set parameter query
-- [x] sermatec-ess get --el 98 : System Information Query
-- [x] sermatec-ess get --el 99 : total power data
-- [x] sermatec-ess get --el 9a : Grid power data
-- [x] sermatec-ess get --el 9b : Load power data
-- [x] sermatec-ess get --el 9c : Grid battery power data
-- [x] sermatec-ess get --el 9d : Set parameter information 2
-- [ ] sermatec-ess get --el a1 : Query DRM status
-- [ ] sermatec-ess get --el a2 : Forced charge and discharge information
-- [x] sermatec-ess get --el b1 : Query routers and servers
-- [ ] sermatec-ess get --el bb : Register query
+sermatec-ess get --el 0a : Battery information display
+sermatec-ess get --el 0b : Control cabinet information display
+sermatec-ess get --el 0c : Equipment running status
+sermatec-ess get --el 0d : bmsMeter connection status
+sermatec-ess get --el 1e : BMS alarm information display
+sermatec-ess get --el 1f : System fault status display
+sermatec-ess get --el 95 : Set parameter query
+sermatec-ess get --el 98 : System Information Query
+sermatec-ess get --el 99 : total power data
+sermatec-ess get --el 9a : Grid power data
+sermatec-ess get --el 9b : Load power data
+sermatec-ess get --el 9c : Grid battery power data
+sermatec-ess get --el 9d : Set parameter information 2
+sermatec-ess get --el a1 : Query DRM status
+sermatec-ess get --el a2 : Forced charge and discharge information
+sermatec-ess get --el b1 : Query routers and servers
+sermatec-ess get --el bb : Register query
 ```
 
 ```
@@ -153,9 +155,8 @@ I'm looking for 5K PCU firmware, specificly for `PCU5KSL_609.bin` please help :)
 
 # TODO
 
-- 0C: bit, bitRange
-- A1: bit
-- A2: bitRange
+BB is a special query to ask internal registers.
+
 - BB: do not use or reboot! (two parts message)
 
 # Note

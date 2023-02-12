@@ -13,7 +13,6 @@ pub mod field;
 use field::Field;
 
 pub mod fieldtype;
-// use fieldtype::FieldType;
 
 pub mod fieldapp;
 use fieldapp::FieldApp;
@@ -60,14 +59,14 @@ impl Protocol {
     pub fn listing(&self, current_version: i16) {
         let cmds = self.get_commands(current_version);
 
-
-        println!("> Not working: 0C A1 A2 <");
         for c in cmds {
-            // TODO: To avoid risky commands, remove documentation for op2 and op3
-            if c.1.op == 1 {
+            if c.1.op == 1 && c.1.cmd != "BB" {
                 println!("sermatec-ess get --el {:02x} : {}", c.0, c.1.comment);
+            } else {
+                println!("sermatec-ess get --el {:02x} : {} (*)", c.0, c.1.comment);
             }
         }
+        println!("(*) DO NOT USE!");
     }
 
     pub fn get_command(&self, version: i16, command: &str) -> Option<&Command> {
@@ -115,7 +114,7 @@ impl Command {
     pub fn build_packet(&self) -> Option<Vec<u8>> {
         // Security: no op2 or op3 for now (read only)
         if self.op != 1 {
-            println!("For now no op2 or op3!");
+            println!("No op2 or op3!");
             return None;
         }
 
@@ -188,20 +187,28 @@ impl Command {
                     Ok( (input, _) ) => {
                         let mut order = 0;
                         let mut input = input;
+                        let mut input_new = input;
                         for field in &self.fields {
-                            if field.order < order {
+                            if field.order != order {
                                 return Err(format!("JSON Error! fields not sorted for {} command", wanted_cmd));
                             }
-                            order = field.order;
+                            order = field.order + 1;
+                            
+                            input = if field.same {
+                                input
+                            } else {
+                                input_new
+                            };
+
                             let (input2, fieldtype ) = match field.parse(input) {
                                 Ok(v) => v,
                                 Err(_e) => return Err(format!("Command {:x}, Field {}, Parsing error", wanted_cmd, order)),
                             };
-                            // Debug:
-                            // println!("tag:{}, name:{}, unit:{}, value:{:?}", tag, name, _unit, value);
+                            input_new = input2; 
+
                             let fieldapp = FieldApp::new(field, fieldtype);
                             vec_res.push( fieldapp );
-                            input = input2;
+
                         }
                     },
                     Err(e) => {

@@ -63,7 +63,7 @@ pub struct Field {
     bit_position: u8,
 
     #[serde(default)]
-    same: bool,
+    pub same: bool,
 
     #[serde(rename="defaultValue")]
     #[serde(default)]
@@ -87,7 +87,11 @@ impl Field {
 
     pub fn parse_one<'a>(&'a self, input: &'a [u8]) -> IResult<&'a [u8], FieldType> {
         let (input, value) = match self.type_type.as_str() {
-            // "bit" => FieldType::Bit(bytes[0] == 1),
+            "bit" => {
+                let (input, value) = be_u16(input)?;
+                let b = (value >> self.bit_position) & 1 == 1;
+                (input, Some(FieldType::Bit(b)))                    
+            },
             "int" => {
                 let (input, value) = match self.byte_len {
                     1 => {
@@ -107,10 +111,15 @@ impl Field {
                 let value = value as f64 * self.get_unit();
                 (input, Some(FieldType::Int(value)))
             },
-            // "bitRange" => {
-            //     let v = u16::from_be_bytes(bytes);
-            //     FieldType::BitRange(Vec<bool>);
-            // },
+            "bitRange" => {
+                // TODO: Test byteLen for now supposing ByteLen=2
+                let (input, value) = be_u16(input)?;
+                // value = 0000_0111_0000_0000
+                let value = value << 15 - self.end_bit; // value = 1110_0000_0000_0000
+                let size = self.end_bit - self.from_bit; // 3 - 1
+                let value = value >> 15 - size; // value = 0000_0000_0000_01111
+                (input, Some(FieldType::BitRange(value)))
+            },
             // "bytes" => Bytes(Vec<u8>),
             "hex" => {
                 let (input, value) = be_u16(input)?;
