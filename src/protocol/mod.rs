@@ -61,7 +61,7 @@ impl Protocol {
         let cmds = self.get_commands(current_version);
 
 
-        println!("> TESTED AND WORKING FOR ME: 0A 0B 0D 95 98 99 9A 9C 9D B1 <");
+        println!("> TESTED AND WORKING FOR ME: 0A 0B 0D 1E 1F 95 98 99 9A 9C 9D B1 <");
         for c in cmds {
             // TODO: To avoid risky commands, remove documentation for op2 and op3
             if c.1.op == 1 {

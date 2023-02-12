@@ -128,8 +128,14 @@ impl Field {
                 let value = value as f64 * self.get_unit();
                 (input, Some(FieldType::Long(value)))
             },
-            // "onePosition" => OnePosiiton(String),
-            // "preserve" => Preserve(Vec<u8>),
+            "onePosition" => {
+                let (input, v) = take(self.byte_len as usize)(input)?;
+                (input, Some(FieldType::OnePosition(v.to_owned())))
+            },
+            "preserve" => {
+                let (input, v) = take(self.byte_len as usize)(input)?;
+                (input, Some(FieldType::Preserve(v.to_owned())))
+            },
             "string" => {
                 let (input, v) = take(self.byte_len as usize)(input)?;
                 let s = String::from_utf8(v.to_vec()).unwrap();

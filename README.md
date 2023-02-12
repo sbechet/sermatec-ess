@@ -19,8 +19,8 @@ listing commands:
 - [x] sermatec-ess get --el 0b : Control cabinet information display
 - [ ] sermatec-ess get --el 0c : Equipment running status
 - [x] sermatec-ess get --el 0d : bmsMeter connection status
-- [ ] sermatec-ess get --el 1e : BMS alarm information display
-- [ ] sermatec-ess get --el 1f : System fault status display
+- [x] sermatec-ess get --el 1e : BMS alarm information display
+- [x] sermatec-ess get --el 1f : System fault status display
 - [x] sermatec-ess get --el 95 : Set parameter query
 - [x] sermatec-ess get --el 98 : System Information Query
 - [x] sermatec-ess get --el 99 : total power data
@@ -154,8 +154,6 @@ I'm looking for 5K PCU firmware, specificly for `PCU5KSL_609.bin` please help :)
 # TODO
 
 - 0C: bit, bitRange
-- 1E: onePosition, preserve
-- 1F: onePosition, preserve
 - 9B: use repeat field
 - A1: bit
 - A2: bitRange, preserve
