@@ -1,14 +1,14 @@
 pub enum FieldType {
     Bit(bool),
-    Int(f64),
+    Int(f32),
     BitRange(u16),
     // Bytes(Vec<u8>),
     Hex(u16),
-    Long(f64),
+    Long(f32),
     OnePosition(Vec<u8>),
     Preserve(Vec<u8>),
     String(String),
-    UInt(f64),
+    UInt(f32),
     Repeat(Vec<FieldType>)  // Special type for repeat field
 }
 
