@@ -85,13 +85,15 @@
                 "order": 3,
                 "byteLen": 2,
                 "type": "uInt",
-                "name": "battery soc"
+                "name": "battery soc",
+                "unitType": "%"
               },
               {
                 "order": 4,
                 "byteLen": 2,
                 "type": "int",
-                "name": "battery soh"
+                "name": "battery soh",
+                "unitType": "%"
               },
               {
                 "order": 5,

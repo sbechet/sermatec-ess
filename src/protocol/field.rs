@@ -77,11 +77,9 @@ pub struct Field {
 impl Field {
 
     pub fn get_unit(&self) -> Option<f32> {
-        match self.unit_value.as_str() {
-            "0.001" => Some(0.001),
-            "0.01" => Some(0.01),
-            "0.1" => Some(0.1),
-            _ => None,
+        match self.unit_value.parse::<f32>() {
+            Ok(f) => Some(f),
+            Err(_) => None,
         }
     }
 
