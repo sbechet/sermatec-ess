@@ -2,16 +2,35 @@ My small contribution to write a Sermatec-Ess CLI 光储一体机协议
 
 - [x] Tested on SMT-5K-TL-LV hardware with PCU 6.0.9
 - [ ] Tested on STM-10K-TL-TH (someone wnat to test?)
-- [x] All "standard" query works
-- [x] First step for MQTT Client daemon to send data to Home Assistant
+
+Maybe one day:
+
+- [ ] Configuration commands?
+- [ ] Nice GUI using egui?
 
 # CLI Example
 
 ```
-$ ./sermatec-ess list
---===~ Sermatec ESS CLI ~===--
-Asking to 10.10.100.254:8899
+$ ./sermatec-ess
+Usage: sermatec-ess [OPTIONS] [COMMAND]
 
+Commands:
+  get     Get a specific things
+  list    Get listing of all things
+  daemon  Daemon mode use sermatec-ess as a MQTT client
+  help    Print this message or the help of the given subcommand(s)
+
+Options:
+  -i, --inverter <Inverter IPv4>  Sets Sermatec ESS Ipv4Addr [default: 10.10.100.254]
+  -p, --port <Port number>        Sets Sermatec ESS Port number [default: 8899]
+  -d, --debug...                  Turn debugging information on
+  -h, --help                      Print help
+```
+
+```
+$ ./sermatec-ess list  
+--===~ Sermatec ESS CLI AND MQTT PROXY ~===--
+Asking to Sermatec Inverter 10.10.100.254:8899
 listing commands:
 
 sermatec-ess get --el 0a : Battery information display
@@ -49,109 +68,72 @@ sermatec-ess get --el bb : Register query (*)
 ```
 
 ```
-./sermatec-ess get --el 0a
---===~ Sermatec ESS CLI ~===--
-Asking to 10.10.100.254:8899
+./sermatec-ess get --el 98
+--===~ Sermatec ESS CLI AND MQTT PROXY ~===--
+Asking to Sermatec Inverter 10.10.100.254:8899
+protocol version number: 609
+Battery manufacturer number (code list): PYLON Low-voltage Battery 485
+model code: 5kW
+product_sn: STXXXXXXXXXXXXXXXXXXX
+product_sn_ln: 
+```
 
-Getting 10 (Battery information display)...
-battery voltage: 49.8 V
-battery current: 0 A
-battery temperature: 11.2 C
-battery soc: 95
-battery soh: 100
-Charge and discharge status: 51
-maximum allowable charging current: 29.6 A
-Maximum allowable discharge current: 74 A
-charge cut-off voltage: 53.2 V
-discharge cut-off voltage: 45 V
-Charge/discharge times: 0
-battery pressure: 0
-battery warning: 0
-battery error: 0
-Battery communication connection status: 0
+# MQTT Example
+
+```
+Daemon mode use sermatec-ess as a MQTT client
+
+Usage: sermatec-ess daemon [OPTIONS] --host <HOST>
+
+Options:
+  -m, --host <HOST>  MQTT Server hostname
+  -t, --port <PORT>  MQTT Server TCP port [default: 1883]
+  -w, --wait <WAIT>  waiting time between two updates (seconds) [default: 300]
+  -f, --fork         Detaching from the controlling terminal
+  -h, --help         Print help
 ```
 
 ```
-./sermatec-ess get --el 0b
---===~ Sermatec ESS CLI ~===--
-Asking to 10.10.100.254:8899
+./sermatec-ess daemon --host 10.10.100.42 --port 1883
+$ ./daemon.sh 
+--===~ Sermatec ESS CLI AND MQTT PROXY ~===--
+Asking to Sermatec Inverter 10.10.100.254:8899
+Sending data to MQTT Daemon 10.10.100.42:1883
 
-Getting 11 (Control cabinet information display)...
-PV1 voltage: 9.2 V
-PV1 current: 0 A
-PVI power: 0 W
-PV2 voltage: 9 V
-PV2 current: 0 A
-PV2 power: 0 W
-Invert A-phase voltage: 244.40001 V
-Invert phase A current: 0.4 A
-Grid A phase voltage: 244.8 V
-Grid AB line voltage: 0 V
-Grid A phase current: 0.7 A
-Invert B-phase voltage: 0 V
-Invert B-phase current: 0 A
-Grid B phase voltage: 0 V
-Grid BC line voltage: 0 V
-Grid B-phase current: 0 A
-Invert C-phase voltage: 0 V
-Invert C-phase current: 0 A
-grid phase C voltage: 0 V
-Grid CA line voltage: 0 V
-grid phase C current: 0 A
-grid frequency: 49.989998 HZ
-power factor: -0.020000001
-Grid-side active power: -5 W
-grid-side reactive power: 174 W
-system apparent power: 174 Var
-battery current: -0.3 A
-battery voltage: 50.7 V
-DC positive bus voltage: 0 V
-DC negative bus voltage: 0 V
-DC bilateral bus voltage: 380 V
-DC power: -15 W
-internal temperature: 26.300001 ℃
-10K: DC positive bus backup voltage 5/6K: Secondary bus 1: 290.5 V
-10K: DC negative bus backup voltage 5/6K: Secondary bus 2: 290.5 V
-device type code: 0
-The high digit of the software version number (dspHighVersion): 128
-The lower digit of the software version number (dspLowVersion): 0
-Parallel address: 0
-work efficiency: 0
-battery current 1: -0.2 A
-battery current 2: -0.1 A
-Module A1 temperature: 15.2 ℃
-Module B1 temperature: 16 ℃
-Module C1 temperature: 0 ℃
-Load phase A voltage: 244.5 V
-Load phase B voltage: 0 V
-Load phase C voltage: 0 V
-load voltage frequency: 49.98 HZ
-load phase A current: 0.1 A
-load phase B current: 0 A
-load phase C current: 0 A
-load power factor: -0.717
-load active power: 0 VA
-load reactive power: -22 Var
-load apparent power: 32 W
-Inverter active power (parallel data): 0 KW
-Inverter reactive power (parallel data): 0 KVar
-Invert apparent power (parallel data): 0 KW
-Local load active power (parallel data): 0 KW
-Local load reactive power (parallel data): 0 KVar
-Local load apparent power (parallel data): 0 KW
-Local load phase A active power (parallel data): 0 KW
-Local load B-phase active power (parallel data): 0 KW
-Local load phase C active power (parallel data): 0 KW
-PV total power (parallel data): 0 KW
-Total battery power (parallel data): 0 KW
-Total battery current (parallel data): 0 A
-Total battery charging current (parallel data): 0 A
-Total battery discharge current (parallel data): 0 A
+MQTT: Sending to sermatec-ess/# Topic...
+MQTT: Sending sermatec-ess/grid_battery_power_data/battery_discharge_on_the_day = [30, 2E, 31, 30, 30]
+MQTT: Sending sermatec-ess/control_cabinet_information_display/invert_apparent_power_(parallel_data) = [30, 2E, 30, 30, 30]
+MQTT: Sending sermatec-ess/set_parameter_information_2/battery_activated = [31]
+MQTT: Sending sermatec-ess/set_parameter_information_2/three-phase_unbalanced_output = [30]
+MQTT: Sending sermatec-ess/grid_battery_power_data/total_daily_battery_discharge = [31, 35, 2E, 30, 30, 30]
+MQTT: Sending sermatec-ess/battery_information_display/battery_soh = [31, 30, 30]
+MQTT: Sending sermatec-ess/control_cabinet_information_display/load_reactive_power = [2D, 32, 35, 2E, 30, 30, 30]
+MQTT: Sending sermatec-ess/control_cabinet_information_display/local_load_b-phase_active_power_(parallel_data) = [30, 2E, 30, 30, 30]
+MQTT: Sending sermatec-ess/control_cabinet_information_display/dc_power = [36, 31, 2E, 30, 30, 30]
+MQTT: Sending sermatec-ess/total_power_data/save_money_on_electricity_today = [30, 2E, 30, 30, 30]
+MQTT: Notification = Ok(Incoming(ConnAck(ConnAck { session_present: false, code: Success })))
+MQTT: Notification = Ok(Outgoing(Subscribe(1)))
+MQTT: Notification = Ok(Outgoing(Publish(2)))
+MQTT: Notification = Ok(Outgoing(Publish(3)))
+MQTT: Notification = Ok(Outgoing(Publish(4)))
+MQTT: Notification = Ok(Outgoing(Publish(5)))
+MQTT: Notification = Ok(Outgoing(Publish(6)))
+MQTT: Notification = Ok(Outgoing(Publish(7)))
+MQTT: Notification = Ok(Outgoing(Publish(8)))
+MQTT: Notification = Ok(Outgoing(Publish(9)))
+MQTT: Notification = Ok(Outgoing(Publish(10)))
+MQTT: Notification = Ok(Outgoing(Publish(11)))
+MQTT: Notification = Ok(Incoming(SubAck(SubAck { pkid: 1, return_codes: [Success(AtMostOnce)] })))
+MQTT: Notification = Ok(Incoming(PubAck(PubAck { pkid: 2 })))
+MQTT: Notification = Ok(Incoming(PubAck(PubAck { pkid: 3 })))
+MQTT: Sending sermatec-ess/control_cabinet_information_display/load_phase_b_voltage = [30, 2E, 30, 30, 30]
+...
 ```
+
 
 # Help WANTED
 
-I'm looking for 5K PCU firmware, specificly for `PCU5KSL_609.bin` please help :)
+I'm looking for 5K PCU firmware, specificly for `PCU5KSL_609.bin` please help me :)
 
 # TODO
 

@@ -14,16 +14,18 @@ pub struct Daemon<'a> {
     host: String,
     port: u16,
     cmds: &'a BTreeMap<u16, &'a Command>,
+    wait: Duration,
     answers: HashMap<String, Vec<u8>>,
 }
 
 
 impl<'a> Daemon<'a> {
-    pub fn new(host: &str, port: u16, cmds: &'a BTreeMap<u16, &Command>) -> Daemon<'a> {
+    pub fn new(host: &str, port: u16, cmds: &'a BTreeMap<u16, &Command>, wait: u16) -> Daemon<'a> {
         Daemon {
             host: host.to_string(),
             port: port,
             cmds: cmds,
+            wait: Duration::from_secs(wait.into()),
             answers: HashMap::new(),
         }
     }
@@ -102,7 +104,7 @@ impl<'a> Daemon<'a> {
                 println!("MQTT: Sending {} = {:02X?}", k, v);
                 client.publish(k, QoS::AtLeastOnce, false, v.clone()).unwrap();
             };
-            thread::sleep(Duration::from_secs(5*60));
+            thread::sleep(self.wait);
          });
 
 

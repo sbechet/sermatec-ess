@@ -6,6 +6,8 @@ mod protocol;
 use protocol::{ Protocol, nom_helper::hexadecimal_u16_value };
 use protocol::fieldtype::FieldType;
 
+use nix::unistd::daemon;
+
 mod daemon;
 use daemon::Daemon;
 
@@ -13,11 +15,11 @@ use daemon::Daemon;
 #[derive(Parser)]
 struct Cli {
     /// Sets Sermatec ESS Ipv4Addr
-    #[arg(short ='i', long, value_name = "IPv4 (default 10.10.100.254)")]
+    #[arg(short ='i', long, default_value="10.10.100.254", value_name = "Inverter IPv4")]
     inverter: Option<Ipv4Addr>,
 
     /// Sets Sermatec ESS Port number
-    #[arg(short ='p', long, value_name = "Port number (default 8899)")]
+    #[arg(short ='p', long, default_value="8899", value_name = "Port number")]
     port: Option<u16>,
 
     /// Turn debugging information on
@@ -38,14 +40,20 @@ enum Commands {
     },
     /// Get listing of all things
     List {},
-    /// Daemon mode: sermatec-ess as a MQTT client
+    /// Daemon mode use sermatec-ess as a MQTT client
     Daemon {
         /// MQTT Server hostname
         #[arg(short ='m', long)]
         host: String,
         /// MQTT Server TCP port
-        #[arg(short ='t', long)]
+        #[arg(short ='t', long, default_value="1883")]
         port: u16,
+        /// waiting time between two updates (seconds)
+        #[arg(short ='w', long, default_value="300")]
+        wait: u16,
+        /// Detaching from the controlling terminal
+        #[arg(short ='f', long)]
+        fork: bool,
     },
 }
 
@@ -117,9 +125,13 @@ fn main() -> std::io::Result<()> {
             println!("listing commands:\n");
             p["osim"].listing(pcu_version);
         },
-        Some(Commands::Daemon { host, port }) => {
+        Some(Commands::Daemon { host, port , fork, wait}) => {
+            if *fork {
+                println!("Detaching from terminal");
+                daemon(true, false).unwrap();
+            }
             println!("Sending data to MQTT Daemon {}:{}\n", host, port);
-            let daemon = Daemon::new(host, *port, &cmds);
+            let daemon = Daemon::new(host, *port, &cmds, *wait);
             daemon.run(&mut stream).unwrap();
         },
         None => {}
