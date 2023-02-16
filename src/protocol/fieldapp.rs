@@ -180,7 +180,7 @@ impl<'a> FieldApp<'a> {
                             FieldType::Int(1) => "10kW",
                             FieldType::Int(2) => "5kW",
                             FieldType::Int(3) => "6kW",
-                            FieldType::Int(5) => "10kW",
+                            FieldType::Int(5) => "3kW",
                             _ => "Unknown",
                         };
                         Some(t)
