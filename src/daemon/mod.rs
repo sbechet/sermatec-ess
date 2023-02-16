@@ -1,4 +1,4 @@
-use std::collections::BTreeMap;
+use std::collections::{ BTreeMap, HashMap };
 use std::io::prelude::*;
 use std::time::Duration;
 use std::net::TcpStream;
@@ -10,28 +10,83 @@ use crate::protocol::Command;
 
 
 
-pub struct Daemon {
+pub struct Daemon<'a> {
     host: String,
     port: u16,
+    cmds: &'a BTreeMap<u16, &'a Command>,
+    answers: HashMap<String, Vec<u8>>,
 }
 
 
-impl Daemon {
-    pub fn new(host: &str, port: u16) -> Daemon {
+impl<'a> Daemon<'a> {
+    pub fn new(host: &str, port: u16, cmds: &'a BTreeMap<u16, &Command>) -> Daemon<'a> {
         Daemon {
             host: host.to_string(),
             port: port,
+            cmds: cmds,
+            answers: HashMap::new(),
         }
     }
 
-    /*
-        what can we send to home assistant?
-        0a: battery soc
-        0b: PVI power, PV2 power, PV total power
-        1f: sysFault2: [28, 0] ?
+    fn add_cmd(&mut self, stream: &mut TcpStream, cmds: &BTreeMap<u16, &Command>, cmd_value: u16) {
+        let cmd = cmds[&cmd_value];
+        let packet = cmd.build_packet().unwrap();
+        stream.write(&packet).unwrap();
+        let elements = cmd.parse_answer(stream);
+        match &elements {
+            Ok(elts) => {
+                for fa in elts {
 
-     */
-    pub fn run(&self, stream: &mut TcpStream, cmds: &BTreeMap<u16, &Command>) -> Result<(), String> {
+                    let cname = fa.c.comment.replace(" ", "_").to_lowercase();
+                    // we want all
+                    let name = fa.f.name.replace(" ", "_");
+                    let name = name.replace("/", "_").to_lowercase();
+
+                    let v = format!("{:?}", fa);
+                    let v = v.as_bytes();
+
+                    let k = format!("sermatec-ess/{}/{}", cname, name);
+
+                    self.answers.insert(k,v.to_vec());
+
+                }
+            }
+            Err(e) => {
+                println!("Error, add_cmd({}): {}", cmd_value, e);
+            }
+        }
+    }
+
+    fn update(&mut self, stream: &mut TcpStream) {
+        self.answers = HashMap::new();
+
+        // Battery info
+        self.add_cmd(stream, self.cmds, 0x000A);
+        // Control cabinet information
+        self.add_cmd(stream, self.cmds, 0x000B);
+        // Equipment running status
+        // self.add_cmd(stream, self.cmds, 0x000C);
+        // bmsMeter connection status
+        // self.add_cmd(stream, self.cmds, 0x000D);
+        // BMS alarm information
+        // self.add_cmd(stream, self.cmds, 0x001E);
+        // System fault status
+        // self.add_cmd(stream, self.cmds, 0x001F);
+        // Total power data
+        self.add_cmd(stream, self.cmds, 0x0099);
+        // Total grid data
+        self.add_cmd(stream, self.cmds, 0x009A);
+        // Load power data
+        self.add_cmd(stream, self.cmds, 0x009B);
+        // Grid battery power data
+        self.add_cmd(stream, self.cmds, 0x009C);
+        // Set parameter information 2
+        self.add_cmd(stream, self.cmds, 0x009D);
+
+
+    }
+
+    pub fn run(mut self, stream: &mut TcpStream) -> Result<(), String> {
         let mut mqttoptions = MqttOptions::new("rumqtt-sync", &self.host, self.port);
         mqttoptions.set_keep_alive(Duration::from_secs(5));
 
@@ -39,36 +94,20 @@ impl Daemon {
         client.subscribe("sermatec-ess", QoS::AtMostOnce).unwrap();
 
 
-        let cmd_value: u16 = 0x000A; // Battery info
-        let cmd = cmds[&cmd_value];
-        let battery_packet = cmd.build_packet().unwrap();
+        println!("MQTT: Sending to sermatec-ess/# Topic...");
 
-        println!("MQTT: Sending to sermatec-ess/# ...");
+        self.update(stream);
+        thread::spawn(move || loop {
+            for (k, v) in &self.answers {
+                println!("MQTT: Sending {} = {:02X?}", k, v);
+                client.publish(k, QoS::AtLeastOnce, false, v.clone()).unwrap();
+            };
+            thread::sleep(Duration::from_secs(5*60));
+         });
+
 
         for notification in connection.iter() {
             println!("MQTT: Notification = {:?}", notification);
-
-
-            stream.write(&battery_packet).unwrap();
-            let elements = cmd.parse_answer(stream);
-            match &elements {
-                Ok(elts) => {
-                    for fa in elts {
-                        if fa.f.name == "battery soc" {
-                            let t = format!("{:?}", fa.v);
-                            let t = t.as_bytes();
-                            client.publish("sermatec-ess/battery/soc", QoS::AtLeastOnce, false, t).unwrap();
-                        }
-                    }
-                },
-                Err(e) => {
-                    return Err(e.to_string());
-                }
-            }
-
-            // minimal sleep then mqtt ping/pong
-            thread::sleep(Duration::from_secs(5*60));
-
         }
         Ok(())
     }

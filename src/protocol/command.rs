@@ -70,7 +70,16 @@ impl Command {
         match answer {
             Ok(fas) => {
                 for fa in fas {
-                    println!("{:?}", fa);
+                    let s = format!("{}: {:?}", fa.f.name, fa);
+
+                    let s = if fa.f.unit_type.len() != 0 {
+                        format!("{} {}", s, fa.f.unit_type)
+                    } else {
+                        s
+                    };
+
+                    println!("{}", s);
+
                 }
             },
             Err(e) => {

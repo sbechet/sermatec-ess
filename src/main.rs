@@ -64,8 +64,8 @@ fn main() -> std::io::Result<()> {
     } else {
         8899
     };
-    println!("--===~ Sermatec ESS CLI ~===--");
-    println!("Asking to {:?}:{}\n", sermatec_ip, sermatec_port);
+    println!("--===~ Sermatec ESS CLI AND MQTT PROXY ~===--");
+    println!("Asking to Sermatec Inverter {:?}:{}", sermatec_ip, sermatec_port);
     let sermatec_socket: SocketAddr = SocketAddr::from((sermatec_ip, sermatec_port));
     let mut stream = TcpStream::connect(sermatec_socket)?;
 
@@ -118,8 +118,9 @@ fn main() -> std::io::Result<()> {
             p["osim"].listing(pcu_version);
         },
         Some(Commands::Daemon { host, port }) => {
-            let daemon = Daemon::new(host, *port);
-            daemon.run(&mut stream, &cmds).unwrap();
+            println!("Sending data to MQTT Daemon {}:{}\n", host, port);
+            let daemon = Daemon::new(host, *port, &cmds);
+            daemon.run(&mut stream).unwrap();
         },
         None => {}
     }

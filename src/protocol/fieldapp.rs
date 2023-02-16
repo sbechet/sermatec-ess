@@ -195,15 +195,9 @@ impl<'a> FieldApp<'a> {
 
 impl std::fmt::Debug for FieldApp<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let s = if self.f.tag.len() != 0 {
-            format!("{} ({})", self.f.name, self.f.tag)
-        } else {
-            format!("{}", self.f.name)
-        };
-
         let s = match self.expand_fmt() {
             Some(v) => {
-                format!("{}: {}", s, v)
+                format!("{}", v)
             },
             None => {
                 match self.f.get_unit() {
@@ -215,20 +209,15 @@ impl std::fmt::Debug for FieldApp<'_> {
                             _ => None,
                         };
                         match unit_v {
-                            Some(v) => format!("{}: {:.3}", s, v),
-                            None => format!("{}: {:?}", s, self.v),
+                            Some(v) => format!("{:.3}", v),
+                            None => format!("{:?}", self.v),
                         }
                     },
-                    None => format!("{}: {:?}", s, self.v),
+                    None => format!("{:?}", self.v),
                 }
             },
         };
 
-        let s = if self.f.unit_type.len() != 0 {
-            format!("{} {}", s, self.f.unit_type)
-        } else {
-            s
-        };
 
         write!(f, "{}", s)
     }
