@@ -1,7 +1,7 @@
 My small contribution to write a Sermatec-Ess CLI 光储一体机协议
 
 - [x] Tested on SMT-5K-TL-LV hardware with PCU 6.0.9
-- [ ] Tested on STM-10K-TL-TH (someone wnat to test?)
+- [ ] Tested on STM-10K-TL-TH (someone want to test?)
 
 Maybe one day:
 
