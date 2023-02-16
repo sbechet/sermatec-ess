@@ -1,4 +1,4 @@
-use super::Field;
+use super::field::Field;
 use super::fieldtype::FieldType;
 
 pub struct FieldApp<'a> {

@@ -188,7 +188,7 @@
                 "order": 2,
                 "byteLen": 2,
                 "type": "int",
-                "name": "PVI power",
+                "name": "PV1 power",
                 "unitValue": "1",
                 "unitType": "W"
               },
