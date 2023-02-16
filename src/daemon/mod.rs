@@ -45,8 +45,10 @@ impl Daemon {
 
         println!("MQTT: Sending to sermatec-ess/# ...");
 
-        for (i, notification) in connection.iter().enumerate() {
+        for notification in connection.iter() {
             println!("MQTT: Notification = {:?}", notification);
+
+
             stream.write(&battery_packet).unwrap();
             let elements = cmd.parse_answer(stream);
             match &elements {
@@ -63,7 +65,10 @@ impl Daemon {
                     return Err(e.to_string());
                 }
             }
+
+            // minimal sleep then mqtt ping/pong
             thread::sleep(Duration::from_secs(5*60));
+
         }
         Ok(())
     }

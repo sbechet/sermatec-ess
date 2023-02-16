@@ -76,12 +76,12 @@ pub struct Field {
 
 impl Field {
 
-    fn get_unit(&self) -> f32 {
+    pub fn get_unit(&self) -> Option<f32> {
         match self.unit_value.as_str() {
-            "0.001" => 0.001,
-            "0.01" => 0.01,
-            "0.1" => 0.1,
-            _ => 1.0,
+            "0.001" => Some(0.001),
+            "0.01" => Some(0.01),
+            "0.1" => Some(0.1),
+            _ => None,
         }
     }
 
@@ -108,7 +108,6 @@ impl Field {
                     },
                     _ => (input, 0),
                 };
-                let value = value as f32 * self.get_unit();
                 (input, Some(FieldType::Int(value)))
             },
             "bitRange" => {
@@ -134,7 +133,6 @@ impl Field {
             },
             "long" => {
                 let (input, value) = be_i32(input)?;
-                let value = value as f32 * self.get_unit();
                 (input, Some(FieldType::Long(value)))
             },
             "onePosition" => {
@@ -152,8 +150,7 @@ impl Field {
             },
             "uInt" => {
                 let (input, value) = be_u16(input)?;
-                let value = value as f32 * self.get_unit();
-                (input, Some(FieldType::UInt(value)))
+                (input, Some(FieldType::UInt(value as u32)))
             },
             _ => (input, None),
         };

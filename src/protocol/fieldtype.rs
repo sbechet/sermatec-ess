@@ -1,15 +1,15 @@
 pub enum FieldType {
     Bit(bool),
-    Int(f32),
+    Int(i32),
     BitRange(u16),
     // Bytes(Vec<u8>),
     Hex(u16),
-    Long(f32),
+    Long(i32),
     OnePosition(Vec<u8>),
     Preserve(Vec<u8>),
     String(String),
-    UInt(f32),
-    Repeat(Vec<FieldType>)  // Special type for repeat field
+    UInt(u32),
+    Repeat(Vec<FieldType>), // Special type for repeat field
 }
 
 impl std::fmt::Debug for FieldType {

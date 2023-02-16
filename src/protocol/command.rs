@@ -130,7 +130,7 @@ impl Command {
                             };
                             input_new = input2; 
 
-                            let fieldapp = FieldApp::new(field, fieldtype);
+                            let fieldapp = FieldApp::new(&self, field, fieldtype);
                             vec_res.push( fieldapp );
 
                         }
