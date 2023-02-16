@@ -235,8 +235,8 @@ Wifi工作模式;Wifi working mode
 软件版本号高位;The high digit of the software version number
 运行DSP程序;run DSP program
 运行PCU程序;Run the PCU program
-远端负载;remote load
 远端负载功率;remote load power
+远端负载;remote load
 逆变 A 相电压;Invert A-phase voltage
 逆变 A 相电流;Invert phase A current
 逆变 B 相电压;Invert B-phase voltage
@@ -260,6 +260,6 @@ Wifi工作模式;Wifi working mode
 预留十个控制命令;Reserve ten control commands
 预留字段;reserved fields
 预留;reserve
-角;currency
-元;currency
+角;d€
+元;€
 功率因数;power factor

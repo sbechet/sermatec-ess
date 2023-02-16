@@ -120,13 +120,6 @@ impl Field {
             // "bytes" => Bytes(Vec<u8>),
             "hex" => {
                 let (input, value) = be_u16(input)?;
-                // TODO: One day use converter field
-                // let converter = self.converter;
-                let value = match value {
-                    0xee00 => 1,
-                    0x00ee => 2,
-                    _ => 0,
-                };
                 (input, Some(FieldType::Hex(value)))
             },
             "long" => {

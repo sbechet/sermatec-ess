@@ -80,6 +80,7 @@ fn main() -> std::io::Result<()> {
             for fa in elts {
                 if fa.f.tag == "pcuVersion" {
                     if let FieldType::Int(v) = fa.v {
+                        let v = if v == 991 || v == 998 { 601 } else { v };
                         pcu_version = v as i16;
                         break;
                     }
@@ -98,13 +99,14 @@ fn main() -> std::io::Result<()> {
         Some(Commands::Get { el }) => {
             if *el == "BB" {
                 println!("SECURITY ISSUE: Denial App Access. See README.md");
+                // 0x4065 0x4119 0x409d 0x4080 0x4088 0x410d 0x4054 0x4053
             } else if *el == "98" {
                 command.print_nice_answer(&elements);
             }
             else {
                 let (_input, c) = hexadecimal_u16_value(&el).unwrap();
                 let cmd = cmds[&c]; // TODO: check if c exist
-                println!("Getting {} ({})...", c, cmd.comment);
+                println!("Getting {:02X} ({})...", c, cmd.comment);
                 let packet = cmd.build_packet().unwrap();
                 stream.write(&packet)?;
                 let elements = cmd.parse_answer(&mut stream);
