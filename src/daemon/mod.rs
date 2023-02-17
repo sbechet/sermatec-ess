@@ -1,3 +1,4 @@
+
 use std::collections::BTreeMap;
 use std::io::prelude::*;
 use std::time::Duration;
@@ -193,31 +194,31 @@ impl<'a> Daemon<'a> {
         let topic = self.hass_get_root_topic();
         client.subscribe(topic, QoS::AtMostOnce).unwrap();
 
-        let configs = self.config(&mut stream, &cmds_value);
-        let answers = self.update(&mut stream, &cmds_value);
+
         thread::spawn(move || {
-            println!("MQTT: Sending Home Assistant MQTT Discovery data...");
-            // let configs = self.config(&mut stream, &cmds_value);
-            for (k, v) in &configs {
-                println!("MQTT: Sending {} = {}", k, v);
-                client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
-            };
-            println!("MQTT: Sending states every {:?} seconds...", self.wait);
-            loop {
-                // let answers = self.update(&mut stream, &cmds_value);
-                for (k, v) in &answers {
-                    println!("MQTT: Sending {} = {}", k, v);
-                    client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
-                }
-                thread::sleep(self.wait);
+            for notification in connection.iter() {
+                println!("MQTT: Notification = {:?}", notification);
             }
         });
 
-        for notification in connection.iter() {
-            println!("MQTT: Notification = {:?}", notification);
+        println!("MQTT: Sending Home Assistant MQTT Discovery data...");
+        let configs = self.config(&mut stream, &cmds_value);
+        for (k, v) in &configs {
+            // println!("MQTT: Sending {} = {}", k, v);
+            client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
+        };
+
+        println!("MQTT: Sending states every {:?} seconds...", self.wait);
+        loop {
+            let answers = self.update(&mut stream, &cmds_value);
+            for (k, v) in &answers {
+                // println!("MQTT: Sending {} = {}", k, v);
+                client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
+            }
+            thread::sleep(self.wait);
         }
 
         // no return
-        loop {}
+
     }
 }
