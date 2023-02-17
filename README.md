@@ -80,7 +80,10 @@ product_sn_ln:
 
 # MQTT Example
 
+All Working fluently with Home Assistant MQTT Discovery!
+
 ```
+$ ./sermatec-ess daemon --help
 Daemon mode use sermatec-ess as a MQTT client
 
 Usage: sermatec-ess daemon [OPTIONS] --host <HOST>
@@ -94,40 +97,11 @@ Options:
 ```
 
 ```
-./sermatec-ess daemon --host 10.10.100.42 --port 1883
-$ ./daemon.sh 
+$ ./sermatec-ess daemon --host 10.10.100.42 --port 1883 -k
 --===~ Sermatec ESS CLI AND MQTT PROXY ~===--
 Asking to Sermatec Inverter 10.10.100.254:8899
-Sending data to MQTT Daemon 10.10.100.42:1883
-
-MQTT: Sending to sermatec-ess/# Topic...
-MQTT: Sending sermatec-ess/grid_battery_power_data/battery_discharge_on_the_day = [30, 2E, 31, 30, 30]
-MQTT: Sending sermatec-ess/control_cabinet_information_display/invert_apparent_power_(parallel_data) = [30, 2E, 30, 30, 30]
-MQTT: Sending sermatec-ess/set_parameter_information_2/battery_activated = [31]
-MQTT: Sending sermatec-ess/set_parameter_information_2/three-phase_unbalanced_output = [30]
-MQTT: Sending sermatec-ess/grid_battery_power_data/total_daily_battery_discharge = [31, 35, 2E, 30, 30, 30]
-MQTT: Sending sermatec-ess/battery_information_display/battery_soh = [31, 30, 30]
-MQTT: Sending sermatec-ess/control_cabinet_information_display/load_reactive_power = [2D, 32, 35, 2E, 30, 30, 30]
-MQTT: Sending sermatec-ess/control_cabinet_information_display/local_load_b-phase_active_power_(parallel_data) = [30, 2E, 30, 30, 30]
-MQTT: Sending sermatec-ess/control_cabinet_information_display/dc_power = [36, 31, 2E, 30, 30, 30]
-MQTT: Sending sermatec-ess/total_power_data/save_money_on_electricity_today = [30, 2E, 30, 30, 30]
-MQTT: Notification = Ok(Incoming(ConnAck(ConnAck { session_present: false, code: Success })))
-MQTT: Notification = Ok(Outgoing(Subscribe(1)))
-MQTT: Notification = Ok(Outgoing(Publish(2)))
-MQTT: Notification = Ok(Outgoing(Publish(3)))
-MQTT: Notification = Ok(Outgoing(Publish(4)))
-MQTT: Notification = Ok(Outgoing(Publish(5)))
-MQTT: Notification = Ok(Outgoing(Publish(6)))
-MQTT: Notification = Ok(Outgoing(Publish(7)))
-MQTT: Notification = Ok(Outgoing(Publish(8)))
-MQTT: Notification = Ok(Outgoing(Publish(9)))
-MQTT: Notification = Ok(Outgoing(Publish(10)))
-MQTT: Notification = Ok(Outgoing(Publish(11)))
-MQTT: Notification = Ok(Incoming(SubAck(SubAck { pkid: 1, return_codes: [Success(AtMostOnce)] })))
-MQTT: Notification = Ok(Incoming(PubAck(PubAck { pkid: 2 })))
-MQTT: Notification = Ok(Incoming(PubAck(PubAck { pkid: 3 })))
-MQTT: Sending sermatec-ess/control_cabinet_information_display/load_phase_b_voltage = [30, 2E, 30, 30, 30]
-...
+Detaching from terminal
+$
 ```
 
 
