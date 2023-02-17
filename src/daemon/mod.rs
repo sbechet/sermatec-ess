@@ -16,8 +16,6 @@ pub struct Daemon<'a> {
     port: u16,
     cmds: BTreeMap<u16, &'a Command>,
     wait: Duration,
-    configs: Vec<(String, String)>,
-    answers: Vec<(String, String)>,
 }
 
 impl<'a> Daemon<'a> {
@@ -28,8 +26,6 @@ impl<'a> Daemon<'a> {
             port: port,
             cmds: cmds,
             wait: Duration::from_secs(wait.into()),
-            configs: vec![],
-            answers: vec![],
         }
     }
 
@@ -65,12 +61,18 @@ impl<'a> Daemon<'a> {
         format!("{}/{}", root, object_id)
     }
 
-    /// Return hass Sensor MQTT autodiscovery (topic config, payload) for field
-    fn hass_config(&self, fa: &FieldApp) -> Option< (String, String) > {
+    fn hass_name_cleanup(&self, fa: &FieldApp) -> String {
         let name = fa.f.name.replace(" ", "_");
         let name = name.replace("-", "_");
+        let name = name.replace("(", "_").replace(")", "_").replace(":", "_");
         let name = name.replace("/", "_").to_lowercase();
+        let name = format!("_{}", name);    // because number at start
+        name
+    }
 
+    /// Return hass Sensor MQTT autodiscovery (topic config, payload) for field
+    fn hass_config(&self, fa: &FieldApp) -> Option< (String, String) > {
+        let name = self.hass_name_cleanup(fa);
         // let state_class = "measurement";
         let device_class_option = self.hass_get_device_class(fa);
 
@@ -99,7 +101,9 @@ impl<'a> Daemon<'a> {
     }
 
     /// Call it only one time to update configs
-    fn config(&mut self, stream: &mut TcpStream, cmds_value: &[u16]) {
+    fn config(&self, stream: &mut TcpStream, cmds_value: &[u16]) -> Vec<(String, String)> {
+        let mut configs: Vec<(String, String)> = vec![];
+
         for cmd_value in cmds_value {
             let cmd = self.cmds[cmd_value];
             let packet = cmd.build_packet().unwrap();
@@ -109,7 +113,7 @@ impl<'a> Daemon<'a> {
                 Ok(elts) => {
                     for fa in elts {
                         match self.hass_config(fa) {
-                            Some( (k,v) ) => self.configs.push( (k, v) ),
+                            Some( (k,v) ) => configs.push( (k, v) ),
                             None => (),
                         }
                     }
@@ -119,16 +123,16 @@ impl<'a> Daemon<'a> {
                 },
             }
         }
+
+        return configs;
     }
 
     // (name, value)
-    fn hass_update(&mut self, fa: &FieldApp) -> Option< (String, String) > {
+    fn hass_update(&self, fa: &FieldApp) -> Option< (String, String) > {
         let device_class_option = self.hass_get_device_class(fa);
         let payload_kv_state_option = match device_class_option {
             Some(_) => {
-                let name = fa.f.name.replace(" ", "_");
-                let name = name.replace("-", "_");
-                let name = name.replace("/", "_").to_lowercase();
+                let name = self.hass_name_cleanup(fa);
                 Some( (name, format!("{:?}", fa)) )
             },
             _ => None,
@@ -139,8 +143,8 @@ impl<'a> Daemon<'a> {
         }
     }
 
-    fn update(&mut self, stream: &mut TcpStream, cmds_value: &[u16]) {
-        self.answers = vec![];
+    fn update(&self, stream: &mut TcpStream, cmds_value: &[u16]) -> Vec<(String, String)> {
+        let mut answers: Vec<(String, String)> = vec![];
 
         for cmd_value in cmds_value {
             let cmd = self.cmds[cmd_value];
@@ -168,16 +172,18 @@ impl<'a> Daemon<'a> {
                     payload.remove(payload.len()-1);    // remove ,
                     let t = String::from(" }");
                     payload.push_str(&t);
-                    self.answers.push( (topic_state, payload) );
+                    answers.push( (topic_state, payload) );
                 },
                 Err(e) => {
                     println!("Error, config({}): {}", cmd_value, e);
                 },
             }
         }
+
+        return answers;
     }
 
-    pub fn run(mut self, mut stream: TcpStream) -> ! {
+    pub fn run(self, mut stream: TcpStream) -> ! {
         let cmds_value: [u16; 3] = [0x000A, 0x000B, 0x009D];
 
         let mut mqttoptions = MqttOptions::new("rumqtt-sync", &self.host, self.port);
@@ -187,19 +193,19 @@ impl<'a> Daemon<'a> {
         let topic = self.hass_get_root_topic();
         client.subscribe(topic, QoS::AtMostOnce).unwrap();
 
-
-        self.config(&mut stream, &cmds_value);
-        // TODO: Find how to copy self and stream in thread?
-        self.update(&mut stream, &cmds_value);
+        let configs = self.config(&mut stream, &cmds_value);
+        let answers = self.update(&mut stream, &cmds_value);
         thread::spawn(move || {
             println!("MQTT: Sending Home Assistant MQTT Discovery data...");
-            for (k, v) in &self.configs {
+            // let configs = self.config(&mut stream, &cmds_value);
+            for (k, v) in &configs {
                 println!("MQTT: Sending {} = {}", k, v);
                 client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
             };
             println!("MQTT: Sending states every {:?} seconds...", self.wait);
             loop {
-                for (k, v) in &self.answers {
+                // let answers = self.update(&mut stream, &cmds_value);
+                for (k, v) in &answers {
                     println!("MQTT: Sending {} = {}", k, v);
                     client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
                 }
