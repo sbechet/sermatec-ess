@@ -83,6 +83,7 @@ fn main() -> std::io::Result<()> {
 
     let elements = command.parse_answer(&mut stream);
     let mut pcu_version: i16 = 0;
+    let mut product_sn: String = String::from("");
     match &elements {
         Ok(elts) => {
             for fa in elts {
@@ -90,7 +91,11 @@ fn main() -> std::io::Result<()> {
                     if let FieldType::Int(v) = fa.v {
                         let v = if v == 991 || v == 998 { 601 } else { v };
                         pcu_version = v as i16;
-                        break;
+                    }
+                }
+                if fa.f.name == "product_sn" {
+                    if let FieldType::String(s) = &fa.v {
+                        product_sn = s.to_string();
                     }
                 }
             }
@@ -100,7 +105,6 @@ fn main() -> std::io::Result<()> {
             return Ok(());
         }
     };
-    let cmds = p["osim"].get_commands(pcu_version);
 
     // Next step ask a real question...
     match &cli.command {
@@ -113,6 +117,7 @@ fn main() -> std::io::Result<()> {
             }
             else {
                 let (_input, c) = hexadecimal_u16_value(&el).unwrap();
+                let cmds = p["osim"].get_commands(pcu_version);
                 let cmd = cmds[&c]; // TODO: check if c exist
                 println!("Getting {:02X} ({})...", c, cmd.comment);
                 let packet = cmd.build_packet().unwrap();
@@ -131,8 +136,9 @@ fn main() -> std::io::Result<()> {
                 daemon(true, false).unwrap();
             }
             println!("Sending data to MQTT Daemon {}:{}\n", host, port);
-            let daemon = Daemon::new(host, *port, &cmds, *wait);
-            daemon.run(&mut stream).unwrap();
+            let cmds = p["osim"].get_commands(pcu_version);
+            let daemon = Daemon::new(&product_sn, host, *port, cmds, *wait);
+            daemon.run(stream);
         },
         None => {}
     }

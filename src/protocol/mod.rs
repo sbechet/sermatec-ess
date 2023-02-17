@@ -65,7 +65,6 @@ impl Protocol {
     
     pub fn get_commands(&self, pcu_version: i16) -> BTreeMap<u16, &Command> {
         let mut commands: BTreeMap<u16, &Command> = BTreeMap::new();
-        
 
         for e in &self.versions {
             // we overwrite old cmd versions
