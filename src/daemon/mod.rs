@@ -1,4 +1,3 @@
-
 use std::collections::BTreeMap;
 use std::io::prelude::*;
 use std::time::Duration;
@@ -6,6 +5,7 @@ use std::net::TcpStream;
 use std::thread;
 
 use rumqttc::{MqttOptions, Client, QoS};
+use chrono::{DateTime, Utc};
 
 use crate::protocol::Command;
 use crate::protocol::fieldapp::FieldApp;
@@ -120,7 +120,7 @@ impl<'a> Daemon<'a> {
                     }
                 },
                 Err(e) => {
-                    println!("Error, config({}): {}", cmd_value, e);
+                    println!("Error, config({:02X}): {}", cmd_value, e);
                 },
             }
         }
@@ -176,7 +176,7 @@ impl<'a> Daemon<'a> {
                     answers.push( (topic_state, payload) );
                 },
                 Err(e) => {
-                    println!("Error, config({}): {}", cmd_value, e);
+                    println!("Error, update({:02X}): {}", cmd_value, e);
                 },
             }
         }
@@ -196,26 +196,31 @@ impl<'a> Daemon<'a> {
 
 
         thread::spawn(move || {
-            for notification in connection.iter() {
-                println!("MQTT: Notification = {:?}", notification);
+            for _notification in connection.iter() {
+                // println!("MQTT: Notification = {:?}", notification);
             }
         });
 
         println!("MQTT: Sending Home Assistant MQTT Discovery data...");
         let configs = self.config(&mut stream, &cmds_value);
         for (k, v) in &configs {
-            // println!("MQTT: Sending {} = {}", k, v);
+            println!("MQTT: Sending {} = {}", k, v);
             client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
         };
 
         println!("MQTT: Sending states every {:?} seconds...", self.wait);
         loop {
             let answers = self.update(&mut stream, &cmds_value);
-            for (k, v) in &answers {
-                // println!("MQTT: Sending {} = {}", k, v);
-                client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
+            if answers.len() != 0 {
+                for (k, v) in &answers {
+                    let now: DateTime<Utc> = Utc::now();
+                    println!("{} > {} = {}", now.format("%Y%m%d%H%M"), k, v);
+                    client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
+                }
+                thread::sleep(self.wait);
+            } else {
+                thread::sleep(Duration::from_secs(5));
             }
-            thread::sleep(self.wait);
         }
 
         // no return
