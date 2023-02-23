@@ -1,5 +1,7 @@
+use std::time::Duration;
 use std::io::Read;
 use std::net::TcpStream;
+use std::thread::sleep;
 use std::vec;
 use nom::IResult;
 use nom::bytes::complete::*;
@@ -112,6 +114,7 @@ impl Command {
         let mut buf: [u8; 1024] = [0; 1024];
         let wanted_cmd = hexadecimal_u16_value(&self.cmd).unwrap().1;
         let mut vec_res: Vec<FieldApp> = vec![];
+        sleep(Duration::from_secs(2));
         match stream.read(&mut buf) {
             Ok(_buf_read) => {
                 // println!("# Answer:\n\n{:x?}\n", &buf[0.._buf_read]);
