@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 use std::io::prelude::*;
 use std::time::Duration;
-use std::net::TcpStream;
+use std::net::{ SocketAddr, TcpStream };
 use std::thread;
 
 use rumqttc::{MqttOptions, Client, QoS};
@@ -9,10 +9,13 @@ use chrono::{DateTime, Utc};
 
 use crate::protocol::Command;
 use crate::protocol::fieldapp::FieldApp;
+use crate::Hardware;
 
 
 pub struct Daemon<'a> {
-    product_sn: String,
+    hardware: Hardware,
+    sermatec_socket: SocketAddr,
+    stream: TcpStream,
     host: String,
     port: u16,
     cmds: BTreeMap<u16, &'a Command>,
@@ -20,9 +23,11 @@ pub struct Daemon<'a> {
 }
 
 impl<'a> Daemon<'a> {
-    pub fn new(product_sn: &str, host: &str, port: u16, cmds: BTreeMap<u16, &'a Command>, wait: u16) -> Daemon<'a> {
+    pub fn new(hardware: Hardware, sermatec_socket: SocketAddr, stream: TcpStream, host: &str, port: u16, cmds: BTreeMap<u16, &'a Command>, wait: u16) -> Daemon<'a> {
         Daemon {
-            product_sn: product_sn.to_string(),
+            hardware: hardware,
+            sermatec_socket: sermatec_socket,
+            stream: stream,
             host: host.to_string(),
             port: port,
             cmds: cmds,
@@ -50,7 +55,7 @@ impl<'a> Daemon<'a> {
     fn hass_get_root_topic(&self) -> String {
         let discovery_prefix = "homeassistant";
         let component = "sensor";
-        let node_id = &self.product_sn;
+        let node_id = &self.hardware.product_sn;
         format!("{}/{}/{}", discovery_prefix, component, node_id)
     }
 
@@ -63,11 +68,26 @@ impl<'a> Daemon<'a> {
     }
 
     fn hass_name_cleanup(&self, fa: &FieldApp) -> String {
-        let name = fa.f.name.replace(" ", "_");
+        let prefix: &str = if let "0A" = fa.c.cmd.as_str() {
+            "battery_"
+        } else {
+            "sermatec_"
+        };
+        let mut name = String::from(prefix);
+        name.push_str(&fa.f.name);
+
+        let name = name.replace(" ", "_");
         let name = name.replace("-", "_");
         let name = name.replace("(", "_").replace(")", "_").replace(":", "_");
         let name = name.replace("/", "_").to_lowercase();
-        let name = format!("_{}", name);    // because number at start
+
+        name
+    }
+
+    fn hass_name_uniq(&self, fa: &FieldApp) -> String {
+        let mut name = String::from(&self.hardware.product_sn).to_lowercase();
+        name.push_str("_");
+        name.push_str(&self.hass_name_cleanup(fa));
         name
     }
 
@@ -82,15 +102,34 @@ impl<'a> Daemon<'a> {
         let topic_config = format!("{}/config", topic_name);
         let topic_state = format!("{}/state", topic_root);
 
+        let manufacturer: &str = match fa.c.cmd.as_str() {
+            "0A" => &self.hardware.battery_name,
+            _ => "Sermatec",
+        };
+
+        let model = match manufacturer {
+            "Sermatec" => &self.hardware.model_code,
+            _ => "",
+        };
+
+        let product_sn = match manufacturer {
+            "Sermatec" => &self.hardware.product_sn,
+            _ => "",
+        };
+
+        let unique_id = self.hass_name_uniq(fa);
+
         let payload_config_option = match device_class_option {
             Some(device_class) => {
                 let pc = format!(r###"{{
                     "device_class": "{}",
                     "name": "{}",
                     "state_topic": "{}",
+                    "unique_id": "{}",
                     "unit_of_measurement": "{}",
-                    "value_template": "{{{{ value_json.{} }}}}"
-                }}"###, device_class, fa.f.name, topic_state, fa.f.unit_type, name);
+                    "value_template": "{{{{ value_json.{} }}}}",
+                    "device": {{ "manufacturer": "{}", "model": "{}", "identifiers": "{}" }}
+                }}"###, device_class, fa.f.name, topic_state, unique_id, fa.f.unit_type, name, manufacturer, model, product_sn);
                 Some(pc)
             },
             _ => None,
@@ -102,14 +141,14 @@ impl<'a> Daemon<'a> {
     }
 
     /// Call it only one time to update configs
-    fn config(&self, stream: &mut TcpStream, cmds_value: &[u16]) -> Vec<(String, String)> {
+    fn config(&mut self, cmds_value: &[u16]) -> Vec<(String, String)> {
         let mut configs: Vec<(String, String)> = vec![];
 
         for cmd_value in cmds_value {
             let cmd = self.cmds[cmd_value];
             let packet = cmd.build_packet().unwrap();
-            stream.write(&packet).unwrap();
-            let elements = cmd.parse_answer(stream);
+            self.write(&packet);
+            let elements = cmd.parse_answer(&mut self.stream);
             match &elements {
                 Ok(elts) => {
                     for fa in elts {
@@ -144,14 +183,28 @@ impl<'a> Daemon<'a> {
         }
     }
 
-    fn update(&self, stream: &mut TcpStream, cmds_value: &[u16]) -> Vec<(String, String)> {
+    fn write(&mut self, buf: &[u8]) {
+        loop {
+            match self.stream.write(buf) {
+                Ok(_v) => {
+                    return
+                },
+                Err(_e) => {
+                    thread::sleep(Duration::from_secs(2));
+                    self.stream = TcpStream::connect(self.sermatec_socket).unwrap();
+                },
+            }
+        }
+    }
+
+    fn update(&mut self, cmds_value: &[u16]) -> Vec<(String, String)> {
         let mut answers: Vec<(String, String)> = vec![];
 
         for cmd_value in cmds_value {
             let cmd = self.cmds[cmd_value];
             let packet = cmd.build_packet().unwrap();
-            stream.write(&packet).unwrap();
-            let elements = cmd.parse_answer(stream);
+            self.write(&packet);
+            let elements = cmd.parse_answer(&mut self.stream);
             match &elements {
                 Ok(elts) => {
                     // topic are the same for all Vector
@@ -184,8 +237,8 @@ impl<'a> Daemon<'a> {
         return answers;
     }
 
-    pub fn run(self, mut stream: TcpStream) -> ! {
-        let cmds_value: [u16; 3] = [0x000A, 0x000B, 0x009D];
+    pub fn run(&mut self) -> ! {
+        let cmds_value: [u16; 2] = [0x000A, 0x000B];
 
         let mut mqttoptions = MqttOptions::new("rumqtt-sync", &self.host, self.port);
         mqttoptions.set_keep_alive(Duration::from_secs(5));
@@ -202,7 +255,7 @@ impl<'a> Daemon<'a> {
         });
 
         println!("MQTT: Sending Home Assistant MQTT Discovery data...");
-        let configs = self.config(&mut stream, &cmds_value);
+        let configs = self.config(&cmds_value);
         for (k, v) in &configs {
             println!("MQTT: Sending {} = {}", k, v);
             client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
@@ -210,7 +263,7 @@ impl<'a> Daemon<'a> {
 
         println!("MQTT: Sending states every {:?} seconds...", self.wait);
         loop {
-            let answers = self.update(&mut stream, &cmds_value);
+            let answers = self.update(&cmds_value);
             if answers.len() != 0 {
                 for (k, v) in &answers {
                     let now: DateTime<Utc> = Utc::now();

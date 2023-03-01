@@ -4,7 +4,7 @@ use clap::{Parser, Subcommand};
 
 mod protocol;
 use protocol::{ Protocol, nom_helper::hexadecimal_u16_value };
-use protocol::fieldtype::FieldType;
+use protocol::hardware::Hardware;
 
 use nix::unistd::daemon;
 
@@ -77,34 +77,8 @@ fn main() -> std::io::Result<()> {
     let sermatec_socket: SocketAddr = SocketAddr::from((sermatec_ip, sermatec_port));
     let mut stream = TcpStream::connect(sermatec_socket)?;
 
-    let command = p["osim"].get_command(0, "98").unwrap();
-    let packet = command.build_packet().unwrap();
-    stream.write(&packet)?;
 
-    let elements = command.parse_answer(&mut stream);
-    let mut pcu_version: i16 = 0;
-    let mut product_sn: String = String::from("");
-    match &elements {
-        Ok(elts) => {
-            for fa in elts {
-                if fa.f.tag == "pcuVersion" {
-                    if let FieldType::Int(v) = fa.v {
-                        let v = if v == 991 || v == 998 { 601 } else { v };
-                        pcu_version = v as i16;
-                    }
-                }
-                if fa.f.name == "product_sn" {
-                    if let FieldType::String(s) = &fa.v {
-                        product_sn = s.to_string();
-                    }
-                }
-            }
-        },
-        Err(e) => {
-            println!("Parsing Error: {:?}", e);
-            return Ok(());
-        }
-    };
+    let hardware = Hardware::get_info(&p, &mut stream).unwrap();
 
     // Next step ask a real question...
     match &cli.command {
@@ -113,11 +87,12 @@ fn main() -> std::io::Result<()> {
                 println!("SECURITY ISSUE: Denial App Access. See README.md");
                 // 0x4065 0x4119 0x409d 0x4080 0x4088 0x410d 0x4054 0x4053
             } else if *el == "98" {
-                command.print_nice_answer(&elements);
+                // special print
+                println!("{:?}", &hardware);
             }
             else {
                 let (_input, c) = hexadecimal_u16_value(&el).unwrap();
-                let cmds = p["osim"].get_commands(pcu_version);
+                let cmds = p["osim"].get_commands(hardware.pcu_version);
                 let cmd = cmds[&c]; // TODO: check if c exist
                 println!("Getting {:02X} ({})...", c, cmd.comment);
                 let packet = cmd.build_packet().unwrap();
@@ -128,7 +103,7 @@ fn main() -> std::io::Result<()> {
         },
         Some(Commands::List {}) => {
             println!("listing commands:\n");
-            p["osim"].listing(pcu_version);
+            p["osim"].listing(hardware.pcu_version);
         },
         Some(Commands::Daemon { host, port , fork, wait}) => {
             if *fork {
@@ -136,9 +111,9 @@ fn main() -> std::io::Result<()> {
                 daemon(true, false).unwrap();
             }
             println!("Sending data to MQTT Daemon {}:{}\n", host, port);
-            let cmds = p["osim"].get_commands(pcu_version);
-            let daemon = Daemon::new(&product_sn, host, *port, cmds, *wait);
-            daemon.run(stream);
+            let cmds = p["osim"].get_commands(hardware.pcu_version);
+            let mut daemon = Daemon::new(hardware, sermatec_socket, stream, host, *port, cmds, *wait);
+            daemon.run();
         },
         None => {}
     }

@@ -2,6 +2,8 @@ use super::command::Command;
 use super::field::Field;
 use super::fieldtype::FieldType;
 
+use super::hardware::Hardware;
+
 pub struct FieldApp<'a> {
     pub c: &'a Command,
     pub f: &'a Field,
@@ -213,7 +215,22 @@ impl std::fmt::Debug for FieldApp<'_> {
                             None => format!("{:?}", self.v),
                         }
                     },
-                    None => format!("{:?}", self.v),
+                    None => {
+                        if let "98" = self.c.cmd.as_str() {
+                            if let "protocol version number" = self.f.name.as_str() {
+                                let pcu_version = if let FieldType::Int(v) = self.v {
+                                    Hardware::get_real_pcu_version(v) as i16
+                                } else {
+                                    0 as i16
+                                };
+                                format!("{}.{}.{}", (pcu_version / 100) % 10, (pcu_version / 10) % 10, pcu_version % 10)
+                            } else {
+                                format!("{:?}", self.v)
+                            }
+                        } else {
+                            format!("{:?}", self.v)                            
+                        }
+                    },
                 }
             },
         };

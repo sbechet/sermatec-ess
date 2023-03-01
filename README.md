@@ -109,6 +109,8 @@ $
 
 I'm looking for 5K PCU firmware, specificly for `PCU5KSL_609.bin` please help me :)
 
+You can dump payload exchanges beetween your phone and the inverter using [PCAPdroid](https://emanuele-f.github.io/PCAPdroid/) on [f-droid](https://f-droid.org/packages/com/emanuelef.remote_capture/) to help.
+
 # TODO
 
 BB is a special query to ask internal registers.

@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use nom_helper::hexadecimal_u16_value;
 
+pub mod hardware;
 pub mod field;
 pub mod fieldtype;
 pub mod fieldapp;
@@ -28,7 +29,6 @@ pub struct Version {
     pub query_commands: Vec<String>,
     pub commands: Vec<Command>,
 }
-
 
 impl Protocol {
     pub fn new() -> HashMap<String, Protocol> {
