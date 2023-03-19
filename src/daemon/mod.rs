@@ -190,6 +190,7 @@ impl<'a> Daemon<'a> {
                     return
                 },
                 Err(_e) => {
+                    println!("Trying to reconnect");
                     thread::sleep(Duration::from_secs(2));
                     self.stream = TcpStream::connect(self.sermatec_socket).unwrap();
                 },
@@ -230,6 +231,9 @@ impl<'a> Daemon<'a> {
                 },
                 Err(e) => {
                     println!("Error, update({:02X}): {}", cmd_value, e);
+                    // no way
+                    answers = vec![];
+                    return answers;
                 },
             }
         }
