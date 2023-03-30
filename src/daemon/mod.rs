@@ -266,6 +266,7 @@ impl<'a> Daemon<'a> {
         };
 
         println!("MQTT: Sending states every {:?} seconds...", self.wait);
+        let mut retry_qty = 0;
         loop {
             let answers = self.update(&cmds_value);
             if answers.len() != 0 {
@@ -276,7 +277,18 @@ impl<'a> Daemon<'a> {
                 }
                 thread::sleep(self.wait);
             } else {
-                thread::sleep(Duration::from_secs(5));
+                thread::sleep(Duration::from_secs(6));
+                retry_qty += 1;
+                if retry_qty == 10 {
+                    // Max 60s
+                    retry_qty = 0;
+                    println!("MQTT: Sending Home Assistant MQTT Discovery data...");
+                    let configs = self.config(&cmds_value);
+                    for (k, v) in &configs {
+                        println!("MQTT: Sending {} = {}", k, v);
+                        client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
+                    };
+                }
             }
         }
 
