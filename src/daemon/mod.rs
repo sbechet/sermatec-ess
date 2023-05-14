@@ -20,6 +20,8 @@ pub struct Daemon<'a> {
     port: u16,
     cmds: BTreeMap<u16, &'a Command>,
     wait: Duration,
+    wait_counter: usize,
+    wait_current: usize,
 }
 
 impl<'a> Daemon<'a> {
@@ -32,6 +34,8 @@ impl<'a> Daemon<'a> {
             port: port,
             cmds: cmds,
             wait: Duration::from_secs(wait.into()),
+            wait_counter: 24*3600 / wait as usize, // Send every 24 hours
+            wait_current: 24*3600 / wait as usize,
         }
     }
 
@@ -251,23 +255,28 @@ impl<'a> Daemon<'a> {
         let topic = self.hass_get_root_topic();
         client.subscribe(topic, QoS::AtMostOnce).unwrap();
 
-
         thread::spawn(move || {
             for _notification in connection.iter() {
-                // println!("MQTT: Notification = {:?}", notification);
+                // println!("MQTT: Notification = {:?}", _notification);
             }
         });
 
-        println!("MQTT: Sending Home Assistant MQTT Discovery data...");
         let configs = self.config(&cmds_value);
-        for (k, v) in &configs {
-            println!("MQTT: Sending {} = {}", k, v);
-            client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
-        };
 
         println!("MQTT: Sending states every {:?} seconds...", self.wait);
-        let mut retry_qty = 0;
         loop {
+
+            if self.wait_current == self.wait_counter {
+                for (k, v) in &configs {
+                    println!("MQTT: Sending Config {} = {}", k, v);
+                    client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
+                };
+                self.wait_current = 0;
+            } else {
+                self.wait_current += 1;
+            }
+
+
             let answers = self.update(&cmds_value);
             if answers.len() != 0 {
                 for (k, v) in &answers {
@@ -275,21 +284,12 @@ impl<'a> Daemon<'a> {
                     println!("{} > {} = {}", now.format("%Y%m%d%H%M"), k, v);
                     client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
                 }
-                thread::sleep(self.wait);
             } else {
-                thread::sleep(Duration::from_secs(6));
-                retry_qty += 1;
-                if retry_qty == 10 {
-                    // Max 60s
-                    retry_qty = 0;
-                    println!("MQTT: Sending Home Assistant MQTT Discovery data...");
-                    let configs = self.config(&cmds_value);
-                    for (k, v) in &configs {
-                        println!("MQTT: Sending {} = {}", k, v);
-                        client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
-                    };
-                }
+                println!("WARN: No answer!");
             }
+
+            thread::sleep(self.wait);
+
         }
 
         // no return
