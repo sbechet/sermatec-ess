@@ -34,8 +34,8 @@ impl<'a> Daemon<'a> {
             port: port,
             cmds: cmds,
             wait: Duration::from_secs(wait.into()),
-            wait_counter: 24*3600 / wait as usize, // Send every 24 hours
-            wait_current: 24*3600 / wait as usize,
+            wait_counter: 1*3600 / wait as usize, // Send every hour
+            wait_current: 1*3600 / wait as usize,
         }
     }
 
@@ -263,12 +263,15 @@ impl<'a> Daemon<'a> {
 
         let configs = self.config(&cmds_value);
 
-        println!("MQTT: Sending states every {:?} seconds...", self.wait);
+        println!("MQTT: Sending config every {:?} seconds.", self.wait_counter * self.wait.as_secs() as usize);
+        println!("MQTT: Sending states every {:?}.", self.wait);
         loop {
+            let now: DateTime<Utc> = Utc::now();
+            let nowfmt = now.format("%Y%m%d%H%M");
 
             if self.wait_current == self.wait_counter {
+                println!("{} > MQTT: Sending Config to HomeAssistant", nowfmt);
                 for (k, v) in &configs {
-                    println!("MQTT: Sending Config {} = {}", k, v);
                     client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
                 };
                 self.wait_current = 0;
@@ -280,8 +283,7 @@ impl<'a> Daemon<'a> {
             let answers = self.update(&cmds_value);
             if answers.len() != 0 {
                 for (k, v) in &answers {
-                    let now: DateTime<Utc> = Utc::now();
-                    println!("{} > {} = {}", now.format("%Y%m%d%H%M"), k, v);
+                    println!("{} > {} = {}", nowfmt, k, v);
                     client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()).unwrap();
                 }
             } else {
