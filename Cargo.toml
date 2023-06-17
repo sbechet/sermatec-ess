@@ -2,7 +2,7 @@
 name = "sermatec-ess"
 description = "Sermatec ESS CLI"
 authors = ["Sebastien Bechet"]
-version = "0.2.2"
+version = "0.2.3"
 edition = "2021"
 license = "MIT"
 documentation = "https://docs.rs/sermatec-ess"

@@ -1,9 +1,8 @@
-use std::collections::HashMap;
-use std::net::TcpStream;
-use std::io::prelude::*;
-use super::Protocol;
 use super::fieldtype::FieldType;
-
+use super::Protocol;
+use std::collections::HashMap;
+use std::io::prelude::*;
+use std::net::TcpStream;
 
 pub struct Hardware {
     pub model_code: String,
@@ -15,9 +14,12 @@ pub struct Hardware {
 }
 
 impl Hardware {
-
     pub fn get_real_pcu_version(v: i32) -> i32 {
-        if v == 991 || v == 998 { 601 } else { v }
+        if v == 991 || v == 998 {
+            601
+        } else {
+            v
+        }
     }
 
     pub fn get_info(p: &HashMap<String, Protocol>, stream: &mut TcpStream) -> Option<Hardware> {
@@ -60,7 +62,7 @@ impl Hardware {
                         model_code = format!("{:?}", fa);
                     }
                 }
-            },
+            }
             Err(e) => {
                 println!("Parsing Error: {:?}", e);
                 return None;
@@ -73,9 +75,8 @@ impl Hardware {
             pcu_version_s: pcu_version_s,
             product_sn: product_sn,
             product_sn_ln: product_sn_ln,
-            battery_name: battery_name
+            battery_name: battery_name,
         })
-
     }
 }
 

@@ -1,14 +1,14 @@
-use std::{collections::{BTreeMap, HashMap}};
 use serde::{Deserialize, Serialize};
+use std::collections::{BTreeMap, HashMap};
 
 use nom_helper::hexadecimal_u16_value;
 
-pub mod hardware;
-pub mod field;
-pub mod fieldtype;
-pub mod fieldapp;
-pub mod nom_helper;
 pub mod command;
+pub mod field;
+pub mod fieldapp;
+pub mod fieldtype;
+pub mod hardware;
+pub mod nom_helper;
 
 pub use command::Command;
 
@@ -24,7 +24,7 @@ pub struct Protocol {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Version {
     pub version: i16,
-    #[serde(rename="queryCommands")]
+    #[serde(rename = "queryCommands")]
     #[serde(default)]
     pub query_commands: Vec<String>,
     pub commands: Vec<Command>,
@@ -33,7 +33,8 @@ pub struct Version {
 impl Protocol {
     pub fn new() -> HashMap<String, Protocol> {
         let protocol_str = String::from_utf8_lossy(PROTOCOL);
-        let protocol: serde_json::Result<HashMap<String, Protocol>> = serde_json::from_str(&protocol_str);
+        let protocol: serde_json::Result<HashMap<String, Protocol>> =
+            serde_json::from_str(&protocol_str);
         protocol.unwrap()
     }
 
@@ -62,7 +63,7 @@ impl Protocol {
         }
         return None;
     }
-    
+
     pub fn get_commands(&self, pcu_version: i16) -> BTreeMap<u16, &Command> {
         let mut commands: BTreeMap<u16, &Command> = BTreeMap::new();
 
@@ -77,5 +78,4 @@ impl Protocol {
         }
         return commands;
     }
-
 }
