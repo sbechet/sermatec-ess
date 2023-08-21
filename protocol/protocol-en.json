@@ -79,7 +79,7 @@
                 "type": "int",
                 "name": "battery temperature",
                 "unitValue": "0.1",
-                "unitType": "C"
+                "unitType": "°C"
               },
               {
                 "order": 3,
@@ -431,7 +431,7 @@
                 "type": "uInt",
                 "name": "internal temperature",
                 "unitValue": "0.1",
-                "unitType": "℃"
+                "unitType": "°C"
               },
               {
                 "order": 33,
@@ -503,7 +503,7 @@
                 "type": "int",
                 "name": "Module A1 temperature",
                 "unitValue": "0.1",
-                "unitType": "℃"
+                "unitType": "°C"
               },
               {
                 "order": 43,
@@ -511,7 +511,7 @@
                 "type": "int",
                 "name": "Module B1 temperature",
                 "unitValue": "0.1",
-                "unitType": "℃"
+                "unitType": "°C"
               },
               {
                 "order": 44,
@@ -519,7 +519,7 @@
                 "type": "int",
                 "name": "Module C1 temperature",
                 "unitValue": "0.1",
-                "unitType": "℃"
+                "unitType": "°C"
               },
               {
                 "order": 45,
@@ -3830,7 +3830,7 @@
                 "type": "uInt",
                 "name": "internal temperature",
                 "unitValue": "0.1",
-                "unitType": "℃"
+                "unitType": "°C"
               },
               {
                 "order": 33,
@@ -3902,7 +3902,7 @@
                 "type": "int",
                 "name": "Module A1 temperature",
                 "unitValue": "0.1",
-                "unitType": "℃"
+                "unitType": "°C"
               },
               {
                 "order": 43,
@@ -3910,7 +3910,7 @@
                 "type": "int",
                 "name": "Module B1 temperature",
                 "unitValue": "0.1",
-                "unitType": "℃"
+                "unitType": "°C"
               },
               {
                 "order": 44,
@@ -3918,7 +3918,7 @@
                 "type": "int",
                 "name": "Module C1 temperature",
                 "unitValue": "0.1",
-                "unitType": "℃"
+                "unitType": "°C"
               },
               {
                 "order": 45,
@@ -4303,7 +4303,7 @@
                 "type": "int",
                 "name": "engine rated power",
                 "tag": "oilerRatedPower",
-                "unitType": "kW",
+                "unitType": "KW",
                 "unitValue": "0.1"
               },
               {
@@ -4497,7 +4497,7 @@
                 "type": "int",
                 "name": "engine rated power",
                 "tag": "oilerRatedPower",
-                "unitType": "kW",
+                "unitType": "KW",
                 "unitValue": "0.1"
               },
               {
