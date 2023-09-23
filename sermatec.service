@@ -1,0 +1,12 @@
+[Unit]
+Description=Service Sermatec ESS
+
+[Service]
+ExecStart=/home/user/sermatec-ess daemon --mqtt-host 192.168.0.4 --mqtt-port 1883
+Restart=always
+User=user
+WorkingDirectory=/home/user
+
+[Install]
+WantedBy=multi-user.target
+
