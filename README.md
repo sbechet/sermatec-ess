@@ -8,6 +8,16 @@ Maybe one day:
 - [ ] Configuration commands?
 - [ ] Nice GUI using egui?
 
+# Compilation
+
+Useful to remove libc dependencies (clean ldd)
+
+```
+apt install musl musl-dev musl-tools
+rustup target add x86_64-unknown-linux-musl
+cargo build --target x86_64-unknown-linux-musl --release
+```
+
 # CLI Example
 
 ```

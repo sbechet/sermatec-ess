@@ -134,7 +134,11 @@ impl Field {
             }
             "string" => {
                 let (input, v) = take(self.byte_len as usize)(input)?;
-                let s = String::from_utf8(v.to_vec()).unwrap();
+                let s = if v[0] != 0 {
+                    String::from_utf8(v.to_vec()).unwrap()
+                } else {
+                    "".to_string()
+                };
                 (input, Some(FieldType::String(s)))
             }
             "uInt" => {

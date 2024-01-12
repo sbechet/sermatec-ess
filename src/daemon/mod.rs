@@ -21,6 +21,7 @@ pub struct Daemon<'a> {
     wait: Duration,
     wait_counter: usize,
     wait_current: usize,
+    debug: bool,
 }
 
 impl<'a> Daemon<'a> {
@@ -32,6 +33,7 @@ impl<'a> Daemon<'a> {
         mqtt_port: u16,
         cmds: BTreeMap<u16, &'a Command>,
         wait: u16,
+        debug: bool,
     ) -> Daemon<'a> {
         let d = Duration::from_secs(wait.into());
         inverter_stream
@@ -47,6 +49,7 @@ impl<'a> Daemon<'a> {
             wait: d,
             wait_counter: 1 * 3600 / wait as usize, // Send every hour
             wait_current: 1 * 3600 / wait as usize,
+            debug,
         }
     }
 
@@ -55,7 +58,7 @@ impl<'a> Daemon<'a> {
         match fa.f.unit_type.as_str() {
             "%" => Some("battery"),
             "A" => Some("current"),
-            "C" | "℃" => Some("temperature"),
+            "C" | "℃" | "°C" => Some("temperature"),
             "Hz" => Some("frequency"),
             "V" => Some("voltage"),
             "VA" => Some("apparent_power"),
@@ -119,16 +122,16 @@ impl<'a> Daemon<'a> {
 
         let manufacturer: &str = match fa.c.cmd.as_str() {
             "0A" => &self.hardware.battery_name,
-            _ => "Sermatec",
+            _ => "\"Sermatec\"",
         };
 
         let model = match manufacturer {
-            "Sermatec" => &self.hardware.model_code,
-            _ => "",
+            "\"Sermatec\"" => &self.hardware.model_code,
+            _ => "\"\"",
         };
 
         let product_sn = match manufacturer {
-            "Sermatec" => &self.hardware.product_sn,
+            "\"Sermatec\"" => &self.hardware.product_sn,
             _ => "",
         };
 
@@ -144,7 +147,7 @@ impl<'a> Daemon<'a> {
                     "unique_id": "{}",
                     "unit_of_measurement": "{}",
                     "value_template": "{{{{ value_json.{} }}}}",
-                    "device": {{ "manufacturer": "{}", "model": "{}", "identifiers": "{}" }}
+                    "device": {{ "manufacturer": {}, "model": {}, "identifiers": "{}" }}
                 }}"###,
                     device_class,
                     fa.f.name,
@@ -157,8 +160,26 @@ impl<'a> Daemon<'a> {
                     product_sn
                 );
                 Some(pc)
-            }
-            _ => None,
+            },
+            _ => {
+                let pc = format!(
+                    r###"{{
+                    "name": "{}",
+                    "state_topic": "{}",
+                    "unique_id": "{}",
+                    "value_template": "{{{{ value_json.{} }}}}",
+                    "device": {{ "manufacturer": {}, "model": {}, "identifiers": "{}" }}
+                }}"###,
+                    fa.f.name,
+                    topic_state,
+                    unique_id,
+                    name,
+                    manufacturer,
+                    model,
+                    product_sn
+                );
+                Some(pc)
+            },
         };
         match payload_config_option {
             Some(payload_config) => Some((topic_config, payload_config)),
@@ -179,7 +200,9 @@ impl<'a> Daemon<'a> {
                 Ok(elts) => {
                     for fa in elts {
                         match self.hass_config(fa) {
-                            Some((k, v)) => configs.push((k, v)),
+                            Some((k, v)) => {
+                                configs.push((k, v))
+                            },
                             None => (),
                         }
                     }
@@ -195,18 +218,8 @@ impl<'a> Daemon<'a> {
 
     // (name, value)
     fn hass_update(&self, fa: &FieldApp) -> Option<(String, String)> {
-        let device_class_option = self.hass_get_device_class(fa);
-        let payload_kv_state_option = match device_class_option {
-            Some(_) => {
-                let name = self.hass_name_cleanup(fa);
-                Some((name, format!("{:?}", fa)))
-            }
-            _ => None,
-        };
-        match payload_kv_state_option {
-            Some(kv) => Some(kv),
-            None => None,
-        }
+        let name = self.hass_name_cleanup(fa);
+        Some((name, format!("{:?}", fa)))
     }
 
     fn write(&mut self, buf: &[u8]) {
@@ -236,7 +249,7 @@ impl<'a> Daemon<'a> {
                     let fa = &elts[0];
                     let topic = self.hass_get_topic(fa);
                     let topic_state = format!("{}/state", topic);
-
+        
                     let mut payload = String::from("{");
                     for fa in elts {
                         match self.hass_update(fa) {
@@ -247,9 +260,11 @@ impl<'a> Daemon<'a> {
                             None => (),
                         }
                     }
-                    payload.remove(payload.len() - 1); // remove space
-                    payload.remove(payload.len() - 1); // remove ,
-                    let t = String::from(" }");
+                     if payload.len() >= 2 {
+                        payload.remove(payload.len() - 1); // remove space
+                        payload.remove(payload.len() - 1); // remove ,
+                    }
+                     let t = String::from(" }");
                     payload.push_str(&t);
                     answers.push((topic_state, payload));
                 }
@@ -266,7 +281,7 @@ impl<'a> Daemon<'a> {
     }
 
     pub fn run(&mut self) -> ! {
-        let cmds_value: [u16; 2] = [0x000A, 0x000B];
+        let cmds_value: [u16; 3] = [0x000A, 0x000B, 0x0098];
 
         let mut mqttoptions = MqttOptions::new("rumqtt-sync", self.mqtt_host, self.mqtt_port);
         mqttoptions.set_keep_alive(Duration::from_secs(5));
@@ -295,6 +310,9 @@ impl<'a> Daemon<'a> {
             if self.wait_current == self.wait_counter {
                 println!("{} > MQTT: Sending Config to HomeAssistant", nowfmt);
                 for (k, v) in &configs {
+                    if self.debug {
+                        println!("{} config> {} = {}", nowfmt, k, v);
+                    }
                     match client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()) {
                         Ok(_) => {}
                         Err(e) => {
@@ -310,7 +328,9 @@ impl<'a> Daemon<'a> {
             let answers = self.update(&cmds_value);
             if answers.len() != 0 {
                 for (k, v) in &answers {
-                    println!("{} > {} = {}", nowfmt, k, v);
+                    if self.debug {
+                        println!("{} set> {} = {}", nowfmt, k, v);
+                    }
                     match client.publish(k, QoS::AtLeastOnce, false, v.as_bytes()) {
                         Ok(_) => {}
                         Err(e) => {

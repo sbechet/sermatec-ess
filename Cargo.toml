@@ -2,7 +2,7 @@
 name = "sermatec-ess"
 description = "Sermatec ESS CLI"
 authors = ["Sebastien Bechet"]
-version = "0.2.4"
+version = "0.2.5"
 edition = "2021"
 license = "MIT"
 documentation = "https://docs.rs/sermatec-ess"
@@ -17,6 +17,6 @@ serde_with = { version = "3.0", features = ["hex"] }
 clap = { version = "^4.1", features = ["cargo", "derive"] }
 hex = "^0.4"
 nom = "^7.1"
-rumqttc = "^0.21"
-nix = "^0.26"
+rumqttc = "^0.23"
+nix = { version = "^0.27", features = ["process"] }
 chrono = "^0.4"

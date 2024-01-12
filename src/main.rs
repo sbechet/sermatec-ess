@@ -26,9 +26,9 @@ struct Cli {
     #[arg(short = 'p', long, default_value = "8899", value_name = "Port number")]
     inverter_port: Option<u16>,
 
-    /// Turn debugging information on
-    #[arg(short, long, action = clap::ArgAction::Count)]
-    debug: u8,
+    /// Turn debugging information on or off
+    #[arg(short, long, default_value = "false")]
+    debug: bool,
 
     #[command(subcommand)]
     command: Option<Commands>,
@@ -83,9 +83,6 @@ fn main() -> std::io::Result<()> {
             if *el == "BB" {
                 println!("SECURITY ISSUE: Denial App Access. See README.md");
                 // 0x4065 0x4119 0x409d 0x4080 0x4088 0x410d 0x4054 0x4053
-            } else if *el == "98" {
-                // special print
-                println!("{:?}", &hardware);
             } else {
                 let (_input, c) = hexadecimal_u16_value(&el).unwrap();
                 let cmds = p["osim"].get_commands(hardware.pcu_version);
@@ -121,6 +118,7 @@ fn main() -> std::io::Result<()> {
                 *mqtt_port,
                 cmds,
                 *wait,
+                cli.debug,
             );
             daemon.run();
         }

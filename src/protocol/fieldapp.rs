@@ -14,6 +14,32 @@ impl<'a> FieldApp<'a> {
     pub fn new(c: &'a Command, f: &'a Field, v: FieldType) -> Self {
         FieldApp { c: c, f: f, v: v }
     }
+
+    pub fn is_real_string_type(&self) -> bool {
+        match self.c.cmd.as_str() {
+            "0A" => match self.f.name.as_str() {
+                "Charge and discharge status" => true,
+                "Battery communication connection status" => true,
+                _ => false,
+            },
+            "95" => match self.f.name.as_str() {
+                "Operating mode" => true,
+                "anti-backflow function" => true,
+                "grid code" => true,
+                "DC side battery type" => true,
+                "Battery communication protocol selection" => true,
+                "Meter communication protocol selection" => true,
+                _ => false,
+            },
+            "98" => match self.f.name.as_str() {
+                "Battery manufacturer number (code list)" => true,
+                "model code" => true,
+                "protocol version number" => true,
+                _ => false,
+            }
+            _ => false,
+        }
+    }
 }
 
 impl<'a> FieldApp<'a> {
@@ -187,7 +213,7 @@ impl std::fmt::Debug for FieldApp<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let s = match self.expand_fmt() {
             Some(v) => {
-                format!("{}", v)
+                format!("\"{}\"", v)
             }
             None => match self.f.get_unit() {
                 Some(unit) => {
@@ -211,13 +237,13 @@ impl std::fmt::Debug for FieldApp<'_> {
                                 0 as i16
                             };
                             format!(
-                                "{}.{}.{}",
+                                "\"{}.{}.{}\"",
                                 (pcu_version / 100) % 10,
                                 (pcu_version / 10) % 10,
                                 pcu_version % 10
                             )
                         } else {
-                            format!("{:?}", self.v)
+                            format!("\"{:?}\"", self.v)
                         }
                     } else {
                         format!("{:?}", self.v)
